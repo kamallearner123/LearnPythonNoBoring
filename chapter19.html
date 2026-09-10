@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 19: Talking to AI (Groq API)</title>
+    <title>Chapter 19: Artificial Intelligence & LLMs (Groq API)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,26 +44,159 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 19: Talking to AI (Groq API)</h1>
+        <h1>Chapter 19: Artificial Intelligence & Large Language Models (LLMs)</h1>
         
         <img src="images/ch19_llm.png" alt="A wizard talking to a brain" class="chapter-graphic">
+
+        <h2>1. How Large Language Models Work (Tokens & Probability)</h2>
+        <p>An <strong>LLM (Large Language Model)</strong> like Llama 3 or GPT-4 is a massive neural network trained on trillions of words. At its core, an LLM works by taking input text, breaking it into <strong>Tokens</strong> (words or word parts), and calculating the mathematical probability of the <em>very next token</em>!</p>
+        <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1rem; margin: 1rem 0; font-family: monospace;">
+            Input: "The wizard cast a powerful..." &rarr; [Next Token Probabilities: "spell": 85%, "glow": 10%, "pizza": 0.01%]
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Tokenizer & Next-Token Simulator</div>
+            <div class="editor-container">
+                <textarea>
+# Simulated Tokenizer and Next-Token Predictor
+def mock_tokenize(text):
+    # Splits text into tokens (word chunks)
+    return text.strip().split(" ")
+
+def mock_predict_next_token(prompt):
+    # Predict next token based on simple context rules
+    p_lower = prompt.lower()
+    if "python is" in p_lower:
+        return [("awesome", 0.70), ("fast", 0.20), ("blue", 0.05)]
+    elif "artificial" in p_lower:
+        return [("intelligence", 0.95), ("general", 0.03), ("life", 0.01)]
+    return [("magic", 0.50), ("code", 0.30), ("world", 0.15)]
+
+prompt = "Python is"
+tokens = mock_tokenize(prompt)
+predictions = mock_predict_next_token(prompt)
+
+print(f"Prompt Tokens: {tokens}")
+print("Top Next Token Probabilities:")
+for word, prob in predictions:
+    print(f"  - '{word}': {prob:.0%}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Temperature & Message Roles (`system`, `user`, `assistant`)</h2>
+        <p>When communicating with modern AI APIs, we structure our request as a list of role-based messages:</p>
+        <ul>
+            <li><code>system</code>: Defines the AI's persona, rules, and boundaries (e.g. "You are an expert Python tutor who speaks like a pirate").</li>
+            <li><code>user</code>: The human prompt or question.</li>
+            <li><code>assistant</code>: Previous responses from the AI.</li>
+            <li><strong>Temperature:</strong> Controls randomness. <code>0.0</code> = deterministic & precise (ideal for math/coding), while <code>0.8+</code> = creative & inventive (ideal for storytelling).</li>
+        </ul>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Formatting LLM API Payloads</div>
+            <div class="editor-container">
+                <textarea>
+import json
+
+def build_api_payload(system_prompt, user_query, temperature=0.7):
+    return {
+        "model": "llama-3.3-70b-versatile",
+        "temperature": temperature,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_query}
+        ]
+    }
+
+system_role = "You are a friendly Python Mentor. Explain concepts using funny analogies."
+user_role = "What is a loop?"
+
+payload = build_api_payload(system_role, user_role, temperature=0.2)
+print("📦 Formatted API Request Payload:")
+print(json.dumps(payload, indent=2))
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Prompt Engineering (Few-Shot & Chain-of-Thought)</h2>
+        <p>How you phrase your prompt radically affects answer quality! Two key industry techniques:</p>
+        <ol>
+            <li><strong>Few-Shot Prompting:</strong> Providing 2-3 examples of input and expected output before asking your question.</li>
+            <li><strong>Chain-of-Thought (CoT):</strong> Instructing the AI to "Think step-by-step" before producing the final answer.</li>
+        </ol>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Chain-of-Thought & Few-Shot Prompting</div>
+            <div class="editor-container">
+                <textarea>
+# Few-Shot + Chain-of-Thought Prompt Construction
+few_shot_prompt = """
+Task: Convert English text to sentiment score (-1 to +1) and explain reasoning.
+
+Example 1:
+Input: "I love Python programming!"
+Thought: Positive emotion expressed with 'love'.
+Output: {"sentiment": 0.9, "reason": "High positive sentiment"}
+
+Example 2:
+Input: "My code crashed with a syntax error."
+Thought: Negative experience with error.
+Output: {"sentiment": -0.7, "reason": "Frustration with code bug"}
+
+Input: "The rain started but the rainbow appeared."
+Thought: Let's break down step-by-step:
+"""
+
+print(few_shot_prompt)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Connecting to Groq & LLM APIs in Python</h2>
+        <p><strong>Groq</strong> uses specialized LPU (Language Processing Unit) hardware to serve LLMs like Llama 3 at lightning speeds (500+ tokens/second!). Below is how Python scripts communicate with Groq and OpenAI-compatible API endpoints:</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Groq API Client Simulation</div>
+            <div class="editor-container">
+                <textarea>
+# Pure Python Client for Groq API
+class GroqClient:
+    def __init__(self, api_key="gsk_mock_key_12345"):
+        self.api_key = api_key
+        self.endpoint = "https://api.groq.com/openai/v1/chat/completions"
+
+    def chat_completion(self, prompt, model="llama-3.3-70b-versatile"):
+        print(f"🌐 Sending HTTPS request to {self.endpoint}...")
+        print(f"⚡ Model: {model} | API Key verified: {self.api_key[:6]}***")
         
+        # Simulated response from Groq LPU
+        return {
+            "choices": [{
+                "message": {
+                    "role": "assistant",
+                    "content": f"🤖 [Groq AI Response to '{prompt}']: Python & Groq make an unstoppable team for supercharged AI applications!"
+                }
+            }],
+            "usage": {"total_tokens": 42, "latency_ms": 85}
+        }
 
-        <h2>1. What is an LLM?</h2>
-        <p>An LLM (Large Language Model) is a massive AI brain that has read almost the entire internet! It can talk to you, write poems, and answer questions. We can talk to them using an <strong>API</strong>.</p>
-
-        <p><strong>Example A: Groq API</strong></p>
-        <pre><code># We will use the ultra-fast Groq API!</code></pre>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: The API Key</div>
-            <div class="editor-container">
-                <textarea>
-# To use an API, you need a secret password called an API Key.
-# NEVER share your API key with anyone!
-API_KEY = "gsk_my_super_secret_key_123"
-
-print("My API key is stored securely in a variable.")
+client = GroqClient()
+response = client.chat_completion("Why is Python popular for AI?")
+print(response["choices"][0]["message"]["content"])
+print(f"Stats: {response['usage']['total_tokens']} tokens processed in {response['usage']['latency_ms']}ms!")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -72,104 +205,33 @@ print("My API key is stored securely in a variable.")
             <div class="output-area"></div>
         </div>
 
-        <h2>2. Making a Request</h2>
-        <p>To talk to the API, we use a library (like `requests` or `frok_api`) to send a message over the internet to the AI's server.</p>
-
-        <p><strong>Example A: Sending a message</strong></p>
-        <pre><code>response = api.send("Hello AI!")</code></pre>
+        <h2>5. Building a Chatbot with Memory & RAG</h2>
+        <p>To give an AI <strong>memory</strong>, we maintain a history list and append every turn. To prevent <em>hallucination</em>, we use <strong>Retrieval-Augmented Generation (RAG)</strong> by attaching real reference documents directly inside the system prompt!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Sending the Message</div>
+            <div class="editor-header">Assignment 5: Multi-Turn RAG Chatbot</div>
             <div class="editor-container">
                 <textarea>
-# (Simulation Setup)
-class API:
-    def send(self, msg): return "Greetings, human! How can I assist you today?"
-api = API()
-# ----------------
+# Memory-enabled RAG Chatbot
+document_knowledge = "Python 3.12 was released in October 2023 with faster execution and better error messages."
 
-# Use api.send() to say hello, and store the result in 'reply'
-reply = api.send("Hi there!")
-print("The AI said:", reply)
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
+class RAGChatbot:
+    def __init__(self, context_doc):
+        self.history = [
+            {"role": "system", "content": f"Answer questions strictly using this Knowledge Base: {context_doc}"}
+        ]
 
-        <h2>3. Prompt Engineering</h2>
-        <p>How you ask the question matters! <strong>Prompt Engineering</strong> is the skill of giving the AI specific rules and context so it gives you the exact answer you want.</p>
+    def ask(self, question):
+        self.history.append({"role": "user", "content": question})
+        
+        # Simulate AI response grounded in knowledge base
+        reply = f"Based on the knowledge base: '{context_doc[:50]}...'"
+        self.history.append({"role": "assistant", "content": reply})
+        return reply
 
-        <p><strong>Example A: A bad prompt</strong></p>
-        <pre><code>api.send("Tell me about dogs.")</code></pre>
-
-        <p><strong>Example B: A good prompt</strong></p>
-        <pre><code>api.send("Explain dogs to a 5-year old in exactly 2 sentences.")</code></pre>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Be Specific!</div>
-            <div class="editor-container">
-                <textarea>
-# Change the prompt to tell the AI to talk like a Pirate!
-prompt = "Tell me about the ocean."
-
-print("Prompt sent:", prompt)
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
-
-        <h2>4. The Real API Fetch</h2>
-        <p>In the browser, we use JavaScript to securely fetch data from the Groq API! We can call JS functions right from Python in Pyodide!</p>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: The Groq Caller</div>
-            <div class="editor-container">
-                <textarea>
-# We'll use a simulated fetch function for safety!
-import asyncio
-
-async def fetch_llm(prompt):
-    print("🌐 Connecting to Groq API...")
-    print("Sending prompt:", prompt)
-    print("🤖 Response: Python is the best language for AI because of its amazing libraries!")
-
-# Since the API is on another computer, we have to 'await' the response.
-import pyodide.ffi
-# (This is just a simulation for the browser!)
-print("Simulation complete.")
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
-
-        <h2>5. Chatbots!</h2>
-        <p>By putting the API call inside a `while` loop, you can create a continuous conversation with the AI!</p>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: The Infinite Chat</div>
-            <div class="editor-container">
-                <textarea>
-# (Simulation Setup)
-class Chatbot:
-    def chat(self, user_msg): return "That's interesting!"
-bot = Chatbot()
-# ----------------
-
-# We simulate a 2-turn conversation:
-msg1 = input("You: ")
-print("AI:", bot.chat(msg1))
-
-msg2 = input("You: ")
-print("AI:", bot.chat(msg2))
+bot = RAGChatbot(document_knowledge)
+print("Turn 1:", bot.ask("When was Python 3.12 released?"))
+print(f"\nConversation History Length: {len(bot.history)} messages.")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -181,36 +243,66 @@ print("AI:", bot.chat(msg2))
         <h2>🔥 The Boss Challenge 🔥</h2>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: The Math Tutor Prompt</div>
+            <div class="editor-header">Challenge 1: Code Debugger Persona Formatter</div>
             <div class="editor-container"><textarea>
-# Write a prompt that forces the AI to act like a Math Tutor.
-# The prompt must contain the word "tutor" and "explain".
-prompt = ""
-            </textarea></div>
-            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
-        </div>
-        
-        <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: The Emoji Translator</div>
-            <div class="editor-container"><textarea>
-# (Simulation)
-class LLM:
-    def generate(self, text): return "🐱🐶"
+# Create a function that formats messages for a strict Code Reviewer AI.
+# The system prompt must instruct the AI to find bugs and suggest improvements.
+def format_code_review_prompt(code_snippet):
+    messages = [
+        {"role": "system", "content": "You are a Senior Python Code Auditor. Analyze code for bugs and security risks."},
+        {"role": "user", "content": f"Review this code:\n{code_snippet}"}
+    ]
+    return messages
 
-ai = LLM()
-# Send a prompt to the AI asking it to translate "Cat and Dog" to emojis.
-# Save it to a variable and print it!
+buggy_code = "def add(a, b): return a - b"
+formatted = format_code_review_prompt(buggy_code)
+print(formatted)
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
         
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: The Retry Loop</div>
+            <div class="editor-header">Challenge 2: RAG Context Retriever</div>
             <div class="editor-container"><textarea>
-# APIs sometimes fail!
-# Write a for loop that tries to connect 3 times.
-# Inside the loop, print "Connecting...".
-# On the 3rd time (when i is 2), print "Connected!" and break out of the loop.
+# Search a list of document facts and build an augmented prompt with matching facts!
+kb_articles = [
+    "Pyodide runs Python in the browser using WebAssembly.",
+    "Groq LPUs deliver high-speed inference for open-weight LLMs.",
+    "Scikit-learn is a popular machine learning library in Python."
+]
+
+def build_rag_prompt(user_query, documents):
+    relevant_docs = [doc for doc in documents if any(word in doc.lower() for word in user_query.lower().split())]
+    context = "\n".join(relevant_docs)
+    return f"Context:\n{context}\n\nQuestion: {user_query}"
+
+prompt = build_rag_prompt("Tell me about Groq speed", kb_articles)
+print(prompt)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: History Pruner & Token Limit Guard</div>
+            <div class="editor-container"><textarea>
+# LLMs have a maximum context limit.
+# Write a function that trims conversation history to only keep the system prompt + last N messages!
+def prune_history(history, keep_last_n=2):
+    system_msg = [msg for msg in history if msg["role"] == "system"]
+    other_msgs = [msg for msg in history if msg["role"] != "system"]
+    return system_msg + other_msgs[-keep_last_n:]
+
+long_history = [
+    {"role": "system", "content": "System prompt"},
+    {"role": "user", "content": "Hi"},
+    {"role": "assistant", "content": "Hello!"},
+    {"role": "user", "content": "What is Python?"},
+    {"role": "assistant", "content": "Python is a programming language."}
+]
+
+pruned = prune_history(long_history, keep_last_n=2)
+print("Pruned History Length:", len(pruned))
+print(pruned)
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
@@ -223,7 +315,6 @@ ai = LLM()
 
         <div class="chapter-nav">
             <a href="chapter18.html" class="nav-btn">&larr; Previous</a>
-            <!-- Last chapter has no next chapter -->
             <a href="index.html" class="nav-btn">Back to Start &rarr;</a>
         </div>
         </div>

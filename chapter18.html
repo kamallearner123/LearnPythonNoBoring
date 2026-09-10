@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 18: Machine Learning (Part 2)</title>
+    <title>Chapter 18: Machine Learning (Part 2 - Models & Pipeline)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,30 +44,33 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 18: Machine Learning (Part 2)</h1>
+        <h1>Chapter 18: Machine Learning (Part 2 - Models & Pipelines)</h1>
         
         <img src="images/ch18_ml2.png" alt="A glowing digital brain" class="chapter-graphic">
-        
 
-        <p><em>Note: Real ML libraries take a long time to load. We've provided a Lightning-Fast Mock ML library that uses the exact same syntax as the pros use!</em></p>
-
-        <h2>1. The Model</h2>
-        <p>In the real world, we use a library called <code>sklearn</code> to build models. A popular model is the <strong>Decision Tree</strong>. It asks a bunch of Yes/No questions to learn!</p>
-
-        <p><strong>Example A: Creating the Model</strong></p>
-        <pre><code>model = DecisionTreeClassifier()</code></pre>
+        <h2>1. Decision Trees & Random Forests</h2>
+        <p>A <strong>Decision Tree</strong> breaks down complex choices into a sequence of binary (Yes/No) questions. A <strong>Random Forest</strong> combines dozens of different trees into an ensemble committee that votes on the final answer to prevent errors!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: Build the Brain</div>
+            <div class="editor-header">Assignment 1: Random Forest Ensemble Voting</div>
             <div class="editor-container">
                 <textarea>
-# (Simulation Setup)
-class DecisionTreeClassifier:
-    def __init__(self): print("🧠 Model Created!")
-# ------------------
+# Simulated Random Forest with 3 Decision Trees voting
+def tree_1(features): return 1 if features[0] > 50 else 0
+def tree_2(features): return 1 if features[1] == "sharp" else 0
+def tree_3(features): return 1 if features[0] > 40 and features[1] == "sharp" else 0
 
-# Create your model and save it to a variable called 'ai'
-ai = DecisionTreeClassifier()
+mystery_sample = [55, "sharp"]
+
+votes = [
+    tree_1(mystery_sample),
+    tree_2(mystery_sample),
+    tree_3(mystery_sample)
+]
+
+final_prediction = 1 if votes.count(1) > votes.count(0) else 0
+print("Individual Tree Votes:", votes)
+print("Random Forest Final Ensemble Prediction:", final_prediction)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -76,27 +79,24 @@ ai = DecisionTreeClassifier()
             <div class="output-area"></div>
         </div>
 
-        <h2>2. Training the Model (.fit)</h2>
-        <p>Once you have a model, you have to teach it! You pass in your Features (X) and your Labels (y) using the <code>.fit(X, y)</code> method.</p>
-
-        <p><strong>Example A: Training</strong></p>
-        <pre><code>model.fit(X, y)</code></pre>
+        <h2>2. Linear Regression (Predicting Continuous Numbers)</h2>
+        <p>While <em>Classification</em> predicts categories (Cat vs Dog), <em>Regression</em> predicts continuous numerical quantities (House Prices, Temperature, Test Scores).</p>
+        <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1rem; margin: 1rem 0; font-family: monospace;">
+            Linear Equation: <strong>y = m &middot; x + b</strong><br>
+            Where <em>m</em> = slope (rate of change) and <em>b</em> = intercept (base value).
+        </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Study Time!</div>
+            <div class="editor-header">Assignment 2: Simple Linear Regression Model</div>
             <div class="editor-container">
                 <textarea>
-# (Simulation Setup)
-class DecisionTreeClassifier:
-    def fit(self, X, y): print("📚 Studying", len(X), "examples... Done!")
-# ------------------
+# House price prediction model: Price = (500 * SqFt) + 20,000
+def linear_regression_predict(sq_ft, slope=500, intercept=20000):
+    return (slope * sq_ft) + intercept
 
-X = [[1], [2], [3], [4]]
-y = [0, 0, 1, 1]
-
-model = DecisionTreeClassifier()
-# Call the .fit() method on your model and pass in X and y!
-model.fit(X, y)
+test_house_sqft = 1200
+predicted_price = linear_regression_predict(test_house_sqft)
+print(f"Predicted price for {test_house_sqft} sq ft house: ${predicted_price:,}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -105,26 +105,47 @@ model.fit(X, y)
             <div class="output-area"></div>
         </div>
 
-        <h2>3. Making Predictions (.predict)</h2>
-        <p>After studying, the model is ready for a test! You use the <code>.predict()</code> method and pass in a NEW set of features it has never seen before.</p>
-
-        <p><strong>Example A: Predicting</strong></p>
-        <pre><code>answer = model.predict([[5]])</code></pre>
+        <h2>3. The Scikit-Learn API Workflow (`fit`, `predict`, `score`)</h2>
+        <p>In industry Python code, engineers use <code>scikit-learn</code> (<code>sklearn</code>). All algorithms follow the exact same 4-step blueprint:</p>
+        <ol>
+            <li><strong>Instantiate:</strong> <code>model = DecisionTreeClassifier()</code></li>
+            <li><strong>Train:</strong> <code>model.fit(X_train, y_train)</code></li>
+            <li><strong>Predict:</strong> <code>predictions = model.predict(X_test)</code></li>
+            <li><strong>Evaluate:</strong> <code>acc = accuracy_score(y_test, predictions)</code></li>
+        </ol>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: The Crystal Ball</div>
+            <div class="editor-header">Assignment 3: Scikit-Learn Paradigm Simulator</div>
             <div class="editor-container">
                 <textarea>
-# (Simulation Setup)
-class DecisionTreeClassifier:
-    def predict(self, test_X): return [1]
-# ------------------
+# Pure Python simulator of Scikit-Learn's DecisionTreeClassifier
+class SklearnDecisionTree:
+    def __init__(self, threshold=50):
+        self.threshold = threshold
+        self.is_trained = False
 
-model = DecisionTreeClassifier()
+    def fit(self, X, y):
+        print(f"🧠 Training model on {len(X)} samples... Fit complete!")
+        self.is_trained = True
+        return self
 
-# Ask the model to predict the label for the feature [10]
-guess = model.predict([[10]])
-print("The model guessed:", guess)
+    def predict(self, X):
+        if not self.is_trained:
+            raise Exception("Must call .fit() before .predict()!")
+        return [1 if sample[0] > self.threshold else 0 for sample in X]
+
+# 1. Dataset
+X_train = [[10], [25], [60], [80]]
+y_train = [0, 0, 1, 1]
+
+# 2. Instantiate & Fit
+model = SklearnDecisionTree(threshold=40)
+model.fit(X_train, y_train)
+
+# 3. Predict on new test samples
+X_test = [[15], [75]]
+predictions = model.predict(X_test)
+print("Predictions on test data:", predictions)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -133,29 +154,30 @@ print("The model guessed:", guess)
             <div class="output-area"></div>
         </div>
 
-        <h2>4. Evaluating the Model</h2>
-        <p>How do we know if our AI is smart? We test it against a set of answers we already know, and calculate its <strong>Accuracy Score</strong> (like grading a test out of 100%).</p>
-
-        <p><strong>Example A: Grading the AI</strong></p>
-        <pre><code>score = accuracy_score(true_y, guessed_y)</code></pre>
+        <h2>4. Beyond Accuracy: Precision, Recall & Confusion Matrix</h2>
+        <p>Simple Accuracy can be misleading! For example, if 99% of emails are NOT spam, a model that predicts "Never Spam" is 99% accurate, but completely useless!</p>
+        <ul>
+            <li><strong>True Positive (TP):</strong> Spam correctly identified as Spam.</li>
+            <li><strong>False Positive (FP):</strong> Important email wrongly flagged as Spam (False Alarm).</li>
+            <li><strong>False Negative (FN):</strong> Dangerous Spam missed by filter.</li>
+            <li><strong>Precision Formula:</strong> <code>TP / (TP + FP)</code> &rarr; How trustworthy are positive predictions?</li>
+            <li><strong>Recall Formula:</strong> <code>TP / (TP + FN)</code> &rarr; What fraction of actual positives did we catch?</li>
+        </ul>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: Grading the Test</div>
+            <div class="editor-header">Assignment 4: Precision and Recall Calculator</div>
             <div class="editor-container">
                 <textarea>
-def accuracy_score(true_answers, guesses):
-    correct = 0
-    for i in range(len(true_answers)):
-        if true_answers[i] == guesses[i]:
-            correct += 1
-    return correct / len(true_answers) * 100
+# Confusion Matrix Counts
+TP, FP, TN, FN = 80, 10, 900, 10
 
-true_y = [1, 0, 1, 1]
-guessed_y = [1, 0, 0, 1] # It got the 3rd one wrong!
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+f1_score = 2 * (precision * recall) / (precision + recall)
 
-# Call accuracy_score and print the result!
-score = accuracy_score(true_y, guessed_y)
-print("AI scored:", score, "%")
+print(f"Precision: {precision:.2%}")
+print(f"Recall:    {recall:.2%}")
+print(f"F1-Score:  {f1_score:.2%}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -164,21 +186,33 @@ print("AI scored:", score, "%")
             <div class="output-area"></div>
         </div>
 
-        <h2>5. Saving the Model</h2>
-        <p>Training an AI can take days or weeks! Once it is trained, we save its "brain" to a file so we don't have to train it again. We use a tool called `pickle` or `joblib` for this.</p>
+        <h2>5. Saving & Loading Models (Model Persistence)</h2>
+        <p>Training an AI on gigabytes of data can take days or weeks! In production, we train once, serialize the trained weights/parameters into a file (using <code>pickle</code>, <code>joblib</code>, or <code>json</code>), and load it instantly in our web app!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: Pickling the Brain</div>
+            <div class="editor-header">Assignment 5: Exporting & Importing Model Weights</div>
             <div class="editor-container">
                 <textarea>
-# (Simulation Setup)
-def save_model(model, filename):
-    print("💾 Brain saved to", filename)
+import json
 
-model = "Fully Trained Super AI"
+# Trained model state (weights & rules)
+model_state = {
+    "model_name": "LinearRegression",
+    "slope": 4.5,
+    "intercept": 12.0,
+    "version": "1.0"
+}
 
-# Call save_model to save your model to "my_brain.pkl"
-save_model(model, "my_brain.pkl")
+# Export state to JSON string (Serialization)
+exported_model = json.dumps(model_state)
+print("💾 Exported Model File Content:", exported_model)
+
+# Reload model state (Deserialization)
+loaded_state = json.loads(exported_model)
+def deployed_predict(x, state):
+    return (state["slope"] * x) + state["intercept"]
+
+print("⚡ Deployed Prediction for x=10:", deployed_predict(10, loaded_state))
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -190,49 +224,88 @@ save_model(model, "my_brain.pkl")
         <h2>🔥 The Boss Challenge 🔥</h2>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: The Full Pipeline</div>
+            <div class="editor-header">Challenge 1: Complete ML Pipeline</div>
             <div class="editor-container"><textarea>
-# 1. Create a DecisionTreeClassifier.
-# 2. Fit it on X and y.
-# 3. Predict the label for test_X.
+# Build a complete ML pipeline:
+# 1. Instantiate model
+# 2. Fit on X_train, y_train
+# 3. Predict on X_test
+# 4. Calculate accuracy against y_test
 
-class DecisionTreeClassifier:
-    def fit(self, X, y): pass
-    def predict(self, X): return [0]
+class SimpleKNN:
+    def fit(self, X, y):
+        self.X_train = X
+        self.y_train = y
+    def predict(self, X_test):
+        preds = []
+        for test_sample in X_test:
+            # Pick label of closest item in X_train
+            best_idx = 0
+            best_dist = float('inf')
+            for i, train_sample in enumerate(self.X_train):
+                d = abs(test_sample[0] - train_sample[0])
+                if d < best_dist:
+                    best_dist = d
+                    best_idx = i
+            preds.append(self.y_train[best_idx])
+        return preds
 
-X = [[10], [20], [30]]
-y = [0, 1, 0]
-test_X = [[15]]
+X_train, y_train = [[10], [20], [80], [90]], [0, 0, 1, 1]
+X_test, y_test = [[15], [85]], [0, 1]
 
+knn = SimpleKNN()
+knn.fit(X_train, y_train)
+y_pred = knn.predict(X_test)
+
+accuracy = sum(1 for i in range(len(y_test)) if y_test[i] == y_pred[i]) / len(y_test) * 100
+print(f"Test Predictions: {y_pred} | Accuracy: {accuracy:.0f}%")
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
         
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: The Terrible Grader</div>
+            <div class="editor-header">Challenge 2: Medical Diagnostic Classifier Evaluator</div>
             <div class="editor-container"><textarea>
-# Write a function that takes two lists (true_y and guess_y).
-# If the lists are exactly the same, return 100. Otherwise return 0.
-def strict_grader(true_y, guess_y):
-    pass
+# Calculate Precision & Recall for a Disease Detection Model
+# 1 = Sick, 0 = Healthy
+actual_y =    [1, 1, 1, 0, 0, 0, 1, 0]
+predicted_y = [1, 1, 0, 0, 0, 1, 1, 0]
+
+# Write logic to count TP, FP, FN and print Recall
+TP = sum(1 for i in range(len(actual_y)) if actual_y[i] == 1 and predicted_y[i] == 1)
+FN = sum(1 for i in range(len(actual_y)) if actual_y[i] == 1 and predicted_y[i] == 0)
+
+recall = TP / (TP + FN) if (TP + FN) > 0 else 0.0
+print(f"TP={TP}, FN={FN} -> Medical Recall: {recall:.2%}")
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
         
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: The Robot Classifier</div>
+            <div class="editor-header">Challenge 3: Serialized Decision Tree Deployer</div>
             <div class="editor-container"><textarea>
-# 0 = Friendly Robot, 1 = Evil Robot
-X = [[10, "Smiles"], [50, "Lasers"]]
-y = [0, 1]
+import json
 
-# You don't have the real ML library here, so write a normal Python function
-# called `predict_robot(features)` that checks if "Lasers" is in the features list
-# and returns 1 if it is, and 0 if it isn't!
+# JSON representation of a Decision Tree rule
+saved_tree_json = '{"feature_index": 0, "threshold": 50.0, "left_label": "Cat", "right_label": "Dog"}'
+
+def predict_from_json(json_str, feature_vector):
+    rule = json.loads(json_str)
+    idx = rule["feature_index"]
+    thresh = rule["threshold"]
+    if feature_vector[idx] <= thresh:
+        return rule["left_label"]
+    else:
+        return rule["right_label"]
+
+sample_a = [35.0]
+sample_b = [65.0]
+
+print("Sample A ([35.0]) prediction:", predict_from_json(saved_tree_json, sample_a))
+print("Sample B ([65.0]) prediction:", predict_from_json(saved_tree_json, sample_b))
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
-
 
         <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
             <h3>Done with this chapter?</h3>
@@ -241,7 +314,6 @@ y = [0, 1]
 
         <div class="chapter-nav">
             <a href="chapter17.html" class="nav-btn">&larr; Previous</a>
-            <!-- Last chapter has no next chapter -->
             <a href="chapter19.html" class="nav-btn">Next Chapter &rarr;</a>
         </div>
         </div>

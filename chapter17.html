@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 17: Machine Learning (Part 1)</title>
+    <title>Chapter 17: Machine Learning (Part 1 - Foundations)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,28 +44,38 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 17: Machine Learning (Part 1)</h1>
+        <h1>Chapter 17: Machine Learning (Part 1 - Foundations)</h1>
         
         <img src="images/ch17_ml1.png" alt="A robot sorting cats and dogs" class="chapter-graphic">
-        
 
-        <h2>1. What is Machine Learning?</h2>
-        <p>Normally, we give computers rules: "If weight > 50, it is a dog." But in Machine Learning, we give the computer examples (data) and let it figure out the rules on its own!</p>
-
-        <p><strong>Example A: Traditional Code</strong></p>
-        <pre><code>if weight > 20: animal = "Dog"</code></pre>
+        <h2>1. What is Machine Learning? (Rules vs Data)</h2>
+        <p>In classical programming, we write hardcoded rules by hand:</p>
+        <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1rem; margin: 1rem 0; font-family: monospace;">
+            <strong>Traditional Coding:</strong> Data + Hardcoded Rules &rarr; Answers<br>
+            <strong>Machine Learning:</strong> Data + Answers (Labels) &rarr; Machine Discovers Rules!
+        </div>
+        <p>Instead of manually guessing rules like <code>if weight > 20 and ears == 'pointy'</code>, we feed thousands of examples to the computer and let math find the pattern.</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: Hardcoded Rules vs ML</div>
+            <div class="editor-header">Assignment 1: Hardcoded Rules vs Pattern Matching</div>
             <div class="editor-container">
                 <textarea>
-# This is NOT machine learning. This is a hardcoded rule.
-animal_weight = 15
+# Hardcoded rule vs Data-driven logic
+def rule_based_classifier(weight, height):
+    # Manual hardcoded rule
+    if weight > 30 and height > 15:
+        return "Dog"
+    return "Cat"
 
-if animal_weight < 20:
-    print("Rule says: It's a Cat!")
-else:
-    print("Rule says: It's a Dog!")
+def pattern_based_classifier(weight, height, avg_dog=(45, 20), avg_cat=(10, 8)):
+    # Mathematical closeness to known averages
+    dist_to_dog = ((weight - avg_dog[0])**2 + (height - avg_dog[1])**2) ** 0.5
+    dist_to_cat = ((weight - avg_cat[0])**2 + (height - avg_cat[1])**2) ** 0.5
+    return "Dog" if dist_to_dog < dist_to_cat else "Cat"
+
+test_weight, test_height = 25, 14
+print("Rule-based guess:", rule_based_classifier(test_weight, test_height))
+print("Pattern-based guess:", pattern_based_classifier(test_weight, test_height))
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -74,22 +84,26 @@ else:
             <div class="output-area"></div>
         </div>
 
-        <h2>2. Features (The Clues)</h2>
-        <p>When teaching a computer to tell a dog from a cat, we use <strong>Features</strong>. Features are clues like "weight", "ear shape", or "bark pitch". We usually put them in a list.</p>
-
-        <p><strong>Example A: A single animal's features</strong></p>
-        <pre><code>animal_1 = [15, 2] # 15 lbs, ear shape 2</code></pre>
+        <h2>2. The Three Pillars of Machine Learning</h2>
+        <p>Machine Learning is divided into three primary paradigms:</p>
+        <ul>
+            <li><strong>Supervised Learning:</strong> Learning with a teacher. The dataset has inputs ($X$) and target answers ($y$). <em>Examples: Spam filtering, house price prediction.</em></li>
+            <li><strong>Unsupervised Learning:</strong> Learning without answers. Finding hidden clusters or patterns in unlabelled data. <em>Examples: Customer segmentation, anomaly detection.</em></li>
+            <li><strong>Reinforcement Learning:</strong> Learning through trial, error, and feedback rewards. <em>Examples: Game-playing AI (Chess, Mario), self-driving cars.</em></li>
+        </ul>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Collecting Clues</div>
+            <div class="editor-header">Assignment 2: Unsupervised Clustering Simulation</div>
             <div class="editor-container">
                 <textarea>
-# Let's say: [Weight in lbs, Fluffiness from 1 to 10]
-my_cat = [10, 8]
-my_dog = [60, 4]
+# Simple Unsupervised Clustering: Group items by similarity without labels!
+dataset = [12, 14, 15, 80, 85, 88]
 
-print("My cat's fluffiness is:", my_cat[1])
-# Print the dog's weight!
+cluster_1 = [x for x in dataset if x < 50]
+cluster_2 = [x for x in dataset if x >= 50]
+
+print("Cluster 1 (Small items):", cluster_1)
+print("Cluster 2 (Large items):", cluster_2)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -98,25 +112,29 @@ print("My cat's fluffiness is:", my_cat[1])
             <div class="output-area"></div>
         </div>
 
-        <h2>3. Labels (The Answers)</h2>
-        <p>If we want the computer to learn, we have to give it the answers to study from. These answers are called <strong>Labels</strong>. "0" might mean Cat, and "1" might mean Dog.</p>
-
-        <p><strong>Example A: Label list</strong></p>
-        <pre><code>labels = [0, 1] # Cat, Dog</code></pre>
+        <h2>3. Features ($X$), Labels ($y$) & Feature Scaling</h2>
+        <p>To teach a machine, we convert real-world items into numbers:</p>
+        <ul>
+            <li><strong>Features ($X$):</strong> Matrix of input measurements (e.g. <code>[weight_lbs, height_inches, ear_length]</code>).</li>
+            <li><strong>Labels ($y$):</strong> Target vector of answers (e.g. <code>0 = Cat</code>, <code>1 = Dog</code>).</li>
+            <li><strong>Feature Normalization:</strong> Scaling features so large numbers (weight in grams) don't overpower small numbers (ear length in inches). Formula: <code>(x - min) / (max - min)</code>.</li>
+        </ul>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Defining the Answers</div>
+            <div class="editor-header">Assignment 3: Normalizing Features</div>
             <div class="editor-container">
                 <textarea>
-# 0 = Apple, 1 = Orange
-labels = [0, 1, 0, 0, 1]
+# Raw feature data: [Weight in lbs, Height in inches]
+raw_features = [[10, 8], [60, 24], [15, 10], [50, 22]]
 
-# Write a loop to print out what each label means!
-for label in labels:
-    if label == 0:
-        print("Apple")
-    else:
-        print("Orange")
+weights = [f[0] for f in raw_features]
+w_min, w_max = min(weights), max(weights)
+
+# Normalize weight between 0 and 1
+normalized_weights = [(w - w_min) / (w_max - w_min) for w in weights]
+
+for i in range(len(raw_features)):
+    print(f"Sample {i}: Original Weight={raw_features[i][0]} lbs -> Normalized={normalized_weights[i]:.2f}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -125,29 +143,43 @@ for label in labels:
             <div class="output-area"></div>
         </div>
 
-        <h2>4. The Dataset (X and y)</h2>
-        <p>In Machine Learning, we combine all the features into a big list of lists called <strong>X</strong> (capital X), and all the answers into a list called <strong>y</strong> (lowercase y).</p>
-
-        <p><strong>Example A: X and y</strong></p>
-        <pre><code>X = [[15], [60]]
-y = [0, 1]</code></pre>
+        <h2>4. Distance & Similarity (K-Nearest Neighbors Algorithm)</h2>
+        <p>One of the simplest real Machine Learning algorithms is <strong>K-Nearest Neighbors (KNN)</strong>. To classify a new sample, it measures the Euclidean Distance to all known samples and selects the majority vote among its nearest neighbors!</p>
+        <p><strong>Euclidean Distance Formula:</strong></p>
+        <div style="text-align: center; margin: 1rem 0; font-family: monospace; font-size: 1.1rem; color: #667eea;">
+            d = &radic;((x<sub>1</sub> - x<sub>2</sub>)<sup>2</sup> + (y<sub>1</sub> - y<sub>2</sub>)<sup>2</sup>)
+        </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: Building the Dataset</div>
+            <div class="editor-header">Assignment 4: Build a 1-NN Classifier from Scratch</div>
             <div class="editor-container">
                 <textarea>
-# Features [Weight, Speed]
-X = [
-    [10, 5],   # Animal 0
-    [50, 15],  # Animal 1
-    [12, 6]    # Animal 2
+import math
+
+# Training Dataset: X = [Weight, Speed], y = Labels ("Cheetah", "Turtle")
+X_train = [
+    [140, 60], # Sample 0: Cheetah
+    [150, 65], # Sample 1: Cheetah
+    [2, 0.5],  # Sample 2: Turtle
+    [3, 0.8]   # Sample 3: Turtle
 ]
+y_train = ["Cheetah", "Cheetah", "Turtle", "Turtle"]
 
-# Labels: 0 = Cat, 1 = Dog
-y = [0, 1, 0]
+def predict_knn(new_sample, X, y):
+    distances = []
+    for i in range(len(X)):
+        # Calculate Euclidean distance between new_sample and X[i]
+        d = math.sqrt((new_sample[0] - X[i][0])**2 + (new_sample[1] - X[i][1])**2)
+        distances.append((d, y[i]))
+    
+    # Sort by distance
+    distances.sort(key=lambda item: item[0])
+    # Return label of closest neighbor
+    return distances[0][1]
 
-print("Animal 2 features:", X[2])
-print("Animal 2 is a:", y[2])
+mystery = [135, 58]
+prediction = predict_knn(mystery, X_train, y_train)
+print(f"Mystery animal {mystery} is predicted to be a: {prediction}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -156,25 +188,25 @@ print("Animal 2 is a:", y[2])
             <div class="output-area"></div>
         </div>
 
-        <h2>5. The Goal of Training</h2>
-        <p>The goal is to feed `X` and `y` into a magical math box (the Model). The Model studies them and creates its own rules, so when a new animal appears, it can guess the label!</p>
+        <h2>5. Training Data vs Testing Data Split</h2>
+        <p>Why shouldn't we test our ML model on the exact same data it learned from? Because it might just <strong>memorize</strong> the answers (Overfitting) instead of learning real patterns (Generalization)!</p>
+        <p>We split our dataset into a <strong>Training Set (80%)</strong> to let the model learn, and a <strong>Testing Set (20%)</strong> to grade its performance on unseen data.</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: The Guesser</div>
+            <div class="editor-header">Assignment 5: Splitting Train and Test Sets</div>
             <div class="editor-container">
                 <textarea>
-# A fake "trained" model that uses a simple rule it learned:
-def fake_ml_predict(features):
-    weight = features[0]
-    if weight > 30:
-        return 1 # Dog
-    else:
-        return 0 # Cat
+X = [[1], [2], [3], [4], [5], [6], [7], [8], [9], [10]]
+y = [0,   0,   0,   0,   0,   1,   1,   1,   1,   1]
 
-mystery_animal = [45, 10]
-prediction = fake_ml_predict(mystery_animal)
+# 80% train, 20% test split index
+split_idx = int(len(X) * 0.8)
 
-print("The model predicts:", prediction)
+X_train, X_test = X[:split_idx], X[split_idx:]
+y_train, y_test = y[:split_idx], y[split_idx:]
+
+print("Training Samples:", len(X_train), "Data:", X_train)
+print("Testing Samples:", len(X_test), "Data:", X_test)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -186,56 +218,74 @@ print("The model predicts:", prediction)
         <h2>🔥 The Boss Challenge 🔥</h2>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: Feature Extraction</div>
+            <div class="editor-header">Challenge 1: Categorical One-Hot Encoder</div>
             <div class="editor-container"><textarea>
-# Extract just the "Number of Wheels" from these vehicles to make an X dataset.
-bike = {"wheels": 2, "color": "red"}
-car = {"wheels": 4, "color": "blue"}
-semi = {"wheels": 18, "color": "white"}
+# Convert text color categories into binary numbers!
+# "Red" -> [1, 0, 0], "Green" -> [0, 1, 0], "Blue" -> [0, 0, 1]
+def one_hot_encode(color):
+    if color == "Red":
+        return [1, 0, 0]
+    elif color == "Green":
+        return [0, 1, 0]
+    elif color == "Blue":
+        return [0, 0, 1]
+    return [0, 0, 0]
 
-X = [
-    # Fill in the lists with just the wheel numbers!
-    [  ],
-    [  ],
-    [  ]
+colors = ["Red", "Blue", "Green"]
+encoded = [one_hot_encode(c) for c in colors]
+print("Encoded Colors Matrix:", encoded)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Multi-Feature KNN Predictor</div>
+            <div class="editor-container"><textarea>
+import math
+
+# Predict whether a student Passes (1) or Fails (0) based on [Study Hours, Sleep Hours]
+X_data = [
+    [8, 7],   # Pass
+    [9, 8],   # Pass
+    [2, 4],   # Fail
+    [1, 5]    # Fail
 ]
-print("Features (X):", X)
+y_data = [1, 1, 0, 0]
+
+def knn_3_predict(new_student):
+    # Calculate distance to all items in X_data
+    # Sort distances, pick top 3, return 1 if sum of top 3 votes >= 2 else 0
+    distances = []
+    for i in range(len(X_data)):
+        dist = math.sqrt((new_student[0] - X_data[i][0])**2 + (new_student[1] - X_data[i][1])**2)
+        distances.append((dist, y_data[i]))
+    
+    distances.sort(key=lambda d: d[0])
+    top_3_votes = [item[1] for item in distances[:3]]
+    return 1 if sum(top_3_votes) >= 2 else 0
+
+test_student = [7, 6]
+print("Student with [7h study, 6h sleep] prediction:", knn_3_predict(test_student))
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: The Logic Gate</div>
+            <div class="editor-header">Challenge 3: Train/Test Split Evaluator</div>
             <div class="editor-container"><textarea>
-# Write a function predict_pass(score, attendance)
-# that returns 1 (Pass) if score > 50 AND attendance > 80, else 0 (Fail).
-def predict_pass(score, attendance):
-    pass # write code here!
+# Calculate Accuracy Score: (Correct Predictions / Total Test Samples) * 100
+true_test_y = [1, 0, 1, 1, 0, 0, 1, 0]
+predicted_y = [1, 0, 1, 0, 0, 0, 1, 1]
 
-print(predict_pass(60, 90)) # Should print 1
-print(predict_pass(40, 90)) # Should print 0
+def calculate_accuracy(y_true, y_pred):
+    correct = sum(1 for i in range(len(y_true)) if y_true[i] == y_pred[i])
+    return (correct / len(y_true)) * 100
+
+acc = calculate_accuracy(true_test_y, predicted_y)
+print(f"Model Accuracy on Test Set: {acc:.1f}%")
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: The Distance Formula</div>
-            <div class="editor-container"><textarea>
-# Real ML algorithms calculate how "close" two things are.
-# If a mystery animal has weight 15, and Dog average is 50, Cat average is 10.
-mystery = 15
-dog_avg = 50
-cat_avg = 10
-
-# Calculate the difference (use abs() to make it positive)
-dist_to_dog = abs(dog_avg - mystery)
-dist_to_cat = abs(cat_avg - mystery)
-
-# Print which one it is closer to!
-            </textarea></div>
-            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
-        </div>
-
 
         <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
             <h3>Done with this chapter?</h3>
