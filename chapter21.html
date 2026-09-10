@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 21: Data Wrangling (Pandas)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+        <li><a href="chapter20.html">Ch 20: NumPy</a></li>
+        <li><a href="chapter21.html">Ch 21: Pandas</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 21: Data Wrangling (Pandas)</h1>
+        
+        <img src="images/ch21_pandas.png" alt="A cute panda robot managing data tables on a futuristic computer screen" class="chapter-graphic">
+
+        <h2>1. What is Pandas? (Series & DataFrames)</h2>
+        <p><strong>Pandas</strong> is Python's premier data manipulation library. It introduces two fundamental data structures:</p>
+        <ul>
+            <li><code>pd.Series</code>: A 1D labelled array (like a single column with row indexes).</li>
+            <li><code>pd.DataFrame</code>: A 2D labelled tabular data structure (like an Excel spreadsheet or SQL table with rows and columns).</li>
+        </ul>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Building & Inspecting a DataFrame</div>
+            <div class="editor-container">
+                <textarea>
+import pandas as pd
+
+# Create a DataFrame from a dictionary
+data = {
+    "Name": ["Alice", "Bob", "Charlie", "Diana", "Ethan"],
+    "Department": ["Engineering", "Sales", "Engineering", "Marketing", "Sales"],
+    "Salary": [85000, 62000, 95000, 58000, 71000],
+    "Experience_Yrs": [4, 2, 7, 3, 5]
+}
+
+df = pd.DataFrame(data)
+
+print("=== DataFrame Overview ===")
+print(df)
+print("\n=== Summary Statistics ===")
+print(df.describe())
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Data Selection & Filtering (`loc` vs `iloc`)</h2>
+        <p>Pandas provides specialized indexing methods for precise row & column extraction:</p>
+        <ul>
+            <li><code>df["ColName"]</code>: Extracts a specific column Series.</li>
+            <li><code>df.loc[row_label, col_label]</code>: Selects data using string labels and boolean conditions.</li>
+            <li><code>df.iloc[row_idx, col_idx]</code>: Selects data using integer positions (0-based indexing).</li>
+        </ul>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Selection & Conditional Filtering</div>
+            <div class="editor-container">
+                <textarea>
+import pandas as pd
+
+df = pd.DataFrame({
+    "Name": ["Alice", "Bob", "Charlie", "Diana"],
+    "Dept": ["Dev", "Sales", "Dev", "Marketing"],
+    "Salary": [85000, 62000, 95000, 58000]
+})
+
+# 1. Filter rows where Salary > 70,000 AND Dept is 'Dev'
+devs = df[(df["Salary"] > 70000) & (df["Dept"] == "Dev")]
+print("High-Earning Devs:\n", devs)
+
+# 2. Select specific row and column with .loc
+top_dev_name = df.loc[2, "Name"]
+print("\nTop Dev Name (loc[2, 'Name']):", top_dev_name)
+
+# 3. Select first 2 rows and first 2 columns with .iloc
+print("\nFirst 2x2 Sub-table (iloc[:2, :2]):\n", df.iloc[:2, :2])
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Data Cleaning & Handling Missing Values (`NaN`)</h2>
+        <p>Real-world datasets contain missing values (represented as <code>NaN</code> or <code>None</code>). Pandas makes it easy to detect missing data with <code>.isnull()</code>, remove them with <code>.dropna()</code>, or impute default values using <code>.fillna()</code>!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Imputing Missing Values</div>
+            <div class="editor-container">
+                <textarea>
+import pandas as pd
+import numpy as np
+
+# Messy raw data with missing values (NaN)
+raw_data = {
+    "Product": ["Laptop", "Mouse", "Monitor", "Keyboard"],
+    "Price": [1200, np.nan, 300, 80],
+    "Stock": [15, 50, np.nan, 35]
+}
+
+df = pd.DataFrame(raw_data)
+print("Before Cleaning (With NaNs):\n", df)
+
+# Fill missing Price with the mean Price
+mean_price = df["Price"].mean()
+df["Price"] = df["Price"].fillna(mean_price)
+
+# Fill missing Stock with 0
+df["Stock"] = df["Stock"].fillna(0)
+
+print("\nAfter Cleaning:\n", df)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Grouping & Aggregating Data (`groupby`)</h2>
+        <p>The <code>.groupby()</code> method follows the <strong>Split-Apply-Combine</strong> workflow: it splits data into category buckets, applies aggregate math functions (like <code>mean()</code>, <code>sum()</code>, <code>count()</code>), and combines the results!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Department Salary Aggregations</div>
+            <div class="editor-container">
+                <textarea>
+import pandas as pd
+
+df = pd.DataFrame({
+    "Employee": ["Alice", "Bob", "Charlie", "Diana", "Evan", "Fiona"],
+    "Dept": ["Engineering", "Sales", "Engineering", "Sales", "Engineering", "Sales"],
+    "Sales_USD": [150000, 200000, 180000, 220000, 120000, 250000]
+})
+
+# Group by Department and calculate total & average sales
+dept_summary = df.groupby("Dept")["Sales_USD"].agg(["sum", "mean", "count"])
+
+print("=== Department Sales Summary ===")
+print(dept_summary.round(2))
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Merging & Joining DataFrames (`pd.merge`)</h2>
+        <p>You can combine multiple DataFrames sharing a common key using SQL-style joins: <code>inner</code>, <code>outer</code>, <code>left</code>, or <code>right</code> with <code>pd.merge()</code>!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Relational Table Merging</div>
+            <div class="editor-container">
+                <textarea>
+import pandas as pd
+
+# Customers Table
+customers = pd.DataFrame({
+    "CustomerID": [101, 102, 103],
+    "Name": ["Alice", "Bob", "Charlie"]
+})
+
+# Orders Table
+orders = pd.DataFrame({
+    "OrderID": [5001, 5002, 5003],
+    "CustomerID": [101, 102, 101],
+    "Amount": [250.0, 125.5, 430.0]
+})
+
+# Merge on CustomerID key (Inner Join)
+merged_df = pd.merge(customers, orders, on="CustomerID", how="inner")
+
+print("=== Merged Relational Customer Orders ===")
+print(merged_df)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: Top E-Commerce Category Revenue</div>
+            <div class="editor-container"><textarea>
+import pandas as pd
+
+# Calculate total revenue per category (Quantity * Price) and pick the top category!
+sales_data = pd.DataFrame({
+    "Category": ["Tech", "Home", "Tech", "Home", "Tech"],
+    "Qty": [2, 1, 5, 3, 2],
+    "Price": [500, 150, 500, 150, 1000]
+})
+
+sales_data["Total"] = sales_data["Qty"] * sales_data["Price"]
+category_totals = sales_data.groupby("Category")["Total"].sum()
+
+print("Category Total Revenues:\n", category_totals)
+print("\nTop Category:", category_totals.idxmax(), "with $", category_totals.max())
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Customer Churn Data Cleaner</div>
+            <div class="editor-container"><textarea>
+import pandas as pd
+import numpy as np
+
+# Clean messy customer data: Convert names to uppercase and fill missing Tenure with median!
+df = pd.DataFrame({
+    "Name": ["alice", "bob", "charlie"],
+    "Tenure": [12, np.nan, 36]
+})
+
+df["Name"] = df["Name"].str.upper()
+df["Tenure"] = df["Tenure"].fillna(df["Tenure"].median())
+
+print("Cleaned Customer DataFrame:\n", df)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Export & Parse CSV Data String</div>
+            <div class="editor-container"><textarea>
+import pandas as pd
+
+df = pd.DataFrame({
+    "City": ["Tokyo", "New York", "London"],
+    "Population_M": [37.4, 8.3, 8.9]
+})
+
+# Export to CSV string and reload it back into Pandas!
+csv_string = df.to_csv(index=False)
+reloaded_df = pd.read_csv(pd.io.common.StringIO(csv_string))
+
+print("CSV Export Content:\n", csv_string)
+print("Reloaded Population Mean:", reloaded_df["Population_M"].mean().round(2), "Million")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter20.html" class="nav-btn">&larr; Previous</a>
+            <a href="index.html" class="nav-btn">Back to Home &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

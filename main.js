@@ -14,17 +14,17 @@ async function initPyodide() {
     });
     console.log("Pyodide loaded successfully.");
 
-    // Pre-load scikit-learn and numpy on ML chapters
+    // Pre-load scikit-learn, numpy, and pandas on data/ML chapters
     const currentPath = window.location.pathname;
-    if (currentPath.includes("chapter17") || currentPath.includes("chapter18") || currentPath.includes("chapter19")) {
+    if (currentPath.includes("chapter17") || currentPath.includes("chapter18") || currentPath.includes("chapter19") || currentPath.includes("chapter20") || currentPath.includes("chapter21")) {
       document.querySelectorAll('.btn-run').forEach(btn => {
-        btn.innerHTML = '⏳ Loading Scikit-Learn...';
+        btn.innerHTML = '⏳ Loading Data & AI Packages...';
       });
       try {
-        await pyodide.loadPackage(["numpy", "scikit-learn"]);
-        console.log("Scikit-learn & Numpy pre-loaded successfully.");
+        await pyodide.loadPackage(["numpy", "pandas", "scikit-learn"]);
+        console.log("Scikit-learn, Numpy & Pandas pre-loaded successfully.");
       } catch (pkgErr) {
-        console.warn("Pre-loading sklearn failed:", pkgErr);
+        console.warn("Pre-loading libraries failed:", pkgErr);
       }
     }
     
@@ -191,8 +191,8 @@ window.renderStatus = function() {
     let xp = 0;
     let html = '<div class="status-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">';
     
-    // Loop through all 19 chapters
-    for (let i = 1; i <= 19; i++) {
+    // Loop through all 21 chapters
+    for (let i = 1; i <= 21; i++) {
         const chapterFile = `chapter${i}.html`;
         const isFinished = localStorage.getItem(chapterFile) === "true";
         
@@ -219,8 +219,9 @@ window.renderStatus = function() {
     let rank = "Novice (Lvl 1)";
     if (xp >= 300) rank = "Apprentice (Lvl 5)";
     if (xp >= 800) rank = "Wizard (Lvl 10)";
-    if (xp >= 1500) rank = "Python Grandmaster (Lvl 20)";
-    if (xp >= 1900) rank = "AI OVERLORD (MAX LVL)";
+    if (xp >= 1500) rank = "Python Master (Lvl 15)";
+    if (xp >= 1900) rank = "Data & AI Specialist (Lvl 20)";
+    if (xp >= 2100) rank = "AI & DATA OVERLORD (MAX LVL)";
     
     document.getElementById("total-xp").innerText = `${xp} XP`;
     document.getElementById("current-rank").innerText = rank;
@@ -229,7 +230,7 @@ window.renderStatus = function() {
 
 window.resetProgress = function() {
     if (confirm("Are you sure you want to reset all your progress? You will lose all your XP!")) {
-        for (let i = 1; i <= 19; i++) {
+        for (let i = 1; i <= 21; i++) {
             localStorage.removeItem(`chapter${i}.html`);
         }
         window.renderStatus();
