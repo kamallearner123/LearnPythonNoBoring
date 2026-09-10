@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 19: Talking to AI (Groq API)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 19: Talking to AI (Groq API)</h1>
+        
+        <img src="images/ch19_llm.png" alt="A wizard talking to a brain" class="chapter-graphic">
+        
+
+        <h2>1. What is an LLM?</h2>
+        <p>An LLM (Large Language Model) is a massive AI brain that has read almost the entire internet! It can talk to you, write poems, and answer questions. We can talk to them using an <strong>API</strong>.</p>
+
+        <p><strong>Example A: Groq API</strong></p>
+        <pre><code># We will use the ultra-fast Groq API!</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: The API Key</div>
+            <div class="editor-container">
+                <textarea>
+# To use an API, you need a secret password called an API Key.
+# NEVER share your API key with anyone!
+API_KEY = "gsk_my_super_secret_key_123"
+
+print("My API key is stored securely in a variable.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Making a Request</h2>
+        <p>To talk to the API, we use a library (like `requests` or `frok_api`) to send a message over the internet to the AI's server.</p>
+
+        <p><strong>Example A: Sending a message</strong></p>
+        <pre><code>response = api.send("Hello AI!")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Sending the Message</div>
+            <div class="editor-container">
+                <textarea>
+# (Simulation Setup)
+class API:
+    def send(self, msg): return "Greetings, human! How can I assist you today?"
+api = API()
+# ----------------
+
+# Use api.send() to say hello, and store the result in 'reply'
+reply = api.send("Hi there!")
+print("The AI said:", reply)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Prompt Engineering</h2>
+        <p>How you ask the question matters! <strong>Prompt Engineering</strong> is the skill of giving the AI specific rules and context so it gives you the exact answer you want.</p>
+
+        <p><strong>Example A: A bad prompt</strong></p>
+        <pre><code>api.send("Tell me about dogs.")</code></pre>
+
+        <p><strong>Example B: A good prompt</strong></p>
+        <pre><code>api.send("Explain dogs to a 5-year old in exactly 2 sentences.")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Be Specific!</div>
+            <div class="editor-container">
+                <textarea>
+# Change the prompt to tell the AI to talk like a Pirate!
+prompt = "Tell me about the ocean."
+
+print("Prompt sent:", prompt)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. The Real API Fetch</h2>
+        <p>In the browser, we use JavaScript to securely fetch data from the Groq API! We can call JS functions right from Python in Pyodide!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: The Groq Caller</div>
+            <div class="editor-container">
+                <textarea>
+# We'll use a simulated fetch function for safety!
+import asyncio
+
+async def fetch_llm(prompt):
+    print("🌐 Connecting to Groq API...")
+    print("Sending prompt:", prompt)
+    print("🤖 Response: Python is the best language for AI because of its amazing libraries!")
+
+# Since the API is on another computer, we have to 'await' the response.
+import pyodide.ffi
+# (This is just a simulation for the browser!)
+print("Simulation complete.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Chatbots!</h2>
+        <p>By putting the API call inside a `while` loop, you can create a continuous conversation with the AI!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Infinite Chat</div>
+            <div class="editor-container">
+                <textarea>
+# (Simulation Setup)
+class Chatbot:
+    def chat(self, user_msg): return "That's interesting!"
+bot = Chatbot()
+# ----------------
+
+# We simulate a 2-turn conversation:
+msg1 = input("You: ")
+print("AI:", bot.chat(msg1))
+
+msg2 = input("You: ")
+print("AI:", bot.chat(msg2))
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Math Tutor Prompt</div>
+            <div class="editor-container"><textarea>
+# Write a prompt that forces the AI to act like a Math Tutor.
+# The prompt must contain the word "tutor" and "explain".
+prompt = ""
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Emoji Translator</div>
+            <div class="editor-container"><textarea>
+# (Simulation)
+class LLM:
+    def generate(self, text): return "🐱🐶"
+
+ai = LLM()
+# Send a prompt to the AI asking it to translate "Cat and Dog" to emojis.
+# Save it to a variable and print it!
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: The Retry Loop</div>
+            <div class="editor-container"><textarea>
+# APIs sometimes fail!
+# Write a for loop that tries to connect 3 times.
+# Inside the loop, print "Connecting...".
+# On the 3rd time (when i is 2), print "Connected!" and break out of the loop.
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+
+        <div class="chapter-nav">
+            <a href="chapter18.html" class="nav-btn">&larr; Previous</a>
+            <!-- Last chapter has no next chapter -->
+            <a href="index.html" class="nav-btn">Back to Start &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

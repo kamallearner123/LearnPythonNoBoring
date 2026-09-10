@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: The Calculator in Your Computer</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 4: The Calculator in Your Computer</h1>
+        
+        <img src="images/ch4_math.png" alt="A friendly robot doing heavy lifting with giant math symbols" class="chapter-graphic">
+        
+        <h2>1. Basic Math</h2>
+        <p>Python is the world's most powerful calculator! You can use addition (<code>+</code>), subtraction (<code>-</code>), multiplication (<code>*</code>), and division (<code>/</code>).</p>
+
+        
+        <p><strong>Example A: Addition</strong></p><pre><code>print(5 + 5)</code></pre><p><strong>Example B: Subtraction</strong></p><pre><code>print(10 - 2)</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Age in Days</div>
+            <div class="editor-container">
+                <textarea>
+# How many days old are you?
+# Multiply your age by 365 to find out!
+age_in_years = 10
+age_in_days = age_in_years * 365
+
+print("I am", age_in_days, "days old!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Remainders and Whole Numbers</h2>
+        <p>Sometimes you can't divide things evenly. The modulo operator (<code>%</code>) tells you what is left over. The floor division operator (<code>//</code>) tells you how many whole times it fits without the decimals.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Pizza Slice Divider</div>
+            <div class="editor-container">
+                <textarea>
+slices = 10
+friends = 3
+
+# How many slices does each friend get?
+slices_per_friend = slices // friends
+# How many are left for you?
+leftovers = slices % friends
+
+print("Each friend gets", slices_per_friend, "slices.")
+print("There is", leftovers, "slice left over for me!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Exponents (Powers)</h2>
+        <p>Want to multiply a number by itself many times? Use double stars (<code>**</code>). For example, <code>2 ** 3</code> is 2 times 2 times 2 (which equals 8).</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Area of a Room</div>
+            <div class="editor-container">
+                <textarea>
+# A square room has sides that are 5 meters long.
+# The area is the side length squared (to the power of 2).
+side_length = 5
+area = side_length ** 2
+
+print("The room is", area, "square meters.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Converting Text to Numbers</h2>
+        <p>Remember that <code>input()</code> always gives you text (a String). If you want to do math with a user's answer, you have to turn it into an integer (a whole number) using <code>int()</code>!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Typed Input Math</div>
+            <div class="editor-container">
+                <textarea>
+apples_str = input("How many apples did you buy? ")
+
+# Convert the text into a real number!
+apples = int(apples_str)
+total_apples = apples + 5
+
+print("If I give you 5 more, you will have", total_apples)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Doing Math with Variables</h2>
+        <p>You can use variables in math equations just like regular numbers. You can even use a variable to update itself!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Tip Calculator</div>
+            <div class="editor-container">
+                <textarea>
+bill_amount = 50
+tip_amount = 10
+
+# Calculate the total!
+total = bill_amount + tip_amount
+
+print("The food cost $", bill_amount)
+print("With tip, the total is $", total)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Are you a math genius? Let's find out.</p>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Dog Year Calculator</div>
+            <div class="editor-container"><textarea># Ask the user for their age, convert it to an integer, and multiply by 7 to find their age in dog years!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Bakery</div>
+            <div class="editor-container"><textarea>cupcakes = 25
+students = 8
+# Use // to find out how many each student gets, and % to find the leftovers!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Damage Calculator</div>
+            <div class="editor-container"><textarea>base_damage = 15
+strength_multiplier = 3
+weapon_bonus = 10
+# Calculate the total damage: base_damage times strength_multiplier, plus the weapon_bonus.</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter3.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter5.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

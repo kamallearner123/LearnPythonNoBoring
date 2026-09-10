@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Magical Memory Boxes</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 3: Magical Memory Boxes</h1>
+        
+        <img src="images/ch2_variables.png" alt="A character putting labels on magical boxes holding numbers and words" class="chapter-graphic">
+        
+        <h2>1. What are Variables?</h2>
+        <p>Imagine your computer has millions of tiny magical boxes inside it. When we write a program, we use these boxes to store information we want the computer to remember. In Python, these boxes are called <strong>Variables</strong>.</p>
+        <p>Creating a variable is like putting a label on a box and putting something inside using the equals sign <code>=</code>.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: High Score Box</div>
+            <div class="editor-container">
+                <textarea>
+# Create a variable named 'score' and put the number 1000 inside it.
+score = 1000
+# Now print the score variable!
+print(score)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Naming Rules</h2>
+        <p>You can name your boxes almost anything, but there are rules! Variables can't have spaces (use underscores `_` instead), and they can't start with a number.</p>
+
+        
+        <p><strong>Example A: Good name</strong></p><pre><code>player_score = 50</code></pre><p><strong>Example B: Bad name</strong></p><pre><code># 1player = 50 (This crashes!)</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Pet's Name</div>
+            <div class="editor-container">
+                <textarea>
+# Fix the broken variable name below! (Hint: No spaces allowed)
+my pet name = "Fluffy"
+
+print("My pet is named:", my pet name)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Updating Variables</h2>
+        <p>The best thing about variables is that they can <em>vary</em> (change)! If you put something new into an existing box, the old thing disappears.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Level Up!</div>
+            <div class="editor-container">
+                <textarea>
+level = 1
+print("Starting at Level:", level)
+
+# You beat the boss! Update the level variable to 2
+level = 
+print("You leveled up to:", level)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Numbers vs. Text (Strings)</h2>
+        <p>Python treats numbers (like <code>10</code>) very differently than text (like <code>"10"</code>). Text has quotes around it and is called a <strong>String</strong>.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: The Addition Trick</div>
+            <div class="editor-container">
+                <textarea>
+# Look at what happens when you add numbers vs strings!
+number_box = 10 + 10
+text_box = "10" + "10"
+
+print("Number Box:", number_box)
+print("Text Box:", text_box)
+# Can you change it to add 5 and 5 instead?
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Swapping Boxes</h2>
+        <p>Sometimes you need to swap what is inside two boxes. In Python, there is a magical shortcut to swap them in one line!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Magic Swap</div>
+            <div class="editor-container">
+                <textarea>
+box_a = "Apples"
+box_b = "Bananas"
+print("Before: Box A has", box_a, "and Box B has", box_b)
+
+# The magic Python swap!
+box_a, box_b = box_b, box_a
+
+print("After: Box A has", box_a, "and Box B has", box_b)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Time to show off your variable skills!</p>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Player Profile</div>
+            <div class="editor-container"><textarea># Create 3 variables: player_name, player_level, and player_class.
+# Then print a profile card using them!
+</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Treasure Chest</div>
+            <div class="editor-container"><textarea>gold = 100
+print("You have", gold, "gold.")
+# You found 50 more gold! Update the variable here without using the number 150 directly.
+</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: The Shell Game</div>
+            <div class="editor-container"><textarea>cup1 = "Empty"
+cup2 = "Diamond"
+cup3 = "Empty"
+# Using variable swapping, move the Diamond to cup3, and make cup2 Empty!
+</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter2.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter4.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

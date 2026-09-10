@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 17: Machine Learning (Part 1)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 17: Machine Learning (Part 1)</h1>
+        
+        <img src="images/ch17_ml1.png" alt="A robot sorting cats and dogs" class="chapter-graphic">
+        
+
+        <h2>1. What is Machine Learning?</h2>
+        <p>Normally, we give computers rules: "If weight > 50, it is a dog." But in Machine Learning, we give the computer examples (data) and let it figure out the rules on its own!</p>
+
+        <p><strong>Example A: Traditional Code</strong></p>
+        <pre><code>if weight > 20: animal = "Dog"</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Hardcoded Rules vs ML</div>
+            <div class="editor-container">
+                <textarea>
+# This is NOT machine learning. This is a hardcoded rule.
+animal_weight = 15
+
+if animal_weight < 20:
+    print("Rule says: It's a Cat!")
+else:
+    print("Rule says: It's a Dog!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Features (The Clues)</h2>
+        <p>When teaching a computer to tell a dog from a cat, we use <strong>Features</strong>. Features are clues like "weight", "ear shape", or "bark pitch". We usually put them in a list.</p>
+
+        <p><strong>Example A: A single animal's features</strong></p>
+        <pre><code>animal_1 = [15, 2] # 15 lbs, ear shape 2</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Collecting Clues</div>
+            <div class="editor-container">
+                <textarea>
+# Let's say: [Weight in lbs, Fluffiness from 1 to 10]
+my_cat = [10, 8]
+my_dog = [60, 4]
+
+print("My cat's fluffiness is:", my_cat[1])
+# Print the dog's weight!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Labels (The Answers)</h2>
+        <p>If we want the computer to learn, we have to give it the answers to study from. These answers are called <strong>Labels</strong>. "0" might mean Cat, and "1" might mean Dog.</p>
+
+        <p><strong>Example A: Label list</strong></p>
+        <pre><code>labels = [0, 1] # Cat, Dog</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Defining the Answers</div>
+            <div class="editor-container">
+                <textarea>
+# 0 = Apple, 1 = Orange
+labels = [0, 1, 0, 0, 1]
+
+# Write a loop to print out what each label means!
+for label in labels:
+    if label == 0:
+        print("Apple")
+    else:
+        print("Orange")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. The Dataset (X and y)</h2>
+        <p>In Machine Learning, we combine all the features into a big list of lists called <strong>X</strong> (capital X), and all the answers into a list called <strong>y</strong> (lowercase y).</p>
+
+        <p><strong>Example A: X and y</strong></p>
+        <pre><code>X = [[15], [60]]
+y = [0, 1]</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Building the Dataset</div>
+            <div class="editor-container">
+                <textarea>
+# Features [Weight, Speed]
+X = [
+    [10, 5],   # Animal 0
+    [50, 15],  # Animal 1
+    [12, 6]    # Animal 2
+]
+
+# Labels: 0 = Cat, 1 = Dog
+y = [0, 1, 0]
+
+print("Animal 2 features:", X[2])
+print("Animal 2 is a:", y[2])
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. The Goal of Training</h2>
+        <p>The goal is to feed `X` and `y` into a magical math box (the Model). The Model studies them and creates its own rules, so when a new animal appears, it can guess the label!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Guesser</div>
+            <div class="editor-container">
+                <textarea>
+# A fake "trained" model that uses a simple rule it learned:
+def fake_ml_predict(features):
+    weight = features[0]
+    if weight > 30:
+        return 1 # Dog
+    else:
+        return 0 # Cat
+
+mystery_animal = [45, 10]
+prediction = fake_ml_predict(mystery_animal)
+
+print("The model predicts:", prediction)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: Feature Extraction</div>
+            <div class="editor-container"><textarea>
+# Extract just the "Number of Wheels" from these vehicles to make an X dataset.
+bike = {"wheels": 2, "color": "red"}
+car = {"wheels": 4, "color": "blue"}
+semi = {"wheels": 18, "color": "white"}
+
+X = [
+    # Fill in the lists with just the wheel numbers!
+    [  ],
+    [  ],
+    [  ]
+]
+print("Features (X):", X)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Logic Gate</div>
+            <div class="editor-container"><textarea>
+# Write a function predict_pass(score, attendance)
+# that returns 1 (Pass) if score > 50 AND attendance > 80, else 0 (Fail).
+def predict_pass(score, attendance):
+    pass # write code here!
+
+print(predict_pass(60, 90)) # Should print 1
+print(predict_pass(40, 90)) # Should print 0
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: The Distance Formula</div>
+            <div class="editor-container"><textarea>
+# Real ML algorithms calculate how "close" two things are.
+# If a mystery animal has weight 15, and Dog average is 50, Cat average is 10.
+mystery = 15
+dog_avg = 50
+cat_avg = 10
+
+# Calculate the difference (use abs() to make it positive)
+dist_to_dog = abs(dog_avg - mystery)
+dist_to_cat = abs(cat_avg - mystery)
+
+# Print which one it is closer to!
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+
+        <div class="chapter-nav">
+            <a href="chapter16.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter18.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

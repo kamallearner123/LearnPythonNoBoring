@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10: Building Your Own Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 10: Building Your Own Tools (Functions)</h1>
+        
+        <img src="images/ch10_functions.png" alt="A kid in a workshop building robot arms" class="chapter-graphic">
+        
+        <h2>1. What is a Function?</h2>
+        <p>So far, we've used tools built by other people (like <code>print()</code> and <code>len()</code>). But you can build your own custom tools! We call these tools <strong>Functions</strong>. You create them using the <code>def</code> magic word (which stands for "define").</p>
+
+        
+        <p><strong>Example A: Defining a function</strong></p><pre><code>def say_hi():
+    print("Hi!")</code></pre><p><strong>Example B: Calling it</strong></p><pre><code>say_hi()</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: The Hello Tool</div>
+            <div class="editor-container">
+                <textarea>
+# We define a function named 'say_hello'
+def say_hello():
+    print("Hello there!")
+    print("Welcome to my Python program.")
+
+# The function does nothing until we CALL it!
+say_hello()
+say_hello() # We can call it as many times as we want!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Giving Ingredients (Arguments)</h2>
+        <p>Functions are like blenders. You can put ingredients into them (called <strong>Arguments</strong>), and they will use those ingredients to do their job.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: The Greeting Robot</div>
+            <div class="editor-container">
+                <textarea>
+# This function expects one ingredient: a 'name'
+def greet_person(name):
+    print("Beep boop! Hello,", name)
+
+# Let's pass different ingredients to our function!
+greet_person("Alex")
+greet_person("Zelda")
+greet_person("Robot Overlord")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Getting a Result (Return)</h2>
+        <p>If you put strawberries in a blender, you expect a smoothie to come out. In Python, you can use the <code>return</code> keyword to make a function spit a result back out to you.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: The Addition Tool</div>
+            <div class="editor-container">
+                <textarea>
+def add_numbers(num1, num2):
+    answer = num1 + num2
+    return answer # Spit the answer back out!
+
+# We save the returned answer in a variable
+result = add_numbers(10, 5)
+print("10 + 5 is", result)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Organizing Your Code</h2>
+        <p>Functions are the best way to keep your code organized. If you ever have a bug, you know exactly which "tool" in your workshop needs fixing!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: The Even/Odd Checker Tool</div>
+            <div class="editor-container">
+                <textarea>
+def is_even(number):
+    if number % 2 == 0:
+        return True
+    else:
+        return False
+
+print("Is 10 even?", is_even(10))
+print("Is 7 even?", is_even(7))
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Final Project: Put it all together!</h2>
+        <p>You now know how to print, get input, use math, logic, loops, lists, and functions! Let's combine them into a mini-game.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Adventure Game</div>
+            <div class="editor-container">
+                <textarea>
+import random
+
+def monster_encounter():
+    monsters = ["Goblin", "Dragon", "Slime"]
+    enemy = random.choice(monsters)
+    print("A wild", enemy, "appears!")
+    
+    choice = input("Do you (F)ight or (R)un? ")
+    if choice.upper() == "F":
+        print("You swing your sword and defeat the", enemy, "!")
+    else:
+        print("You ran away safely.")
+
+# The main game loop
+print("Welcome to the Dungeon!")
+while True:
+    command = input("Press ENTER to explore, or type Q to quit: ")
+    if command.upper() == "Q":
+        print("Game Over. Thanks for playing!")
+        break
+    else:
+        monster_encounter()
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Become the ultimate tool builder!</p>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Insult Generator</div>
+            <div class="editor-container"><textarea># Define a function called 'insult' that takes a name and prints a funny insult.
+# Then call it twice with different names!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Multiplier Tool</div>
+            <div class="editor-container"><textarea># Define a function that takes two numbers, multiplies them, and RETURNS the result.</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Build a Dice Roller</div>
+            <div class="editor-container"><textarea>import random
+# Define a function roll_dice() that returns a random number between 1 and 6.
+# Then print the result of calling it 3 times!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter9.html" class="nav-btn">&larr; Previous</a>
+            <a href="index.html" class="nav-btn">Back to Start &rarr;</a>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 12: Building Blueprints</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 12: Building Blueprints (Classes)</h1>
+        
+        <img src="images/ch12_classes.png" alt="A glowing blueprint of a robot dog" class="chapter-graphic">
+        
+        <h2>1. What is Object-Oriented Programming?</h2>
+        <p>Imagine you want to build 100 robot dogs. Instead of building each one from scratch, you'd draw a single <strong>Blueprint</strong> (a <code>class</code>). Then you use that blueprint to build the physical robots (the <strong>Objects</strong>).</p>
+
+        <p><strong>Example A: Creating an empty class</strong></p>
+        <pre><code>class RobotDog: pass</code></pre>
+        
+        <p><strong>Example B: Creating an object from the class</strong></p>
+        <pre><code>my_robot = RobotDog()</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Your First Blueprint</div>
+            <div class="editor-container">
+                <textarea>
+# 1. Define a class called Monster
+class Monster:
+    pass
+
+# 2. Build a monster object from the blueprint!
+goblin = Monster()
+print("I built a monster!", goblin)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. The <code>__init__</code> Function</h2>
+        <p>When you build a robot from a blueprint, you want to set it up right away (give it a name, a color). Python has a special magical setup function called <code>__init__</code> that runs the moment the object is built.</p>
+
+        <p><strong>Example A: Setting up an object</strong></p>
+        <pre><code>def __init__(self, name): self.name = name</code></pre>
+
+        <p><strong>Example B: Passing the setup info</strong></p>
+        <pre><code>fido = RobotDog("Fido")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Naming the Robot</div>
+            <div class="editor-container">
+                <textarea>
+class RobotDog:
+    # The setup function! 'self' means 'this specific robot'
+    def __init__(self, given_name):
+        self.name = given_name
+        self.battery = 100
+
+# Let's build Sparky!
+sparky = RobotDog("Sparky")
+print("My robot's name is", sparky.name)
+print("Battery level:", sparky.battery)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Object Attributes</h2>
+        <p>The variables that live inside an object (like <code>sparky.name</code> or <code>sparky.battery</code>) are called <strong>Attributes</strong>. You can change them just like normal variables!</p>
+
+        <p><strong>Example A: Reading an attribute</strong></p>
+        <pre><code>print(sparky.color)</code></pre>
+
+        <p><strong>Example B: Changing an attribute</strong></p>
+        <pre><code>sparky.battery = 50</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Draining the Battery</div>
+            <div class="editor-container">
+                <textarea>
+class RobotDog:
+    def __init__(self):
+        self.battery = 100
+
+dog = RobotDog()
+print("Battery is full:", dog.battery)
+
+# Oh no, the dog ran around all day! Lower the battery to 10.
+
+print("Battery is low:", dog.battery)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Object Methods</h2>
+        <p>Functions that belong to an object are called <strong>Methods</strong>. They allow the object to *do* things, like bark, walk, or calculate!</p>
+
+        <p><strong>Example A: Defining a method</strong></p>
+        <pre><code>def bark(self): print("Woof!")</code></pre>
+
+        <p><strong>Example B: Calling a method</strong></p>
+        <pre><code>sparky.bark()</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Teaching the Dog to Bark</div>
+            <div class="editor-container">
+                <textarea>
+class RobotDog:
+    def __init__(self, name):
+        self.name = name
+    
+    # This is a method!
+    def bark(self):
+        print(self.name, "says: BEEP BOOP BARK!")
+
+my_dog = RobotDog("Rex")
+# Make the dog bark!
+my_dog.bark()
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Multiple Objects</h2>
+        <p>The best part about blueprints is that you can build as many robots as you want, and they all act independently!</p>
+
+        <p><strong>Example A: Two different objects</strong></p>
+        <pre><code>dog1 = RobotDog("Rex")
+dog2 = RobotDog("Spot")</code></pre>
+
+        <p><strong>Example B: They have different data</strong></p>
+        <pre><code>dog1.bark()
+dog2.bark()</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Robot Army</div>
+            <div class="editor-container">
+                <textarea>
+class RobotDog:
+    def __init__(self, name, color):
+        self.name = name
+        self.color = color
+
+# Build 3 different robot dogs with different names and colors!
+dog1 = RobotDog("Alpha", "Red")
+# Build dog2 and dog3!
+
+
+print(dog1.name, "is", dog1.color)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Put on your hard hat, builder!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Wizard Class</div>
+            <div class="editor-container">
+                <textarea>
+# Create a class called 'Wizard'.
+# Give it an __init__ function that takes a 'name' and sets self.magic = 100.
+# Then create a Wizard object named "Gandalf" and print his magic level!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Casting Spells</div>
+            <div class="editor-container">
+                <textarea>
+class Wizard:
+    def __init__(self, name):
+        self.name = name
+        self.magic = 100
+        
+    # Add a method called cast_spell() that prints "FIREBALL!" 
+    # and reduces self.magic by 10.
+
+harry = Wizard("Harry")
+# Call cast_spell() on harry, then print his new magic level!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: The Race Car</div>
+            <div class="editor-container">
+                <textarea>
+class Car:
+    def __init__(self):
+        self.speed = 0
+    def accelerate(self):
+        self.speed = self.speed + 10
+        print("Vroom! Speed is now", self.speed)
+
+my_car = Car()
+# Call the accelerate() method 3 times using a for loop!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter11.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter13.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

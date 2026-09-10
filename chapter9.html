@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 9: The Magic Backpack</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 9: The Magic Backpack (Lists)</h1>
+        
+        <img src="images/ch9_lists.png" alt="A magical glowing backpack with numbered compartments" class="chapter-graphic">
+        
+        <h2>1. What is a List?</h2>
+        <p>A variable can only hold one thing at a time. But a <strong>List</strong> is like a magic backpack that can hold as many things as you want! You create a list using square brackets <code>[]</code>.</p>
+
+        
+        <p><strong>Example A: Creating a list</strong></p><pre><code>inv = ["Sword", "Shield"]</code></pre><p><strong>Example B: Printing it</strong></p><pre><code>print(inv)</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Favorite Games</div>
+            <div class="editor-container">
+                <textarea>
+# Create a list of your favorite games (separated by commas).
+games = ["Minecraft", "Roblox", "Fortnite", "Zelda", "Mario"]
+
+print("My backpack contains:", games)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Accessing Items (Indexes)</h2>
+        <p>Every item in your backpack has a secret compartment number, starting at 0. The first item is at index 0, the second is at index 1, and so on.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Pick the 3rd Game</div>
+            <div class="editor-container">
+                <textarea>
+games = ["Minecraft", "Roblox", "Fortnite", "Zelda", "Mario"]
+
+# To get the 3rd game, we use index 2 (because we start counting from 0!)
+print("The 3rd game is:", games[2])
+
+# Can you change it to print the 1st game?
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Adding Items</h2>
+        <p>You can always add more stuff to your backpack using the <code>.append()</code> spell. It adds the new item to the very end of the list.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Add a New Game</div>
+            <div class="editor-container">
+                <textarea>
+games = ["Minecraft", "Roblox"]
+print("Before:", games)
+
+# Add a new game!
+games.append("Terraria")
+
+print("After:", games)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Removing Items</h2>
+        <p>If you don't want something in your backpack anymore, you can throw it out using the <code>.remove()</code> spell.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Clean the Backpack</div>
+            <div class="editor-container">
+                <textarea>
+games = ["Minecraft", "Boring Math Game", "Roblox"]
+print("Before:", games)
+
+# Remove the boring game!
+games.remove("Boring Math Game")
+
+print("After:", games)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Choosing Random Items</h2>
+        <p>Python has a magical <code>random</code> library. You can use <code>random.choice()</code> to close your eyes, reach into your backpack, and pull out a random item!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Fortune Teller</div>
+            <div class="editor-container">
+                <textarea>
+import random
+
+fortunes = [
+    "You will find a shiny coin today!",
+    "A dragon will visit your house.",
+    "You will write amazing Python code!",
+    "Beware of angry turtles."
+]
+
+input("Ask the magic crystal ball a question: ")
+
+# Choose a random fortune!
+my_fortune = random.choice(fortunes)
+print("🔮 Magic says:", my_fortune)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Organize your magical backpack!</p>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Shopping List</div>
+            <div class="editor-container"><textarea>cart = ["Apples", "Bread"]
+# Add "Milk" and "Eggs" to the cart using append(), then print the list.</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Top 3</div>
+            <div class="editor-container"><textarea>movies = ["Star Wars", "Avengers", "Frozen", "Moana", "Toy Story"]
+# Print only the first 3 movies using their indexes!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Random Enemy Generator</div>
+            <div class="editor-container"><textarea>import random
+enemies = ["Zombie", "Skeleton", "Creeper", "Spider"]
+# Choose 3 random enemies to spawn and print them!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter8.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter10.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

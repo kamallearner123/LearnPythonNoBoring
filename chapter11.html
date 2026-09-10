@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 11: The Magical Map</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 11: The Magical Map (Dictionaries)</h1>
+        
+        <img src="images/ch11_dictionaries.png" alt="A magical pirate map with glowing markers" class="chapter-graphic">
+        
+        <h2>1. What is a Dictionary?</h2>
+        <p>A list is like a backpack where items are ordered by numbers (0, 1, 2). A <strong>Dictionary</strong> is like a magical map where you look things up using a name (a <strong>Key</strong>) to find a treasure (a <strong>Value</strong>). We use curly braces <code>{}</code> to make them.</p>
+
+        <p><strong>Example A: Creating a simple dictionary</strong></p>
+        <pre><code>player = {"name": "Zelda", "health": 100}</code></pre>
+        
+        <p><strong>Example B: Looking up a value</strong></p>
+        <pre><code>print(player["name"]) # Prints 'Zelda'</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: The Monster Stats</div>
+            <div class="editor-container">
+                <textarea>
+# Create a dictionary for a monster!
+goblin = {
+    "name": "Snots",
+    "color": "Green",
+    "hp": 30
+}
+
+# Print the goblin's name and hp!
+print("You encountered a", goblin["name"], "with", goblin["hp"], "HP.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Adding and Updating Keys</h2>
+        <p>You can easily add new markers to your map or change existing ones. Just write the name of the new key in brackets and set it equal to something!</p>
+
+        <p><strong>Example A: Adding a new key</strong></p>
+        <pre><code>player["weapon"] = "Sword"</code></pre>
+
+        <p><strong>Example B: Updating an existing key</strong></p>
+        <pre><code>player["health"] = 80 # Took damage!</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Level Up!</div>
+            <div class="editor-container">
+                <textarea>
+hero = {"name": "Link", "level": 1}
+print("Before:", hero)
+
+# Level up the hero to level 2!
+hero["level"] = 2
+# Add a "shield" key with the value "Wooden"
+hero["shield"] = "Wooden"
+
+print("After:", hero)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Removing Keys</h2>
+        <p>If a treasure gets stolen from the map, you can use the <code>del</code> keyword to delete that key-value pair completely.</p>
+
+        <p><strong>Example A: Deleting a key</strong></p>
+        <pre><code>del player["weapon"]</code></pre>
+
+        <p><strong>Example B: The .pop() method</strong></p>
+        <pre><code>item = player.pop("health") # Removes health and returns it</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Stolen Gold</div>
+            <div class="editor-container">
+                <textarea>
+inventory = {"gold": 500, "potions": 3, "map": True}
+print("Inventory:", inventory)
+
+# A thief stole your gold! Use 'del' to remove the "gold" key.
+
+
+print("Inventory after theft:", inventory)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Looping Through Dictionaries</h2>
+        <p>You can use a <code>for</code> loop to go through all the keys in a dictionary. You can also use <code>.values()</code> or <code>.items()</code> to loop through the values or both!</p>
+
+        <p><strong>Example A: Looping through keys</strong></p>
+        <pre><code>for k in player: print(k)</code></pre>
+
+        <p><strong>Example B: Looping through items (keys and values)</strong></p>
+        <pre><code>for k, v in player.items(): print(k, v)</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: The Vendor's Wares</div>
+            <div class="editor-container">
+                <textarea>
+store_prices = {
+    "Sword": 150,
+    "Shield": 75,
+    "Potion": 20
+}
+
+# Loop through the items and print them nicely!
+for item, price in store_prices.items():
+    print(item, "costs", price, "gold coins.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Nested Dictionaries</h2>
+        <p>Maps within maps! You can put a dictionary INSIDE another dictionary to organize lots of complex information.</p>
+
+        <p><strong>Example A: A nested dictionary</strong></p>
+        <pre><code>monsters = {"dragon": {"hp": 500}}</code></pre>
+
+        <p><strong>Example B: Accessing nested data</strong></p>
+        <pre><code>print(monsters["dragon"]["hp"])</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Zoo Database</div>
+            <div class="editor-container">
+                <textarea>
+zoo = {
+    "lion": {"sound": "Roar", "food": "Meat"},
+    "monkey": {"sound": "Ooh Ooh", "food": "Bananas"}
+}
+
+# Print what the monkey eats!
+print("Monkeys eat:", zoo["monkey"]["food"])
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Show me you know how to read the magical map!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: Contact Book</div>
+            <div class="editor-container">
+                <textarea>
+# Create a dictionary called 'contacts' with 3 friends' names as keys and their favorite colors as values.
+# Then print the color of the 2nd friend!
+
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Scoreboard Tracker</div>
+            <div class="editor-container">
+                <textarea>
+scores = {"Alice": 10, "Bob": 5}
+# Bob just scored 20 points! Add 20 to his current score in the dictionary.
+# Then add a new player "Charlie" with 15 points.
+
+print(scores)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: English to Pirate Translator</div>
+            <div class="editor-container">
+                <textarea>
+pirate_dictionary = {
+    "hello": "ahoy",
+    "friend": "matey",
+    "treasure": "booty"
+}
+word = input("Enter a word (hello, friend, or treasure): ").lower()
+
+# Check if the word is in the dictionary, then print the pirate translation!
+# If it's not in the dictionary, print "Arrr, I don't know that word!"
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter10.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter12.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

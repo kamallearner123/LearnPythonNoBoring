@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7: The Looping Coaster</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 7: The Looping Coaster (Loops)</h1>
+        
+        <img src="images/ch7_loops.png" alt="A rollercoaster going around in circles with a digital counter" class="chapter-graphic">
+        
+        <h2>1. Why Do We Need Loops?</h2>
+        <p>Programmers are lazy! If we want to print something 100 times, we don't write <code>print()</code> 100 times. We use a <strong>loop</strong> to tell the computer to repeat a block of code for us.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: The For Loop</div>
+            <div class="editor-container">
+                <textarea>
+# A 'for' loop goes through a list of items one by one.
+fruits = ["Apple", "Banana", "Cherry"]
+
+for item in fruits:
+    print("I love eating a", item)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Using <code>range()</code> to Count</h2>
+        <p>If you just want to repeat something a specific number of times, you can use the <code>range()</code> function. It creates a list of numbers for you automatically!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Print Numbers 1 to 10</div>
+            <div class="editor-container">
+                <textarea>
+# range(1, 11) gives us numbers from 1 up to (but NOT including) 11.
+for i in range(1, 11):
+    print("Counting:", i)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. The 7 Times Table</h2>
+        <p>You can use a loop and math together to make the computer do your math homework!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Times Table</div>
+            <div class="editor-container">
+                <textarea>
+multiplier = 7
+
+for i in range(1, 11):
+    answer = i * multiplier
+    print(i, "x", multiplier, "=", answer)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. The <code>while</code> Loop</h2>
+        <p>A <code>while</code> loop keeps repeating code <em>as long as</em> a condition is True. It's like saying "Keep running on this treadmill until you are tired."</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Rocket Launch Countdown</div>
+            <div class="editor-container">
+                <textarea>
+countdown = 5
+
+while countdown > 0:
+    print(countdown, "...")
+    # We must decrease the countdown, or the loop will run forever!
+    countdown = countdown - 1
+
+print("BLAST OFF! 🚀")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Breaking Out (<code>break</code>)</h2>
+        <p>Sometimes you need to escape a loop early, before it finishes naturally. You can use the <code>break</code> keyword to smash out of the loop immediately!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Guessing Game</div>
+            <div class="editor-container">
+                <textarea>
+secret = "7"
+
+while True: # This loop runs forever!
+    guess = input("Guess the secret number (1-10): ")
+    
+    if guess == secret:
+        print("You got it! You escaped the infinite loop!")
+        break # Smash out of the loop!
+    else:
+        print("Wrong! Try again.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Don't get dizzy in these loops!</p>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Annoying Parrot</div>
+            <div class="editor-container"><textarea># Use a for loop to print "Are we there yet?" exactly 5 times.</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Password Vault</div>
+            <div class="editor-container"><textarea># Use a while loop to keep asking for the password until they type "open sesame".
+guess = ""
+</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: The Blast Off</div>
+            <div class="editor-container"><textarea># Use a for loop and range(10, 0, -1) to count down from 10 to 1, then print "Blast Off!"</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter6.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter8.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 13: Catching Bugs</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 13: Catching Bugs (Error Handling)</h1>
+        
+        <img src="images/ch13_errors.png" alt="A tiny detective with a magnifying glass examining a bug" class="chapter-graphic">
+        
+        <h2>1. What are Exceptions?</h2>
+        <p>Sometimes you write code that makes sense to you, but the computer gets confused (like dividing by zero). When this happens, Python throws an <strong>Exception</strong> (an error) and crashes! We call these errors "Bugs".</p>
+
+        <p><strong>Example A: A ZeroDivisionError</strong></p>
+        <pre><code>print(10 / 0) # CRASH!</code></pre>
+        
+        <p><strong>Example B: A TypeError</strong></p>
+        <pre><code>print("Apples" + 5) # CRASH!</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Cause a Crash!</div>
+            <div class="editor-container">
+                <textarea>
+# Run this code to see what a crash looks like!
+# Then fix it so it doesn't crash anymore.
+number = int("hello") 
+
+print(number)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. The Try Block</h2>
+        <p>To prevent our program from crashing, we can put dangerous code inside a <code>try</code> block. This tells Python: "Try to do this, but if you fail, don't panic!"</p>
+
+        <p><strong>Example A: Try block syntax</strong></p>
+        <pre><code>try:
+    print(10 / 0)</code></pre>
+
+        <p><strong>Example B: Try needs except</strong></p>
+        <pre><code># Try must always have an except block after it!</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Try to Divide</div>
+            <div class="editor-container">
+                <textarea>
+# Add a try block around this dangerous code!
+# Don't forget to indent the dangerous code.
+print(100 / 0)
+
+# (This code won't run yet until you add the 'except' block in the next lesson!)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. The Except Block</h2>
+        <p>If the code inside the <code>try</code> block crashes, Python instantly jumps to the <code>except</code> block instead of crashing the whole program. This is how we catch bugs!</p>
+
+        <p><strong>Example A: Catching an error</strong></p>
+        <pre><code>try:
+    print(10 / 0)
+except:
+    print("Oops! You can't divide by zero!")</code></pre>
+
+        <p><strong>Example B: The program continues!</strong></p>
+        <pre><code># The program keeps running after the except block!</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Catch the Bug!</div>
+            <div class="editor-container">
+                <textarea>
+# Run this code. It won't crash, it will safely print the error message!
+try:
+    age = int(input("Enter your age: "))
+    print("You are", age, "years old.")
+except:
+    print("That is not a valid number!")
+
+print("The program finished safely!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Catching Specific Errors</h2>
+        <p>Some bugs are different than others. You can tell Python exactly which bug you are looking for so you can give the right error message.</p>
+
+        <p><strong>Example A: Catching a ValueError</strong></p>
+        <pre><code>except ValueError: print("Not a number!")</code></pre>
+
+        <p><strong>Example B: Catching a ZeroDivisionError</strong></p>
+        <pre><code>except ZeroDivisionError: print("Can't divide by 0!")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Specific Bug Catcher</div>
+            <div class="editor-container">
+                <textarea>
+try:
+    print(10 / 0)
+except ZeroDivisionError:
+    print("You tried to divide by zero!")
+except TypeError:
+    print("You tried to mix text and numbers!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. The Finally Block</h2>
+        <p>Sometimes you want a piece of code to run no matter what happens, whether there was a crash or not. We use the <code>finally</code> block for this.</p>
+
+        <p><strong>Example A: Finally block</strong></p>
+        <pre><code>finally:
+    print("I always run!")</code></pre>
+
+        <p><strong>Example B: Used for cleanup</strong></p>
+        <pre><code># Usually used to close files or clean up memory.</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Always Say Goodbye</div>
+            <div class="editor-container">
+                <textarea>
+try:
+    print("Trying dangerous spell...")
+    print(1 / 0)
+except:
+    print("The spell failed!")
+finally:
+    print("Closing the spellbook.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Time to prove you are a master bug catcher!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: Safe Calculator</div>
+            <div class="editor-container">
+                <textarea>
+# Ask the user for two numbers. Divide the first by the second.
+# Use try/except to prevent the program from crashing if they type text instead of numbers!
+
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Stubborn Question</div>
+            <div class="editor-container">
+                <textarea>
+# Use a while loop combined with try/except.
+# Keep asking the user for their age until they type a valid number!
+while True:
+    try:
+        # Ask for age here
+        break # Break the loop if successful!
+    except:
+        print("Please enter a real number!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Multi-Bug Trap</div>
+            <div class="editor-container">
+                <textarea>
+my_list = [10, 20, 30]
+try:
+    # Try to print the 5th item in the list (this will cause an IndexError)
+    print(my_list[5])
+# Add an 'except IndexError:' block to catch it!
+
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter12.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter14.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

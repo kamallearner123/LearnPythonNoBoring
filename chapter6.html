@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: The Sorting Hat</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 6: The Sorting Hat (Logic)</h1>
+        
+        <img src="images/ch3_logic.png" alt="A magical sorting hat signpost pointing to different paths" class="chapter-graphic">
+        
+        <h2>1. True and False</h2>
+        <p>In Python, things can be <code>True</code> or <code>False</code>. These are called <strong>Booleans</strong>. They help the computer answer "Yes" or "No" questions.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Password Verifier</div>
+            <div class="editor-container">
+                <textarea>
+secret_password = "magic"
+user_guess = input("Enter the secret password: ")
+
+# The == operator checks if two things are exactly the same!
+is_correct = (secret_password == user_guess)
+
+print("Is the password correct?", is_correct)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Comparison Operators</h2>
+        <p>We use symbols to compare things: <code>&gt;</code> (greater than), <code>&lt;</code> (less than), <code>==</code> (equal to), and <code>!=</code> (NOT equal to).</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Rollercoaster Checker</div>
+            <div class="editor-container">
+                <textarea>
+height = 130
+# You must be taller than 120cm to ride!
+can_ride = height > 120
+
+print("Can I ride the coaster?", can_ride)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. The <code>if</code> Door</h2>
+        <p>An <code>if</code> statement is like a locked door. If the condition is True, the door opens and the code inside runs!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Even or Odd?</div>
+            <div class="editor-container">
+                <textarea>
+number = 10
+
+# If the remainder of dividing by 2 is zero, it's EVEN!
+if number % 2 == 0:
+    print("That is an EVEN number!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. The <code>else</code> Alternate Path</h2>
+        <p>What if the <code>if</code> door is locked? We can use <code>else</code> to give the code another path to take.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Rock, Paper, Scissors (Part 1)</div>
+            <div class="editor-container">
+                <textarea>
+player = input("Choose rock or paper: ")
+
+if player == "rock":
+    print("Paper covers rock! You lose!")
+else:
+    print("Scissors cuts paper! You lose!")
+# (This computer always cheats!)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Multiple Choices with <code>elif</code></h2>
+        <p>If you have more than two choices, you can use <code>elif</code> (which stands for "else if"). It lets you check another condition if the first one was False.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Grade Converter</div>
+            <div class="editor-container">
+                <textarea>
+score = int(input("What score did you get (0-100)? "))
+
+if score >= 90:
+    print("You got an A! Awesome!")
+elif score >= 80:
+    print("You got a B! Great job!")
+elif score >= 70:
+    print("You got a C! Good effort!")
+else:
+    print("You need to study more!")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Can you guide the program down the right path?</p>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: The Bouncer</div>
+            <div class="editor-container"><textarea>age = int(input("How old are you? "))
+# If they are 13 or older, print "Welcome to the Teen Club!". Otherwise print "Sorry, too young!"</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Weather App</div>
+            <div class="editor-container"><textarea>temp = int(input("What is the temperature? "))
+# If temp is > 30, print "It's hot!". If it's < 10, print "It's cold!". Otherwise print "It's nice!"</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Rock Paper Scissors (Part 2)</div>
+            <div class="editor-container"><textarea>player1 = input("Player 1, rock or paper? ")
+player2 = input("Player 2, rock or paper? ")
+# Write an if/elif/else structure to decide who wins, or if it's a tie!</textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter5.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter7.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+    </div>
+
+    </div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

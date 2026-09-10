@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 14: The Ancient Scrolls</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+        <li><a href="chapter8.html">Ch 8: Turtles</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: ML Part 1</a></li>
+        <li><a href="chapter18.html">Ch 18: ML Part 2</a></li>
+        <li><a href="chapter19.html">Ch 19: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 14: The Ancient Scrolls (File I/O)</h1>
+        
+        <img src="images/ch14_files.png" alt="Ancient glowing scrolls floating in a magical library" class="chapter-graphic">
+        
+        <p><em>Note: In our magical browser editor, files are saved in temporary browser memory. When you refresh, they disappear!</em></p>
+
+        <h2>1. Opening a File</h2>
+        <p>To read or write an ancient scroll (a text file), you must first <code>open()</code> it. You have to tell Python the name of the file and whether you want to read ('r') or write ('w').</p>
+
+        <p><strong>Example A: Opening to Write</strong></p>
+        <pre><code>file = open("secret.txt", "w")</code></pre>
+        
+        <p><strong>Example B: Opening to Read</strong></p>
+        <pre><code>file = open("secret.txt", "r")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Unfurl the Scroll</div>
+            <div class="editor-container">
+                <textarea>
+# Let's open a file to write to it!
+my_file = open("spellbook.txt", "w")
+print("The spellbook is open!")
+
+# We always have to close it when we are done!
+my_file.close()
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Writing to a File</h2>
+        <p>Once a file is open in 'w' mode, you can use <code>.write()</code> to put text inside it. Warning: 'w' mode deletes anything that was previously in the file!</p>
+
+        <p><strong>Example A: Writing text</strong></p>
+        <pre><code>file.write("Hello World!")</code></pre>
+
+        <p><strong>Example B: Adding a new line</strong></p>
+        <pre><code>file.write("\nThis is line two.")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Inscribing the Spell</div>
+            <div class="editor-container">
+                <textarea>
+my_file = open("spellbook.txt", "w")
+
+# Write a magical incantation into the file!
+my_file.write("Abracadabra!\n")
+my_file.write("Alakazam!")
+
+my_file.close()
+print("Spell saved to file.")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Reading a File</h2>
+        <p>If you open a file in 'r' mode, you can use <code>.read()</code> to pull all the text out of the file and save it into a string variable.</p>
+
+        <p><strong>Example A: Reading everything</strong></p>
+        <pre><code>content = file.read()</code></pre>
+
+        <p><strong>Example B: Reading one line</strong></p>
+        <pre><code>line1 = file.readline()</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Reading the Ancient Words</div>
+            <div class="editor-container">
+                <textarea>
+# First we write it...
+open("spellbook.txt", "w").write("Secret Magic!")
+
+# Now let's read it!
+my_file = open("spellbook.txt", "r")
+contents = my_file.read()
+my_file.close()
+
+print("I read the file! It says:")
+print(contents)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Appending to a File</h2>
+        <p>If you don't want to erase the file when you write to it, use append mode (<code>"a"</code>). This adds new text to the very end of the file.</p>
+
+        <p><strong>Example A: Append Mode</strong></p>
+        <pre><code>file = open("log.txt", "a")</code></pre>
+
+        <p><strong>Example B: Appending text</strong></p>
+        <pre><code>file.write("Another entry!")</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: The Diary</div>
+            <div class="editor-container">
+                <textarea>
+# Create the diary
+open("diary.txt", "w").write("Day 1: Learned Python.\n")
+
+# Append to it!
+my_file = open("diary.txt", "a")
+my_file.write("Day 2: Wrote to a file!\n")
+my_file.close()
+
+print(open("diary.txt", "r").read())
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. The <code>with</code> Keyword</h2>
+        <p>Programmers often forget to <code>.close()</code> their files. To fix this, you can use the <code>with</code> keyword. It automatically closes the file for you as soon as the block is done!</p>
+
+        <p><strong>Example A: The with block</strong></p>
+        <pre><code>with open("file.txt", "r") as f:</code></pre>
+
+        <p><strong>Example B: Automatic closing</strong></p>
+        <pre><code>    print(f.read()) # Closes automatically!</code></pre>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: The Safe Way</div>
+            <div class="editor-container">
+                <textarea>
+# Use 'with' to safely open and write to a file
+with open("safe.txt", "w") as f:
+    f.write("This is totally safe and closes automatically!")
+
+# Use 'with' to safely read it
+with open("safe.txt", "r") as f:
+    print(f.read())
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+        <p>Become a master librarian!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: High Score Saver</div>
+            <div class="editor-container">
+                <textarea>
+# Ask the user for their score using input().
+# Save that score to a file called "highscore.txt".
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: The Guest Book</div>
+            <div class="editor-container">
+                <textarea>
+# Create a list of 3 names.
+# Use a for loop to write each name into "guests.txt" on a new line!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: The Secret Message Reverser</div>
+            <div class="editor-container">
+                <textarea>
+with open("secret.txt", "w") as f:
+    f.write("NOHTYP")
+
+# 1. Open "secret.txt" and read the contents.
+# 2. Reverse the string (Hint: string[::-1])
+# 3. Print the reversed secret word!
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter13.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter15.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
