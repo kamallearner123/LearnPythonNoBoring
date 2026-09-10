@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 11: The Magical Map (Dictionaries & Sets)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+                <li><a href="chapter8.html">Ch 8: Matplotlib Viz</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: NumPy Magic</a></li>
+        <li><a href="chapter18.html">Ch 18: Data Pandas</a></li>
+        <li><a href="chapter19.html">Ch 19: ML Part 1</a></li>
+        <li><a href="chapter20.html">Ch 20: ML Part 2</a></li>
+        <li><a href="chapter21.html">Ch 21: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 11: The Magical Map (Dictionaries & Sets)</h1>
+        
+        <img src="images/ch11_dictionaries.png" alt="A magical pirate map with glowing markers" class="chapter-graphic">
+        
+        <h2>1. What is a Dictionary? (Key-Value Pair Hashing)</h2>
+        <p>A list stores items by zero-based numerical index. A <strong>Dictionary</strong> (or <code>dict</code>) maps unique, immutable <strong>Keys</strong> to <strong>Values</strong> using a Hash Table under the hood. Looking up a key takes instantaneous $O(1)$ constant time!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Defining & Accessing Dictionaries</div>
+            <div class="editor-container">
+                <textarea>
+# Create a dictionary representing a game hero
+hero = {
+    "name": "Aria",
+    "class": "Mage",
+    "hp": 120,
+    "mana": 250,
+    "is_alive": True
+}
+
+# Access values by Key
+print(f"Hero Name: {hero['name']}")
+print(f"Current Mana: {hero['mana']}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Safe Lookups with `.get()` & Modifying Keys</h2>
+        <p>If you try to access a non-existent key with <code>dict["missing"]</code>, Python throws a <code>KeyError</code>! Use <code>.get(key, default)</code> for safe lookups that return a fallback default instead of crashing.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Safe Key Lookups with .get()</div>
+            <div class="editor-container">
+                <textarea>
+inventory = {"gold": 450, "potions": 5, "scrolls": 2}
+
+# Safe lookup for an existing key and a missing key
+potion_count = inventory.get("potions", 0)
+gems_count = inventory.get("gems", 0) # Fallback to 0
+
+print(f"Potions: {potion_count} | Gems: {gems_count}")
+
+# Add & Update keys
+inventory["gold"] += 100 # Earned gold!
+inventory["gems"] = 10   # Found gems!
+print("Updated Inventory:", inventory)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Iterating Dictionaries (`.keys()`, `.values()`, `.items()`)</h2>
+        <p>You can loop over keys, values, or both simultaneously using <code>.items()</code> which unpacks key-value tuple pairs!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Iterating Key-Value Pairs</div>
+            <div class="editor-container">
+                <textarea>
+store_prices = {
+    "Health Potion": 25,
+    "Mana Potion": 30,
+    "Dragon Sword": 500,
+    "Shield": 150
+}
+
+print("=== Store Catalog ===")
+for item, price in store_prices.items():
+    print(f"  - {item:15}: ${price} gold")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Dictionary Comprehensions</h2>
+        <p>Just like List Comprehensions, you can transform or filter dictionaries using concise <code>{key: value for item in iterable}</code> syntax!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Dictionary Comprehension</div>
+            <div class="editor-container">
+                <textarea>
+original_prices = {"apple": 1.00, "banana": 0.50, "cherry": 3.00, "date": 2.50}
+
+# 20% discount comprehension for items costing more than $1.00
+discounted_prices = {
+    item: price * 0.8 
+    for item, price in original_prices.items() 
+    if price > 1.00
+}
+
+print("Discounted Expensive Items:", discounted_prices)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Sets & Mathematical Set Operations</h2>
+        <p>A <strong>Set</strong> (<code>set</code>) is an unordered collection of <em>unique</em> items (no duplicates). Sets support fast mathematical operations like Union (<code>|</code>), Intersection (<code>&</code>), and Difference (<code>-</code>)!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Mathematical Set Operations</div>
+            <div class="editor-container">
+                <textarea>
+python_students = {"Alice", "Bob", "Charlie", "David"}
+data_students = {"Charlie", "David", "Eve", "Frank"}
+
+# 1. Intersection (&): Students taking BOTH classes
+both = python_students & data_students
+# 2. Union (|): ALL unique students
+all_students = python_students | data_students
+# 3. Difference (-): Python students NOT in Data class
+python_only = python_students - data_students
+
+print("Taking both classes:", both)
+print("Total unique students:", all_students)
+print("Python only students:", python_only)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: Word Frequency Counter</div>
+            <div class="editor-container"><textarea>
+# Count the frequency of each word in a paragraph!
+text = "python is fun and python is powerful"
+words = text.split()
+
+word_counts = {}
+for word in words:
+    word_counts[word] = word_counts.get(word, 0) + 1
+
+print("Word Frequencies:", word_counts)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Highest Scorer Finder</div>
+            <div class="editor-container"><textarea>
+# Find the student with the highest score in the dictionary!
+student_scores = {"Alice": 88, "Bob": 95, "Charlie": 92, "Diana": 99}
+
+best_student = max(student_scores, key=student_scores.get)
+print(f"Top Scorer: {best_student} with {student_scores[best_student]} points!")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Remove Duplicates & Find Common Interests</div>
+            <div class="editor-container"><textarea>
+# Use sets to eliminate duplicate tags and find common tags!
+user1_tags = ["python", "ai", "web", "ai", "coding"]
+user2_tags = ["coding", "design", "ai", "gaming"]
+
+set1, set2 = set(user1_tags), set(user2_tags)
+common = set1 & set2
+
+print("User 1 Unique Tags:", set1)
+print("Shared Interests:", common)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter10.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter12.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+

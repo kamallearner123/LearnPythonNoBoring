@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 12: Building Blueprints (Classes & OOP)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+                <li><a href="chapter8.html">Ch 8: Matplotlib Viz</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: NumPy Magic</a></li>
+        <li><a href="chapter18.html">Ch 18: Data Pandas</a></li>
+        <li><a href="chapter19.html">Ch 19: ML Part 1</a></li>
+        <li><a href="chapter20.html">Ch 20: ML Part 2</a></li>
+        <li><a href="chapter21.html">Ch 21: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 12: Building Blueprints (Classes & OOP)</h1>
+        
+        <img src="images/ch12_classes.png" alt="A glowing blueprint of a robot dog" class="chapter-graphic">
+        
+        <h2>1. Object-Oriented Programming (Classes vs Instances)</h2>
+        <p><strong>Object-Oriented Programming (OOP)</strong> structures software around real-world objects. A <code>class</code> is the architectural <strong>Blueprint</strong>, while an <code>object</code> (or <em>instance</em>) is a concrete item constructed from that blueprint!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Defining a Class & Instantiate Objects</div>
+            <div class="editor-container">
+                <textarea>
+# Define the Blueprint (Class)
+class RobotDog:
+    # Constructor method (__init__) initializes object state
+    def __init__(self, name, model):
+        self.name = name       # Instance attribute
+        self.model = model     # Instance attribute
+        self.battery = 100     # Default state
+
+# Instantiate two distinct objects (Instances)
+dog1 = RobotDog("Sparky", "Aibo-v1")
+dog2 = RobotDog("Bolt", "CyberDog-X")
+
+print(f"Dog 1: {dog1.name} ({dog1.model}) | Battery: {dog1.battery}%")
+print(f"Dog 2: {dog2.name} ({dog2.model}) | Battery: {dog2.battery}%")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Instance Methods & Encapsulation</h2>
+        <p>Methods are functions defined inside a class that operate on the object's instance attributes using the <code>self</code> parameter. <strong>Encapsulation</strong> bundles state and behavior together!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Object Methods & State Mutation</div>
+            <div class="editor-container">
+                <textarea>
+class BankAccount:
+    def __init__(self, owner, balance=0.0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"💰 {self.owner} deposited ${amount:,.2f}. New Balance: ${self.balance:,.2f}")
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print(f"❌ Insufficient funds for {self.owner}!")
+        else:
+            self.balance -= amount
+            print(f"💸 Withdrew ${amount:,.2f}. Remaining Balance: ${self.balance:,.2f}")
+
+account = BankAccount("Alice", 100.0)
+account.deposit(250.0)
+account.withdraw(50.0)
+account.withdraw(400.0) # Triggers error check
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Class Attributes vs Instance Attributes</h2>
+        <p>An <strong>Instance Attribute</strong> is unique to each individual object (e.g. <code>self.name</code>). A <strong>Class Attribute</strong> is shared across <em>all</em> instances of that class!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Shared Class Attributes</div>
+            <div class="editor-container">
+                <textarea>
+class PlayerCharacter:
+    # Class Attribute (Shared by all instances!)
+    game_version = "2.5.0"
+    total_players = 0
+
+    def __init__(self, username):
+        self.username = username
+        PlayerCharacter.total_players += 1 # Increment total player count
+
+p1 = PlayerCharacter("ShadowNinja")
+p2 = PlayerCharacter("CyberMage")
+
+print(f"Player 1: {p1.username} | Version: {p1.game_version}")
+print(f"Player 2: {p2.username} | Version: {p2.game_version}")
+print(f"Total Global Players Active: {PlayerCharacter.total_players}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Inheritance & Method Overriding (`super()`)</h2>
+        <p><strong>Inheritance</strong> allows a child class to inherit attributes and methods from a parent class. The child can add new features or override parent methods using <code>super()</code>.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Class Inheritance & Method Overriding</div>
+            <div class="editor-container">
+                <textarea>
+# Base Parent Class
+class Vehicle:
+    def __init__(self, brand, speed):
+        self.brand = brand
+        self.speed = speed
+
+    def move(self):
+        print(f"🚗 {self.brand} is traveling at {self.speed} mph.")
+
+# Subclass (Child) inheriting from Vehicle
+class ElectricCar(Vehicle):
+    def __init__(self, brand, speed, battery_kwh):
+        super().__init__(brand, speed) # Call parent constructor!
+        self.battery_kwh = battery_kwh
+
+    # Override parent method
+    def move(self):
+        print(f"⚡ {self.brand} glides silently at {self.speed} mph with {self.battery_kwh} kWh battery!")
+
+tesla = ElectricCar("Tesla Model S", 75, 100)
+tesla.move()
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Dunder / Magic Methods (`__str__`, `__repr__`, `__len__`)</h2>
+        <p>Special methods surrounded by double underscores (<strong>Dunder Methods</strong>) customize built-in Python behaviors for your objects (e.g. <code>__str__</code> controls string representation when printed!).</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Implementing __str__ and __len__</div>
+            <div class="editor-container">
+                <textarea>
+class InventoryBag:
+    def __init__(self, items):
+        self.items = items
+
+    # Controls print() string format
+    def __str__(self):
+        return f"🎒 InventoryBag containing {len(self.items)} items: {', '.join(self.items)}"
+
+    # Controls len(bag) behavior
+    def __len__(self):
+        return len(self.items)
+
+bag = InventoryBag(["Golden Apple", "Mana Potion", "Iron Sword"])
+print(bag)             # Calls __str__
+print("Bag Item Count:", len(bag)) # Calls __len__
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: RPG Character Blueprint</div>
+            <div class="editor-container"><textarea>
+# Create an RPG Character class with health management!
+class Character:
+    def __init__(self, name, hp=100):
+        self.name = name
+        self.hp = hp
+
+    def take_damage(self, damage):
+        self.hp = max(0, self.hp - damage)
+        print(f"💥 {self.name} took {damage} damage! HP: {self.hp}")
+
+hero = Character("Thorin", 120)
+hero.take_damage(40)
+hero.take_damage(90)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Class Inheritance (Warrior & Mage Subclasses)</div>
+            <div class="editor-container"><textarea>
+class Hero:
+    def __init__(self, name):
+        self.name = name
+
+class Mage(Hero):
+    def __init__(self, name, mana=200):
+        super().__init__(name)
+        self.mana = mana
+    def cast(self):
+        self.mana -= 20
+        print(f"✨ {self.name} cast Fireball! Mana remaining: {self.mana}")
+
+wizard = Mage("Gandalf", 250)
+wizard.cast()
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Custom Book Class with Dunder __str__</div>
+            <div class="editor-container"><textarea>
+class Book:
+    def __init__(self, title, author, pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
+
+    def __str__(self):
+        return f"📖 '{self.title}' by {self.author} ({self.pages} pages)"
+
+novel = Book("The Hobbit", "J.R.R. Tolkien", 310)
+print(novel)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter11.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter13.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+

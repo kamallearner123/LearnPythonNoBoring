@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 19: Intro to Machine Learning (Scikit-Learn) 🤖</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+                <li><a href="chapter8.html">Ch 8: Matplotlib Viz</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: NumPy Magic</a></li>
+        <li><a href="chapter18.html">Ch 18: Data Pandas</a></li>
+        <li><a href="chapter19.html">Ch 19: ML Part 1</a></li>
+        <li><a href="chapter20.html">Ch 20: ML Part 2</a></li>
+        <li><a href="chapter21.html">Ch 21: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 19: Intro to Machine Learning (Scikit-Learn) 🤖</h1>
+        
+        <img src="images/ch19_ml1.png" alt="A robot sorting cats and dogs" class="chapter-graphic">
+
+        <h2>1. What is Machine Learning? (Rules vs Scikit-Learn)</h2>
+        <p>In classical programming, we write hardcoded rules by hand. In real Machine Learning using industry libraries like <code>scikit-learn</code> (<code>sklearn</code>), we feed data into an actual classifier model!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Real Scikit-Learn KNN Classifier vs Manual Rules</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.neighbors import KNeighborsClassifier
+
+# Training Data: Features [Weight, Height] -> Labels ("Cat", "Dog")
+X_train = [[10, 8], [12, 9], [45, 20], [50, 22]]
+y_train = ["Cat", "Cat", "Dog", "Dog"]
+
+# Create and train an ACTUAL Scikit-Learn classifier!
+model = KNeighborsClassifier(n_neighbors=1)
+model.fit(X_train, y_train)
+
+# Predict a mystery sample
+mystery_animal = [[25, 14]]
+prediction = model.predict(mystery_animal)
+print("🤖 Scikit-Learn Classifier Predicts:", prediction[0])
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Supervised vs Unsupervised (KMeans Clustering)</h2>
+        <p>While <em>Supervised Learning</em> requires labelled answers ($y$), <em>Unsupervised Learning</em> uses algorithms like <code>sklearn.cluster.KMeans</code> to discover hidden clusters in unlabelled data automatically!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Unsupervised Learning with sklearn.cluster.KMeans</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.cluster import KMeans
+
+# Unlabelled data: [Income, Spending Score]
+X_customers = [
+    [15, 80], [16, 85], [18, 79],  # High spenders
+    [85, 15], [90, 20], [88, 12]   # Low spenders
+]
+
+# Tell KMeans to automatically discover 2 clusters
+kmeans = KMeans(n_clusters=2, random_state=42)
+cluster_labels = kmeans.fit_predict(X_customers)
+
+print("Discovered Cluster Groups:", cluster_labels)
+print("Cluster Centers:\n", kmeans.cluster_centers_)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Feature Scaling with `sklearn.preprocessing.MinMaxScaler`</h2>
+        <p>When input features have vastly different scales (e.g. Weight in grams vs Height in feet), large numbers distort distance metrics. We use Scikit-Learn's <code>MinMaxScaler</code> to scale all values between 0.0 and 1.0!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Scaling Features with MinMaxScaler</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.preprocessing import MinMaxScaler
+
+# Raw Features: [Weight in lbs, Height in inches]
+X_raw = [[10, 8], [60, 24], [15, 10], [50, 22]]
+
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X_raw)
+
+print("Raw Features:\n", X_raw)
+print("\nScaled Features (0 to 1):\n", X_scaled.round(3))
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. K-Nearest Neighbors Classifier (`KNeighborsClassifier`)</h2>
+        <p>The <code>KNeighborsClassifier</code> classifies new items by examining the $K$ closest training samples in feature space using Euclidean distance.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Multi-Class KNeighborsClassifier</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.neighbors import KNeighborsClassifier
+
+# Features: [Weight in lbs, Top Speed mph]
+X = [
+    [140, 60], [150, 65],  # Cheetah
+    [2, 0.5],  [3, 0.8],    # Turtle
+    [40, 30],  [45, 35]     # Dog
+]
+y = ["Cheetah", "Cheetah", "Turtle", "Turtle", "Dog", "Dog"]
+
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(X, y)
+
+new_samples = [[145, 62], [35, 28]]
+predictions = knn.predict(new_samples)
+
+for sample, pred in zip(new_samples, predictions):
+    print(f"Sample {sample} predicted as: {pred}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Real Dataset Splitting with `train_test_split`</h2>
+        <p>We use <code>sklearn.model_selection.train_test_split</code> to automatically shuffle and partition our dataset into training and testing subsets.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Real train_test_split in Scikit-Learn</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+
+X = [[10], [20], [30], [40], [50], [60], [70], [80], [90], [100]]
+y = [0,   0,   0,   0,   0,   1,   1,   1,   1,   1]
+
+# Split 80% Train, 20% Test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+clf = KNeighborsClassifier(n_neighbors=1)
+clf.fit(X_train, y_train)
+
+acc = clf.score(X_test, y_test)
+print(f"Train samples: {len(X_train)} | Test samples: {len(X_test)}")
+print(f"Model Accuracy on Test Set: {acc * 100:.0f}%")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: OneHotEncoder with Scikit-Learn</div>
+            <div class="editor-container"><textarea>
+from sklearn.preprocessing import OneHotEncoder
+
+categories = [["Red"], ["Blue"], ["Green"], ["Red"]]
+
+encoder = OneHotEncoder(sparse_output=False)
+encoded_matrix = encoder.fit_transform(categories)
+
+print("Categories:", categories)
+print("OneHotEncoded Matrix:\n", encoded_matrix)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Student Pass/Fail KNeighborsClassifier</div>
+            <div class="editor-container"><textarea>
+from sklearn.neighbors import KNeighborsClassifier
+
+# Features: [Study Hours, Sleep Hours] -> Label: 1 (Pass), 0 (Fail)
+X_data = [[8, 7], [9, 8], [2, 4], [1, 5], [7, 6], [3, 3]]
+y_data = [1, 1, 0, 0, 1, 0]
+
+# Train a 3-NN Classifier and predict for student with [8h study, 5h sleep]
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(X_data, y_data)
+
+new_student = [[8, 5]]
+pred = model.predict(new_student)
+print("Student [8h study, 5h sleep] Pass/Fail Prediction:", "Pass (1)" if pred[0] == 1 else "Fail (0)")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Train/Test Pipeline Evaluation</div>
+            <div class="editor-container"><textarea>
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+X = [[i] for i in range(1, 21)]
+y = [0 if i <= 10 else 1 for i in range(1, 21)]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Scikit-Learn Model Test Accuracy: {accuracy * 100:.1f}%")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+
+        <div class="chapter-nav">
+            <a href="chapter18.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter20.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

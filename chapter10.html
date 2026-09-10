@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10: Building Tools (Functions)</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+                <li><a href="chapter8.html">Ch 8: Matplotlib Viz</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: NumPy Magic</a></li>
+        <li><a href="chapter18.html">Ch 18: Data Pandas</a></li>
+        <li><a href="chapter19.html">Ch 19: ML Part 1</a></li>
+        <li><a href="chapter20.html">Ch 20: ML Part 2</a></li>
+        <li><a href="chapter21.html">Ch 21: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 10: Building Your Own Tools (Functions)</h1>
+        
+        <img src="images/ch10_functions.png" alt="A kid in a workshop building robot arms" class="chapter-graphic">
+        
+        <h2>1. What is a Function?</h2>
+        <p>A <strong>Function</strong> is a reusable block of code designed to perform a specific task. Functions prevent code duplication (the DRY principle: <em>Don't Repeat Yourself</em>). We define them using the <code>def</code> keyword.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Defining & Calling Functions</div>
+            <div class="editor-container">
+                <textarea>
+# Define a reusable workshop function
+def craft_magic_potion():
+    print("🧪 Mixing glowing dragon scale...")
+    print("✨ Potion brewed successfully!")
+
+# Call the function 3 times
+craft_magic_potion()
+craft_magic_potion()
+craft_magic_potion()
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Positional Arguments, Keyword Arguments & Defaults</h2>
+        <p>Functions accept inputs called <strong>Parameters</strong>. You can pass them as <em>Positional Arguments</em> or specify them explicitly as <em>Keyword Arguments</em>. Parameters can also have <strong>Default Values</strong>!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Parameters with Default Values</div>
+            <div class="editor-container">
+                <textarea>
+# Function with positional arguments and a default parameter
+def build_character(name, role="Warrior", level=1):
+    print(f"🎮 Character Created: {name} | Class: {role} | Level: {level}")
+
+# 1. Using positional defaults
+build_character("Arthur")
+
+# 2. Overriding defaults with keyword arguments
+build_character("Merlin", role="Wizard", level=50)
+build_character(name="Robin", level=12)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Return Values & Unpacking Multiple Returns</h2>
+        <p>Instead of just printing inside a function, the <code>return</code> keyword sends results back to the caller. Python functions can even return multiple values packed inside a tuple!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Returning Multiple Values</div>
+            <div class="editor-container">
+                <textarea>
+def calculate_stats(scores):
+    total = sum(scores)
+    average = total / len(scores)
+    highest = max(scores)
+    return total, average, highest # Returns a tuple!
+
+scores = [88, 92, 79, 95, 100]
+tot, avg, top = calculate_stats(scores)
+
+print(f"Total Points: {tot}")
+print(f"Average Score: {avg:.1f}")
+print(f"Highest Score: {top}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Scope: Local vs Global Variables</h2>
+        <p>Variables created inside a function are <strong>Local</strong> and disappear when the function finishes. Variables created outside are <strong>Global</strong>. If you want to modify a global variable inside a function, use the <code>global</code> keyword.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Managing Local and Global Scope</div>
+            <div class="editor-container">
+                <textarea>
+player_score = 0 # Global variable
+
+def add_points(points):
+    global player_score # Access global variable
+    player_score += points
+    combo_bonus = points * 2 # Local variable
+    print(f"Added {points} pts (Combo Bonus: {combo_bonus})")
+
+add_points(50)
+add_points(100)
+print("Final Global Player Score:", player_score)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Lambda Functions & Higher-Order Functions</h2>
+        <p>A <strong>Lambda Function</strong> is an anonymous, single-line function defined with <code>lambda arguments: expression</code>. They are often passed as arguments into functions like <code>sorted()</code>, <code>filter()</code>, and <code>map()</code>.</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Anonymous Lambda Functions</div>
+            <div class="editor-container">
+                <textarea>
+# List of (Product, Price)
+products = [("Laptop", 1200), ("Mouse", 25), ("Monitor", 300), ("Keyboard", 75)]
+
+# Sort products by price using a lambda key!
+sorted_products = sorted(products, key=lambda item: item[1])
+
+print("Products Sorted by Price:")
+for name, price in sorted_products:
+    print(f"  - {name}: ${price}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: Prime Number Checker Function</div>
+            <div class="editor-container"><textarea>
+# Write a function is_prime(n) that returns True if n is a prime number, else False.
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+print("Is 17 prime?", is_prime(17))
+print("Is 20 prime?", is_prime(20))
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: Custom Temperature Converter</div>
+            <div class="editor-container"><textarea>
+# Write a function convert_temp(val, unit="C") that converts Celsius to Fahrenheit or vice-versa!
+def convert_temp(val, unit="C"):
+    if unit.upper() == "C":
+        return (val * 9/5) + 32  # C to F
+    else:
+        return (val - 32) * 5/9  # F to C
+
+print("25°C in F:", convert_temp(25, "C"))
+print("77°F in C:", convert_temp(77, "F"))
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Lambda Filter for Even Numbers</div>
+            <div class="editor-container"><textarea>
+# Use filter() and a lambda function to extract all numbers greater than 50 from a list!
+numbers = [12, 55, 84, 2, 99, 43, 67]
+
+high_numbers = list(filter(lambda x: x > 50, numbers))
+print("Numbers > 50:", high_numbers)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+        <div class="chapter-nav">
+            <a href="chapter9.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter11.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+    </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
+

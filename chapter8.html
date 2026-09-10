@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 8: Data Visualization with Matplotlib</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+    <style>
+        .output-area img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            margin-top: 1rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+                <li><a href="chapter8.html">Ch 8: Matplotlib Viz</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: NumPy Magic</a></li>
+        <li><a href="chapter18.html">Ch 18: Data Pandas</a></li>
+        <li><a href="chapter19.html">Ch 19: ML Part 1</a></li>
+        <li><a href="chapter20.html">Ch 20: ML Part 2</a></li>
+        <li><a href="chapter21.html">Ch 21: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+            <h1>Chapter 8: Data Visualization with Matplotlib 📊</h1>
+            <p>Welcome to the Visual Realm! Raw numbers tell a story, but <strong>charts and graphs bring data to life</strong>. In this chapter, you will master <code>matplotlib</code> — Python's premier library for crafting line plots, bar charts, pie charts, scatter plots, and custom visual graphics right inside your browser!</p>
+
+            <img src="images/ch8_matplotlib.png" alt="Data Visualization with Matplotlib" class="chapter-image">
+
+            <div class="info-box">
+                💡 <strong>How Matplotlib renders in the browser:</strong> We use a quick helper <code>render_plot()</code> to save your plot as a high-resolution image string and display it instantly below your code editor!
+            </div>
+
+            <h2>1. Your First Line Plot 📈</h2>
+            <p>Line plots show how numbers change over time or across categories. Use <code>plt.plot(x, y)</code> to draw lines, and add titles with <code>plt.title()</code>, <code>plt.xlabel()</code>, and <code>plt.ylabel()</code>.</p>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Assignment 1: Weekly Temperature Trend</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+# Days of the week and temperatures (°C)
+days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+temps = [22, 24, 19, 23, 26, 28, 25]
+
+plt.plot(days, temps, color='#7b2cbf', marker='o', linewidth=2.5, label="Temp (°C)")
+plt.title("Weekly Temperature Tracker", fontsize=14, fontweight='bold')
+plt.xlabel("Day of the Week")
+plt.ylabel("Temperature (°C)")
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <h2>2. Bar Charts for Comparisons 📊</h2>
+            <p>Bar charts compare quantities across discrete categories. Use <code>plt.bar(x, height)</code> for vertical bars or <code>plt.barh(y, width)</code> for horizontal bars!</p>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Assignment 2: Favorite Programming Languages</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+languages = ["Python", "JavaScript", "C++", "Java", "Go"]
+popularity = [95, 88, 72, 68, 60]
+colors = ['#3776ab', '#f7df1e', '#00599c', '#f89820', '#00add8']
+
+plt.bar(languages, popularity, color=colors, edgecolor='black', alpha=0.85)
+plt.title("Top Programming Languages Popularity", fontsize=14, fontweight='bold')
+plt.xlabel("Language")
+plt.ylabel("Popularity Score (%)")
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <h2>3. Pie Charts for Proportions 🥧</h2>
+            <p>Pie charts display parts of a whole percentage. Use <code>plt.pie(sizes, labels=labels, autopct='%1.1f%%')</code> to add percentage labels and explode slice offsets!</p>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Assignment 3: Adventurer's Daily Time Breakdown</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+activities = ["Coding Spells", "Exploring Dungeons", "Sleeping", "Eating Potions"]
+hours = [8, 6, 7, 3]
+slice_colors = ['#7b2cbf', '#ff9e00', '#3a86ff', '#ff006e']
+explode_slice = (0.1, 0, 0, 0) # Explode out the 1st slice (Coding Spells)
+
+plt.pie(hours, labels=activities, colors=slice_colors, autopct='%1.1f%%', explode=explode_slice, startangle=140, shadow=True)
+plt.title("Hero's Daily Schedule ⏳", fontsize=14, fontweight='bold')
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <h2>4. Scatter Plots for Correlations 🌌</h2>
+            <p>Scatter plots display relationships between two continuous variables using individual dots. Use <code>plt.scatter(x, y, color=..., s=...)</code> where <code>s</code> specifies point sizes!</p>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Assignment 4: Dragon Height vs Weight Correlation</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+# Dragon Heights (meters) and Weights (tons)
+heights = [5, 8, 12, 15, 18, 22, 25, 30]
+weights = [1.2, 2.5, 5.0, 7.8, 11.2, 16.0, 21.5, 31.0]
+
+plt.scatter(heights, weights, color='#ff0054', s=100, edgecolor='black', alpha=0.8, label="Dragons")
+plt.title("Dragon Height vs. Weight Scatter Plot 🐉", fontsize=14, fontweight='bold')
+plt.xlabel("Height (meters)")
+plt.ylabel("Weight (tons)")
+plt.grid(True, linestyle=':', alpha=0.7)
+plt.legend()
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <h2>🔥 The Boss Challenge 🔥</h2>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Challenge 1: Gaming High Score Line Comparison</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+# Plot two players' scores across 5 rounds!
+rounds = [1, 2, 3, 4, 5]
+player1_scores = [150, 230, 310, 420, 580]
+player2_scores = [180, 210, 350, 390, 620]
+
+plt.plot(rounds, player1_scores, color='#7b2cbf', marker='o', linewidth=2, label="Player 1 (Wizard)")
+plt.plot(rounds, player2_scores, color='#ff9e00', marker='s', linewidth=2, linestyle='--', label="Player 2 (Knight)")
+
+plt.title("Championship Gaming Scores", fontsize=14, fontweight='bold')
+plt.xlabel("Match Round")
+plt.ylabel("Points Scored")
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.legend()
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Challenge 2: Smartphone Market Share Pie Chart</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+brands = ["Android", "iOS", "Others"]
+shares = [71.4, 27.8, 0.8]
+colors = ['#3ddc84', '#555555', '#cccccc']
+explode = (0.05, 0, 0)
+
+plt.pie(shares, labels=brands, colors=colors, autopct='%1.1f%%', explode=explode, startangle=90)
+plt.title("Global Smartphone OS Market Share 📱", fontsize=14, fontweight='bold')
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <div class="interactive-editor">
+                <div class="editor-header">Challenge 3: Side-by-Side Product Sales Bar Chart</div>
+                <div class="editor-container"><textarea>
+import matplotlib.pyplot as plt
+import numpy as np
+import io, base64
+
+def render_plot():
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=120)
+    buf.seek(0)
+    img_str = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close()
+    print(f'<img src="data:image/png;base64,{img_str}" />')
+
+quarters = ["Q1", "Q2", "Q3", "Q4"]
+laptops_sold = [450, 620, 580, 810]
+phones_sold = [700, 850, 920, 1100]
+
+x = np.arange(len(quarters))
+width = 0.35
+
+plt.bar(x - width/2, laptops_sold, width, label='Laptops', color='#7b2cbf')
+plt.bar(x + width/2, phones_sold, width, label='Phones', color='#4cc9f0')
+
+plt.title("Quarterly Product Sales Comparison", fontsize=14, fontweight='bold')
+plt.xlabel("Quarter")
+plt.ylabel("Units Sold")
+plt.xticks(x, quarters)
+plt.legend()
+plt.grid(True, axis='y', linestyle=':', alpha=0.6)
+
+render_plot()
+</textarea></div>
+                <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div>
+                <div class="output-area"></div>
+            </div>
+
+            <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+                <h3>Done with this chapter?</h3>
+                <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+            </div>
+
+            <div class="chapter-nav">
+                <a href="chapter7.html" class="nav-btn">&larr; Previous</a>
+                <a href="chapter9.html" class="nav-btn">Next Chapter &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

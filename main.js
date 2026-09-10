@@ -14,21 +14,21 @@ async function initPyodide() {
     });
     console.log("Pyodide loaded successfully.");
 
-    // Pre-load scikit-learn, numpy, and pandas on data/ML chapters
+    // Pre-load matplotlib, scikit-learn, numpy, and pandas on data/ML chapters
     const currentPath = window.location.pathname;
-    if (currentPath.includes("chapter17") || currentPath.includes("chapter18") || currentPath.includes("chapter19") || currentPath.includes("chapter20") || currentPath.includes("chapter21")) {
+    if (currentPath.includes("chapter8") || currentPath.includes("chapter17") || currentPath.includes("chapter18") || currentPath.includes("chapter19") || currentPath.includes("chapter20") || currentPath.includes("chapter21")) {
       document.querySelectorAll('.btn-run').forEach(btn => {
-        btn.innerHTML = '⏳ Loading Data & AI Packages...';
+        btn.innerHTML = '⏳ Loading Data & Viz Packages...';
       });
       try {
-        await pyodide.loadPackage(["numpy", "pandas", "scikit-learn"]);
-        console.log("Scikit-learn, Numpy & Pandas pre-loaded successfully.");
+        await pyodide.loadPackage(["matplotlib", "numpy", "pandas", "scikit-learn"]);
+        console.log("Matplotlib, Numpy, Pandas & Scikit-learn pre-loaded successfully.");
       } catch (pkgErr) {
         console.warn("Pre-loading libraries failed:", pkgErr);
       }
     }
     
-    // Enable all run buttons now that Pyodide & ML libraries are ready
+    // Enable all run buttons now that Pyodide & libraries are ready
     document.querySelectorAll('.btn-run').forEach(btn => {
       btn.disabled = false;
       btn.innerHTML = '▶ Run Code';
@@ -59,7 +59,11 @@ async function runPythonCode(code, outputElement, validationCode = null, validat
   let output = "";
   pyodide.setStdout({ batched: (msg) => {
     output += msg + "\n";
-    outputElement.textContent = output;
+    if (output.includes("<img ") || output.includes("<div ")) {
+      outputElement.innerHTML = output;
+    } else {
+      outputElement.textContent = output;
+    }
   }});
   
   pyodide.setStdin({

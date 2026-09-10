@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 20: Advanced Machine Learning & Clustering 🧠</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- CodeMirror for the Code Editor -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/monokai.min.css">
+</head>
+<body>
+
+<nav class="sidebar">
+    <h3>Python Magic</h3>
+    <ul class="sidebar-toc">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="status.html" style="color: #7b2cbf; font-weight: bold;">⭐ Status & Score</a></li>
+        <li><a href="chapter0.html">Ch 0: Setup</a></li>
+        <li><a href="chapter1.html">Ch 1: Welcome</a></li>
+        <li><a href="chapter2.html">Ch 2: Talk & Listen</a></li>
+        <li><a href="chapter3.html">Ch 3: Memory Boxes</a></li>
+        <li><a href="chapter4.html">Ch 4: Calculator</a></li>
+        <li><a href="chapter5.html">Ch 5: Words & Emojis</a></li>
+        <li><a href="chapter6.html">Ch 6: Sorting Hat</a></li>
+        <li><a href="chapter7.html">Ch 7: Loops</a></li>
+                <li><a href="chapter8.html">Ch 8: Matplotlib Viz</a></li>
+        <li><a href="chapter9.html">Ch 9: Backpack (Lists)</a></li>
+        <li><a href="chapter10.html">Ch 10: Tools (Functions)</a></li>
+        <li><a href="chapter11.html">Ch 11: Magical Map</a></li>
+        <li><a href="chapter12.html">Ch 12: Blueprints</a></li>
+        <li><a href="chapter13.html">Ch 13: Catching Bugs</a></li>
+        <li><a href="chapter14.html">Ch 14: Ancient Scrolls</a></li>
+        <li><a href="chapter15.html">Ch 15: Grand Finale</a></li>
+        <li><a href="chapter16.html">Ch 16: Mini Computer</a></li>
+        <li><a href="chapter17.html">Ch 17: NumPy Magic</a></li>
+        <li><a href="chapter18.html">Ch 18: Data Pandas</a></li>
+        <li><a href="chapter19.html">Ch 19: ML Part 1</a></li>
+        <li><a href="chapter20.html">Ch 20: ML Part 2</a></li>
+        <li><a href="chapter21.html">Ch 21: AI & LLMs</a></li>
+    </ul>
+</nav>
+
+    <div class="book-container">
+        <div class="content-card">
+        <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
+        
+        <h1>Chapter 20: Advanced Machine Learning & Clustering 🧠</h1>
+        
+        <img src="images/ch20_ml2.png" alt="A glowing digital brain" class="chapter-graphic">
+
+        <h2>1. Decision Trees & Random Forests (`DecisionTreeClassifier`, `RandomForestClassifier`)</h2>
+        <p>A <strong>Decision Tree</strong> breaks down complex choices into binary (Yes/No) questions. A <strong>Random Forest</strong> combines dozens of distinct trees into an ensemble committee that votes on final predictions to eliminate errors!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 1: Real DecisionTreeClassifier & RandomForestClassifier</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+
+# Dataset: [Weight in lbs, Ear Pointiness (1 to 10)] -> Label: 0 (Cat), 1 (Dog)
+X = [[10, 8], [12, 9], [45, 2], [50, 3], [14, 7], [60, 1]]
+y = [0, 0, 1, 1, 0, 1]
+
+# 1. Single Decision Tree
+tree = DecisionTreeClassifier(random_state=42)
+tree.fit(X, y)
+
+# 2. Random Forest Ensemble (10 Trees)
+forest = RandomForestClassifier(n_estimators=10, random_state=42)
+forest.fit(X, y)
+
+mystery = [[48, 2]]
+print("Decision Tree Guess:", "Dog" if tree.predict(mystery)[0] == 1 else "Cat")
+print("Random Forest Guess:", "Dog" if forest.predict(mystery)[0] == 1 else "Cat")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>2. Actual Linear Regression with `sklearn.linear_model.LinearRegression`</h2>
+        <p>While <em>Classifiers</em> predict categories (Cat vs Dog), <em>Regression Models</em> like <code>sklearn.linear_model.LinearRegression</code> fit an optimal mathematical line ($y = m \cdot x + b$) to predict continuous numbers (House Prices, Temperatures, Sales)!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 2: Real Scikit-Learn LinearRegression Model</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.linear_model import LinearRegression
+
+# Training Data: House Square Footage -> Price in Dollars
+X_sqft = [[600], [800], [1000], [1500], [2000]]
+y_price = [300000, 390000, 500000, 720000, 950000]
+
+# Fit an actual Linear Regression model!
+regressor = LinearRegression()
+regressor.fit(X_sqft, y_price)
+
+# Inspect fitted slope (m) and intercept (b)
+print(f"Fitted Slope (Price per SqFt): ${regressor.coef_[0]:,.2f}")
+print(f"Fitted Intercept (Base Price): ${regressor.intercept_:,.2f}")
+
+new_house = [[1200]]
+predicted_val = regressor.predict(new_house)
+print(f"\nPredicted price for 1,200 sq ft house: ${predicted_val[0]:,.2f}")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>3. Master the 4-Step Scikit-Learn Pipeline Blueprint</h2>
+        <p>All Scikit-Learn estimators strictly follow the exact same 4-step pipeline:</p>
+        <ol>
+            <li><strong>Instantiate:</strong> <code>model = ClassifierOrRegressor()</code></li>
+            <li><strong>Train:</strong> <code>model.fit(X_train, y_train)</code></li>
+            <li><strong>Predict:</strong> <code>predictions = model.predict(X_test)</code></li>
+            <li><strong>Evaluate:</strong> <code>score = model.score(X_test, y_test)</code></li>
+        </ol>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 3: Standard 4-Step Scikit-Learn Pipeline</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# 1. Prepare Dataset
+X = [[10], [20], [30], [40], [50], [60], [70], [80], [90], [100]]
+y = [0,   0,   0,   0,   0,   1,   1,   1,   1,   1]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# 2. Instantiate & Fit
+model = DecisionTreeClassifier(max_depth=2, random_state=42)
+model.fit(X_train, y_train)
+
+# 3. Predict
+y_pred = model.predict(X_test)
+
+# 4. Evaluate
+accuracy = accuracy_score(y_test, y_pred)
+print("Test Predictions:", y_pred)
+print(f"Model Test Accuracy: {accuracy * 100:.1f}%")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Evaluation Metrics (`precision_score`, `recall_score`, `confusion_matrix`)</h2>
+        <p>Simple Accuracy can be misleading in imbalanced datasets (e.g. Fraud detection or Cancer screening). We use <code>sklearn.metrics</code> to compute Precision, Recall, F1-Score, and Confusion Matrices!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: Scikit-Learn Precision, Recall & Confusion Matrix</div>
+            <div class="editor-container">
+                <textarea>
+from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
+
+# Ground Truth vs Classifier Predictions (1 = Spam, 0 = Normal)
+y_true = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+y_pred = [1, 1, 1, 0, 0, 0, 0, 0, 1, 0]
+
+p = precision_score(y_true, y_pred)
+r = recall_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred)
+cm = confusion_matrix(y_true, y_pred)
+
+print(f"Precision (Trustworthiness): {p:.2%}")
+print(f"Recall (Catch Rate):        {r:.2%}")
+print(f"F1-Score:                   {f1:.2%}")
+print("\nConfusion Matrix [TN, FP / FN, TP]:\n", cm)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Saving & Deploying Models with `pickle` / `joblib`</h2>
+        <p>Training real AI models on massive datasets can take hours or days! Once trained, we serialize the model object to disk using <code>pickle</code> or <code>joblib</code> and load it instantly inside our production Web Apps!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Serializing and Deserializing Scikit-Learn Models</div>
+            <div class="editor-container">
+                <textarea>
+import pickle
+from sklearn.linear_model import LinearRegression
+
+# 1. Train a model
+X_train = [[1], [2], [3], [4], [5]]
+y_train = [10, 20, 30, 40, 50]
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# 2. Serialize model to binary byte stream (pickle.dumps)
+serialized_bytes = pickle.dumps(model)
+print("💾 Model Serialized to Bytes Length:", len(serialized_bytes))
+
+# 3. Reload model (pickle.loads)
+reloaded_model = pickle.loads(serialized_bytes)
+prediction = reloaded_model.predict([[10]])
+print("⚡ Loaded Model Prediction for x=10:", prediction[0])
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>🔥 The Boss Challenge 🔥</h2>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 1: LinearRegression House Price Predictor</div>
+            <div class="editor-container"><textarea>
+from sklearn.linear_model import LinearRegression
+
+# Features: [Square Feet, Num Bedrooms] -> Price
+X_houses = [[1000, 2], [1500, 3], [2000, 4], [2500, 4]]
+y_prices = [400000, 580000, 750000, 900000]
+
+# Train LinearRegression and predict price for a [1800 sqft, 3 bed] house!
+model = LinearRegression()
+model.fit(X_houses, y_prices)
+
+test_house = [[1800, 3]]
+predicted_price = model.predict(test_house)[0]
+print(f"Predicted price for 1,800 sq ft, 3-bed house: ${predicted_price:,.2f}")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 2: DecisionTreeClassifier Medical Diagnostic Evaluator</div>
+            <div class="editor-container"><textarea>
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import recall_score, precision_score
+
+# Features: [Fever Temp, Cough Severity (1-10)] -> Label: 1 (Flu), 0 (Healthy)
+X_train = [[98.6, 1], [101.5, 8], [99.0, 2], [102.0, 9], [98.8, 1], [103.0, 7]]
+y_train = [0, 1, 0, 1, 0, 1]
+
+model = DecisionTreeClassifier(random_state=42)
+model.fit(X_train, y_train)
+
+X_test = [[101.0, 7], [98.5, 2]]
+y_test = [1, 0]
+y_pred = model.predict(X_test)
+
+print("Diagnostic Recall:", recall_score(y_test, y_pred))
+print("Diagnostic Precision:", precision_score(y_test, y_pred))
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+        
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: RandomForestClassifier Spam Filter</div>
+            <div class="editor-container"><textarea>
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+# Features: [Num Links, Contains 'FREE' (0 or 1), Email Length] -> 1 (Spam), 0 (Ham)
+X_train = [[5, 1, 200], [0, 0, 500], [10, 1, 150], [1, 0, 450]]
+y_train = [1, 0, 1, 0]
+
+X_test = [[6, 1, 180], [0, 0, 600]]
+y_test = [1, 0]
+
+forest = RandomForestClassifier(n_estimators=5, random_state=42)
+forest.fit(X_train, y_train)
+
+preds = forest.predict(X_test)
+print("Spam Filter Test Predictions:", preds)
+print("Spam Filter Accuracy:", accuracy_score(y_test, preds) * 100, "%")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
+        <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
+            <h3>Done with this chapter?</h3>
+            <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
+        </div>
+
+        <div class="chapter-nav">
+            <a href="chapter19.html" class="nav-btn">&larr; Previous</a>
+            <a href="chapter21.html" class="nav-btn">Next Chapter &rarr;</a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
