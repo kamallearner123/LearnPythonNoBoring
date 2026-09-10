@@ -13,8 +13,22 @@ async function initPyodide() {
       indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/"
     });
     console.log("Pyodide loaded successfully.");
+
+    // Pre-load scikit-learn and numpy on ML chapters
+    const currentPath = window.location.pathname;
+    if (currentPath.includes("chapter17") || currentPath.includes("chapter18") || currentPath.includes("chapter19")) {
+      document.querySelectorAll('.btn-run').forEach(btn => {
+        btn.innerHTML = '⏳ Loading Scikit-Learn...';
+      });
+      try {
+        await pyodide.loadPackage(["numpy", "scikit-learn"]);
+        console.log("Scikit-learn & Numpy pre-loaded successfully.");
+      } catch (pkgErr) {
+        console.warn("Pre-loading sklearn failed:", pkgErr);
+      }
+    }
     
-    // Enable all run buttons now that Pyodide is ready
+    // Enable all run buttons now that Pyodide & ML libraries are ready
     document.querySelectorAll('.btn-run').forEach(btn => {
       btn.disabled = false;
       btn.innerHTML = '▶ Run Code';
@@ -61,6 +75,9 @@ async function runPythonCode(code, outputElement, validationCode = null, validat
   });
 
   try {
+    // Automatically load any imports in user code (e.g. scikit-learn, numpy, pandas)
+    await pyodide.loadPackagesFromImports(code);
+
     // Run the user's code
     await pyodide.runPythonAsync(code);
     

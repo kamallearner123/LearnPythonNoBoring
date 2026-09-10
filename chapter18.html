@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 18: Machine Learning (Part 2 - Models & Pipeline)</title>
+    <title>Chapter 18: Machine Learning (Part 2 - Models & Scikit-Learn Pipelines)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,33 +44,35 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 18: Machine Learning (Part 2 - Models & Pipelines)</h1>
+        <h1>Chapter 18: Machine Learning (Part 2 - Models & Scikit-Learn Pipelines)</h1>
         
         <img src="images/ch18_ml2.png" alt="A glowing digital brain" class="chapter-graphic">
 
-        <h2>1. Decision Trees & Random Forests</h2>
-        <p>A <strong>Decision Tree</strong> breaks down complex choices into a sequence of binary (Yes/No) questions. A <strong>Random Forest</strong> combines dozens of different trees into an ensemble committee that votes on the final answer to prevent errors!</p>
+        <h2>1. Decision Trees & Random Forests (`DecisionTreeClassifier`, `RandomForestClassifier`)</h2>
+        <p>A <strong>Decision Tree</strong> breaks down complex choices into binary (Yes/No) questions. A <strong>Random Forest</strong> combines dozens of distinct trees into an ensemble committee that votes on final predictions to eliminate errors!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: Random Forest Ensemble Voting</div>
+            <div class="editor-header">Assignment 1: Real DecisionTreeClassifier & RandomForestClassifier</div>
             <div class="editor-container">
                 <textarea>
-# Simulated Random Forest with 3 Decision Trees voting
-def tree_1(features): return 1 if features[0] > 50 else 0
-def tree_2(features): return 1 if features[1] == "sharp" else 0
-def tree_3(features): return 1 if features[0] > 40 and features[1] == "sharp" else 0
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
-mystery_sample = [55, "sharp"]
+# Dataset: [Weight in lbs, Ear Pointiness (1 to 10)] -> Label: 0 (Cat), 1 (Dog)
+X = [[10, 8], [12, 9], [45, 2], [50, 3], [14, 7], [60, 1]]
+y = [0, 0, 1, 1, 0, 1]
 
-votes = [
-    tree_1(mystery_sample),
-    tree_2(mystery_sample),
-    tree_3(mystery_sample)
-]
+# 1. Single Decision Tree
+tree = DecisionTreeClassifier(random_state=42)
+tree.fit(X, y)
 
-final_prediction = 1 if votes.count(1) > votes.count(0) else 0
-print("Individual Tree Votes:", votes)
-print("Random Forest Final Ensemble Prediction:", final_prediction)
+# 2. Random Forest Ensemble (10 Trees)
+forest = RandomForestClassifier(n_estimators=10, random_state=42)
+forest.fit(X, y)
+
+mystery = [[48, 2]]
+print("Decision Tree Guess:", "Dog" if tree.predict(mystery)[0] == 1 else "Cat")
+print("Random Forest Guess:", "Dog" if forest.predict(mystery)[0] == 1 else "Cat")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -79,24 +81,30 @@ print("Random Forest Final Ensemble Prediction:", final_prediction)
             <div class="output-area"></div>
         </div>
 
-        <h2>2. Linear Regression (Predicting Continuous Numbers)</h2>
-        <p>While <em>Classification</em> predicts categories (Cat vs Dog), <em>Regression</em> predicts continuous numerical quantities (House Prices, Temperature, Test Scores).</p>
-        <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1rem; margin: 1rem 0; font-family: monospace;">
-            Linear Equation: <strong>y = m &middot; x + b</strong><br>
-            Where <em>m</em> = slope (rate of change) and <em>b</em> = intercept (base value).
-        </div>
+        <h2>2. Actual Linear Regression with `sklearn.linear_model.LinearRegression`</h2>
+        <p>While <em>Classifiers</em> predict categories (Cat vs Dog), <em>Regression Models</em> like <code>sklearn.linear_model.LinearRegression</code> fit an optimal mathematical line ($y = m \cdot x + b$) to predict continuous numbers (House Prices, Temperatures, Sales)!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Simple Linear Regression Model</div>
+            <div class="editor-header">Assignment 2: Real Scikit-Learn LinearRegression Model</div>
             <div class="editor-container">
                 <textarea>
-# House price prediction model: Price = (500 * SqFt) + 20,000
-def linear_regression_predict(sq_ft, slope=500, intercept=20000):
-    return (slope * sq_ft) + intercept
+from sklearn.linear_model import LinearRegression
 
-test_house_sqft = 1200
-predicted_price = linear_regression_predict(test_house_sqft)
-print(f"Predicted price for {test_house_sqft} sq ft house: ${predicted_price:,}")
+# Training Data: House Square Footage -> Price in Dollars
+X_sqft = [[600], [800], [1000], [1500], [2000]]
+y_price = [300000, 390000, 500000, 720000, 950000]
+
+# Fit an actual Linear Regression model!
+regressor = LinearRegression()
+regressor.fit(X_sqft, y_price)
+
+# Inspect fitted slope (m) and intercept (b)
+print(f"Fitted Slope (Price per SqFt): ${regressor.coef_[0]:,.2f}")
+print(f"Fitted Intercept (Base Price): ${regressor.intercept_:,.2f}")
+
+new_house = [[1200]]
+predicted_val = regressor.predict(new_house)
+print(f"\nPredicted price for 1,200 sq ft house: ${predicted_val[0]:,.2f}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -105,47 +113,40 @@ print(f"Predicted price for {test_house_sqft} sq ft house: ${predicted_price:,}"
             <div class="output-area"></div>
         </div>
 
-        <h2>3. The Scikit-Learn API Workflow (`fit`, `predict`, `score`)</h2>
-        <p>In industry Python code, engineers use <code>scikit-learn</code> (<code>sklearn</code>). All algorithms follow the exact same 4-step blueprint:</p>
+        <h2>3. Master the 4-Step Scikit-Learn Pipeline Blueprint</h2>
+        <p>All Scikit-Learn estimators strictly follow the exact same 4-step pipeline:</p>
         <ol>
-            <li><strong>Instantiate:</strong> <code>model = DecisionTreeClassifier()</code></li>
+            <li><strong>Instantiate:</strong> <code>model = ClassifierOrRegressor()</code></li>
             <li><strong>Train:</strong> <code>model.fit(X_train, y_train)</code></li>
             <li><strong>Predict:</strong> <code>predictions = model.predict(X_test)</code></li>
-            <li><strong>Evaluate:</strong> <code>acc = accuracy_score(y_test, predictions)</code></li>
+            <li><strong>Evaluate:</strong> <code>score = model.score(X_test, y_test)</code></li>
         </ol>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Scikit-Learn Paradigm Simulator</div>
+            <div class="editor-header">Assignment 3: Standard 4-Step Scikit-Learn Pipeline</div>
             <div class="editor-container">
                 <textarea>
-# Pure Python simulator of Scikit-Learn's DecisionTreeClassifier
-class SklearnDecisionTree:
-    def __init__(self, threshold=50):
-        self.threshold = threshold
-        self.is_trained = False
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
 
-    def fit(self, X, y):
-        print(f"🧠 Training model on {len(X)} samples... Fit complete!")
-        self.is_trained = True
-        return self
+# 1. Prepare Dataset
+X = [[10], [20], [30], [40], [50], [60], [70], [80], [90], [100]]
+y = [0,   0,   0,   0,   0,   1,   1,   1,   1,   1]
 
-    def predict(self, X):
-        if not self.is_trained:
-            raise Exception("Must call .fit() before .predict()!")
-        return [1 if sample[0] > self.threshold else 0 for sample in X]
-
-# 1. Dataset
-X_train = [[10], [25], [60], [80]]
-y_train = [0, 0, 1, 1]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # 2. Instantiate & Fit
-model = SklearnDecisionTree(threshold=40)
+model = DecisionTreeClassifier(max_depth=2, random_state=42)
 model.fit(X_train, y_train)
 
-# 3. Predict on new test samples
-X_test = [[15], [75]]
-predictions = model.predict(X_test)
-print("Predictions on test data:", predictions)
+# 3. Predict
+y_pred = model.predict(X_test)
+
+# 4. Evaluate
+accuracy = accuracy_score(y_test, y_pred)
+print("Test Predictions:", y_pred)
+print(f"Model Test Accuracy: {accuracy * 100:.1f}%")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -154,30 +155,28 @@ print("Predictions on test data:", predictions)
             <div class="output-area"></div>
         </div>
 
-        <h2>4. Beyond Accuracy: Precision, Recall & Confusion Matrix</h2>
-        <p>Simple Accuracy can be misleading! For example, if 99% of emails are NOT spam, a model that predicts "Never Spam" is 99% accurate, but completely useless!</p>
-        <ul>
-            <li><strong>True Positive (TP):</strong> Spam correctly identified as Spam.</li>
-            <li><strong>False Positive (FP):</strong> Important email wrongly flagged as Spam (False Alarm).</li>
-            <li><strong>False Negative (FN):</strong> Dangerous Spam missed by filter.</li>
-            <li><strong>Precision Formula:</strong> <code>TP / (TP + FP)</code> &rarr; How trustworthy are positive predictions?</li>
-            <li><strong>Recall Formula:</strong> <code>TP / (TP + FN)</code> &rarr; What fraction of actual positives did we catch?</li>
-        </ul>
+        <h2>4. Evaluation Metrics (`precision_score`, `recall_score`, `confusion_matrix`)</h2>
+        <p>Simple Accuracy can be misleading in imbalanced datasets (e.g. Fraud detection or Cancer screening). We use <code>sklearn.metrics</code> to compute Precision, Recall, F1-Score, and Confusion Matrices!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: Precision and Recall Calculator</div>
+            <div class="editor-header">Assignment 4: Scikit-Learn Precision, Recall & Confusion Matrix</div>
             <div class="editor-container">
                 <textarea>
-# Confusion Matrix Counts
-TP, FP, TN, FN = 80, 10, 900, 10
+from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 
-precision = TP / (TP + FP)
-recall = TP / (TP + FN)
-f1_score = 2 * (precision * recall) / (precision + recall)
+# Ground Truth vs Classifier Predictions (1 = Spam, 0 = Normal)
+y_true = [1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+y_pred = [1, 1, 1, 0, 0, 0, 0, 0, 1, 0]
 
-print(f"Precision: {precision:.2%}")
-print(f"Recall:    {recall:.2%}")
-print(f"F1-Score:  {f1_score:.2%}")
+p = precision_score(y_true, y_pred)
+r = recall_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred)
+cm = confusion_matrix(y_true, y_pred)
+
+print(f"Precision (Trustworthiness): {p:.2%}")
+print(f"Recall (Catch Rate):        {r:.2%}")
+print(f"F1-Score:                   {f1:.2%}")
+print("\nConfusion Matrix [TN, FP / FN, TP]:\n", cm)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -186,33 +185,30 @@ print(f"F1-Score:  {f1_score:.2%}")
             <div class="output-area"></div>
         </div>
 
-        <h2>5. Saving & Loading Models (Model Persistence)</h2>
-        <p>Training an AI on gigabytes of data can take days or weeks! In production, we train once, serialize the trained weights/parameters into a file (using <code>pickle</code>, <code>joblib</code>, or <code>json</code>), and load it instantly in our web app!</p>
+        <h2>5. Saving & Deploying Models with `pickle` / `joblib`</h2>
+        <p>Training real AI models on massive datasets can take hours or days! Once trained, we serialize the model object to disk using <code>pickle</code> or <code>joblib</code> and load it instantly inside our production Web Apps!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: Exporting & Importing Model Weights</div>
+            <div class="editor-header">Assignment 5: Serializing and Deserializing Scikit-Learn Models</div>
             <div class="editor-container">
                 <textarea>
-import json
+import pickle
+from sklearn.linear_model import LinearRegression
 
-# Trained model state (weights & rules)
-model_state = {
-    "model_name": "LinearRegression",
-    "slope": 4.5,
-    "intercept": 12.0,
-    "version": "1.0"
-}
+# 1. Train a model
+X_train = [[1], [2], [3], [4], [5]]
+y_train = [10, 20, 30, 40, 50]
+model = LinearRegression()
+model.fit(X_train, y_train)
 
-# Export state to JSON string (Serialization)
-exported_model = json.dumps(model_state)
-print("💾 Exported Model File Content:", exported_model)
+# 2. Serialize model to binary byte stream (pickle.dumps)
+serialized_bytes = pickle.dumps(model)
+print("💾 Model Serialized to Bytes Length:", len(serialized_bytes))
 
-# Reload model state (Deserialization)
-loaded_state = json.loads(exported_model)
-def deployed_predict(x, state):
-    return (state["slope"] * x) + state["intercept"]
-
-print("⚡ Deployed Prediction for x=10:", deployed_predict(10, loaded_state))
+# 3. Reload model (pickle.loads)
+reloaded_model = pickle.loads(serialized_bytes)
+prediction = reloaded_model.predict([[10]])
+print("⚡ Loaded Model Prediction for x=10:", prediction[0])
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -224,85 +220,67 @@ print("⚡ Deployed Prediction for x=10:", deployed_predict(10, loaded_state))
         <h2>🔥 The Boss Challenge 🔥</h2>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: Complete ML Pipeline</div>
+            <div class="editor-header">Challenge 1: LinearRegression House Price Predictor</div>
             <div class="editor-container"><textarea>
-# Build a complete ML pipeline:
-# 1. Instantiate model
-# 2. Fit on X_train, y_train
-# 3. Predict on X_test
-# 4. Calculate accuracy against y_test
+from sklearn.linear_model import LinearRegression
 
-class SimpleKNN:
-    def fit(self, X, y):
-        self.X_train = X
-        self.y_train = y
-    def predict(self, X_test):
-        preds = []
-        for test_sample in X_test:
-            # Pick label of closest item in X_train
-            best_idx = 0
-            best_dist = float('inf')
-            for i, train_sample in enumerate(self.X_train):
-                d = abs(test_sample[0] - train_sample[0])
-                if d < best_dist:
-                    best_dist = d
-                    best_idx = i
-            preds.append(self.y_train[best_idx])
-        return preds
+# Features: [Square Feet, Num Bedrooms] -> Price
+X_houses = [[1000, 2], [1500, 3], [2000, 4], [2500, 4]]
+y_prices = [400000, 580000, 750000, 900000]
 
-X_train, y_train = [[10], [20], [80], [90]], [0, 0, 1, 1]
-X_test, y_test = [[15], [85]], [0, 1]
+# Train LinearRegression and predict price for a [1800 sqft, 3 bed] house!
+model = LinearRegression()
+model.fit(X_houses, y_prices)
 
-knn = SimpleKNN()
-knn.fit(X_train, y_train)
-y_pred = knn.predict(X_test)
-
-accuracy = sum(1 for i in range(len(y_test)) if y_test[i] == y_pred[i]) / len(y_test) * 100
-print(f"Test Predictions: {y_pred} | Accuracy: {accuracy:.0f}%")
+test_house = [[1800, 3]]
+predicted_price = model.predict(test_house)[0]
+print(f"Predicted price for 1,800 sq ft, 3-bed house: ${predicted_price:,.2f}")
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
         
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: Medical Diagnostic Classifier Evaluator</div>
+            <div class="editor-header">Challenge 2: DecisionTreeClassifier Medical Diagnostic Evaluator</div>
             <div class="editor-container"><textarea>
-# Calculate Precision & Recall for a Disease Detection Model
-# 1 = Sick, 0 = Healthy
-actual_y =    [1, 1, 1, 0, 0, 0, 1, 0]
-predicted_y = [1, 1, 0, 0, 0, 1, 1, 0]
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import recall_score, precision_score
 
-# Write logic to count TP, FP, FN and print Recall
-TP = sum(1 for i in range(len(actual_y)) if actual_y[i] == 1 and predicted_y[i] == 1)
-FN = sum(1 for i in range(len(actual_y)) if actual_y[i] == 1 and predicted_y[i] == 0)
+# Features: [Fever Temp, Cough Severity (1-10)] -> Label: 1 (Flu), 0 (Healthy)
+X_train = [[98.6, 1], [101.5, 8], [99.0, 2], [102.0, 9], [98.8, 1], [103.0, 7]]
+y_train = [0, 1, 0, 1, 0, 1]
 
-recall = TP / (TP + FN) if (TP + FN) > 0 else 0.0
-print(f"TP={TP}, FN={FN} -> Medical Recall: {recall:.2%}")
+model = DecisionTreeClassifier(random_state=42)
+model.fit(X_train, y_train)
+
+X_test = [[101.0, 7], [98.5, 2]]
+y_test = [1, 0]
+y_pred = model.predict(X_test)
+
+print("Diagnostic Recall:", recall_score(y_test, y_pred))
+print("Diagnostic Precision:", precision_score(y_test, y_pred))
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
         
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: Serialized Decision Tree Deployer</div>
+            <div class="editor-header">Challenge 3: RandomForestClassifier Spam Filter</div>
             <div class="editor-container"><textarea>
-import json
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
-# JSON representation of a Decision Tree rule
-saved_tree_json = '{"feature_index": 0, "threshold": 50.0, "left_label": "Cat", "right_label": "Dog"}'
+# Features: [Num Links, Contains 'FREE' (0 or 1), Email Length] -> 1 (Spam), 0 (Ham)
+X_train = [[5, 1, 200], [0, 0, 500], [10, 1, 150], [1, 0, 450]]
+y_train = [1, 0, 1, 0]
 
-def predict_from_json(json_str, feature_vector):
-    rule = json.loads(json_str)
-    idx = rule["feature_index"]
-    thresh = rule["threshold"]
-    if feature_vector[idx] <= thresh:
-        return rule["left_label"]
-    else:
-        return rule["right_label"]
+X_test = [[6, 1, 180], [0, 0, 600]]
+y_test = [1, 0]
 
-sample_a = [35.0]
-sample_b = [65.0]
+forest = RandomForestClassifier(n_estimators=5, random_state=42)
+forest.fit(X_train, y_train)
 
-print("Sample A ([35.0]) prediction:", predict_from_json(saved_tree_json, sample_a))
-print("Sample B ([65.0]) prediction:", predict_from_json(saved_tree_json, sample_b))
+preds = forest.predict(X_test)
+print("Spam Filter Test Predictions:", preds)
+print("Spam Filter Accuracy:", accuracy_score(y_test, preds) * 100, "%")
             </textarea></div>
             <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
