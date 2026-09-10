@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 11: The Magical Map</title>
+    <title>Chapter 11: The Magical Map (Dictionaries & Sets)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,32 +44,29 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 11: The Magical Map (Dictionaries)</h1>
+        <h1>Chapter 11: The Magical Map (Dictionaries & Sets)</h1>
         
         <img src="images/ch11_dictionaries.png" alt="A magical pirate map with glowing markers" class="chapter-graphic">
         
-        <h2>1. What is a Dictionary?</h2>
-        <p>A list is like a backpack where items are ordered by numbers (0, 1, 2). A <strong>Dictionary</strong> is like a magical map where you look things up using a name (a <strong>Key</strong>) to find a treasure (a <strong>Value</strong>). We use curly braces <code>{}</code> to make them.</p>
-
-        <p><strong>Example A: Creating a simple dictionary</strong></p>
-        <pre><code>player = {"name": "Zelda", "health": 100}</code></pre>
-        
-        <p><strong>Example B: Looking up a value</strong></p>
-        <pre><code>print(player["name"]) # Prints 'Zelda'</code></pre>
+        <h2>1. What is a Dictionary? (Key-Value Pair Hashing)</h2>
+        <p>A list stores items by zero-based numerical index. A <strong>Dictionary</strong> (or <code>dict</code>) maps unique, immutable <strong>Keys</strong> to <strong>Values</strong> using a Hash Table under the hood. Looking up a key takes instantaneous $O(1)$ constant time!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: The Monster Stats</div>
+            <div class="editor-header">Assignment 1: Defining & Accessing Dictionaries</div>
             <div class="editor-container">
                 <textarea>
-# Create a dictionary for a monster!
-goblin = {
-    "name": "Snots",
-    "color": "Green",
-    "hp": 30
+# Create a dictionary representing a game hero
+hero = {
+    "name": "Aria",
+    "class": "Mage",
+    "hp": 120,
+    "mana": 250,
+    "is_alive": True
 }
 
-# Print the goblin's name and hp!
-print("You encountered a", goblin["name"], "with", goblin["hp"], "HP.")
+# Access values by Key
+print(f"Hero Name: {hero['name']}")
+print(f"Current Mana: {hero['mana']}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -78,28 +75,25 @@ print("You encountered a", goblin["name"], "with", goblin["hp"], "HP.")
             <div class="output-area"></div>
         </div>
 
-        <h2>2. Adding and Updating Keys</h2>
-        <p>You can easily add new markers to your map or change existing ones. Just write the name of the new key in brackets and set it equal to something!</p>
-
-        <p><strong>Example A: Adding a new key</strong></p>
-        <pre><code>player["weapon"] = "Sword"</code></pre>
-
-        <p><strong>Example B: Updating an existing key</strong></p>
-        <pre><code>player["health"] = 80 # Took damage!</code></pre>
+        <h2>2. Safe Lookups with `.get()` & Modifying Keys</h2>
+        <p>If you try to access a non-existent key with <code>dict["missing"]</code>, Python throws a <code>KeyError</code>! Use <code>.get(key, default)</code> for safe lookups that return a fallback default instead of crashing.</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Level Up!</div>
+            <div class="editor-header">Assignment 2: Safe Key Lookups with .get()</div>
             <div class="editor-container">
                 <textarea>
-hero = {"name": "Link", "level": 1}
-print("Before:", hero)
+inventory = {"gold": 450, "potions": 5, "scrolls": 2}
 
-# Level up the hero to level 2!
-hero["level"] = 2
-# Add a "shield" key with the value "Wooden"
-hero["shield"] = "Wooden"
+# Safe lookup for an existing key and a missing key
+potion_count = inventory.get("potions", 0)
+gems_count = inventory.get("gems", 0) # Fallback to 0
 
-print("After:", hero)
+print(f"Potions: {potion_count} | Gems: {gems_count}")
+
+# Add & Update keys
+inventory["gold"] += 100 # Earned gold!
+inventory["gems"] = 10   # Found gems!
+print("Updated Inventory:", inventory)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -108,56 +102,23 @@ print("After:", hero)
             <div class="output-area"></div>
         </div>
 
-        <h2>3. Removing Keys</h2>
-        <p>If a treasure gets stolen from the map, you can use the <code>del</code> keyword to delete that key-value pair completely.</p>
-
-        <p><strong>Example A: Deleting a key</strong></p>
-        <pre><code>del player["weapon"]</code></pre>
-
-        <p><strong>Example B: The .pop() method</strong></p>
-        <pre><code>item = player.pop("health") # Removes health and returns it</code></pre>
+        <h2>3. Iterating Dictionaries (`.keys()`, `.values()`, `.items()`)</h2>
+        <p>You can loop over keys, values, or both simultaneously using <code>.items()</code> which unpacks key-value tuple pairs!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Stolen Gold</div>
-            <div class="editor-container">
-                <textarea>
-inventory = {"gold": 500, "potions": 3, "map": True}
-print("Inventory:", inventory)
-
-# A thief stole your gold! Use 'del' to remove the "gold" key.
-
-
-print("Inventory after theft:", inventory)
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
-
-        <h2>4. Looping Through Dictionaries</h2>
-        <p>You can use a <code>for</code> loop to go through all the keys in a dictionary. You can also use <code>.values()</code> or <code>.items()</code> to loop through the values or both!</p>
-
-        <p><strong>Example A: Looping through keys</strong></p>
-        <pre><code>for k in player: print(k)</code></pre>
-
-        <p><strong>Example B: Looping through items (keys and values)</strong></p>
-        <pre><code>for k, v in player.items(): print(k, v)</code></pre>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: The Vendor's Wares</div>
+            <div class="editor-header">Assignment 3: Iterating Key-Value Pairs</div>
             <div class="editor-container">
                 <textarea>
 store_prices = {
-    "Sword": 150,
-    "Shield": 75,
-    "Potion": 20
+    "Health Potion": 25,
+    "Mana Potion": 30,
+    "Dragon Sword": 500,
+    "Shield": 150
 }
 
-# Loop through the items and print them nicely!
+print("=== Store Catalog ===")
 for item, price in store_prices.items():
-    print(item, "costs", price, "gold coins.")
+    print(f"  - {item:15}: ${price} gold")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -166,26 +127,51 @@ for item, price in store_prices.items():
             <div class="output-area"></div>
         </div>
 
-        <h2>5. Nested Dictionaries</h2>
-        <p>Maps within maps! You can put a dictionary INSIDE another dictionary to organize lots of complex information.</p>
-
-        <p><strong>Example A: A nested dictionary</strong></p>
-        <pre><code>monsters = {"dragon": {"hp": 500}}</code></pre>
-
-        <p><strong>Example B: Accessing nested data</strong></p>
-        <pre><code>print(monsters["dragon"]["hp"])</code></pre>
+        <h2>4. Dictionary Comprehensions</h2>
+        <p>Just like List Comprehensions, you can transform or filter dictionaries using concise <code>{key: value for item in iterable}</code> syntax!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: The Zoo Database</div>
+            <div class="editor-header">Assignment 4: Dictionary Comprehension</div>
             <div class="editor-container">
                 <textarea>
-zoo = {
-    "lion": {"sound": "Roar", "food": "Meat"},
-    "monkey": {"sound": "Ooh Ooh", "food": "Bananas"}
+original_prices = {"apple": 1.00, "banana": 0.50, "cherry": 3.00, "date": 2.50}
+
+# 20% discount comprehension for items costing more than $1.00
+discounted_prices = {
+    item: price * 0.8 
+    for item, price in original_prices.items() 
+    if price > 1.00
 }
 
-# Print what the monkey eats!
-print("Monkeys eat:", zoo["monkey"]["food"])
+print("Discounted Expensive Items:", discounted_prices)
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Sets & Mathematical Set Operations</h2>
+        <p>A <strong>Set</strong> (<code>set</code>) is an unordered collection of <em>unique</em> items (no duplicates). Sets support fast mathematical operations like Union (<code>|</code>), Intersection (<code>&</code>), and Difference (<code>-</code>)!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Mathematical Set Operations</div>
+            <div class="editor-container">
+                <textarea>
+python_students = {"Alice", "Bob", "Charlie", "David"}
+data_students = {"Charlie", "David", "Eve", "Frank"}
+
+# 1. Intersection (&): Students taking BOTH classes
+both = python_students & data_students
+# 2. Union (|): ALL unique students
+all_students = python_students | data_students
+# 3. Difference (-): Python students NOT in Data class
+python_only = python_students - data_students
+
+print("Taking both classes:", both)
+print("Total unique students:", all_students)
+print("Python only students:", python_only)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -195,62 +181,51 @@ print("Monkeys eat:", zoo["monkey"]["food"])
         </div>
 
         <h2>🔥 The Boss Challenge 🔥</h2>
-        <p>Show me you know how to read the magical map!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: Contact Book</div>
-            <div class="editor-container">
-                <textarea>
-# Create a dictionary called 'contacts' with 3 friends' names as keys and their favorite colors as values.
-# Then print the color of the 2nd friend!
+            <div class="editor-header">Challenge 1: Word Frequency Counter</div>
+            <div class="editor-container"><textarea>
+# Count the frequency of each word in a paragraph!
+text = "python is fun and python is powerful"
+words = text.split()
 
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+word_counts = {}
+for word in words:
+    word_counts[word] = word_counts.get(word, 0) + 1
+
+print("Word Frequencies:", word_counts)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: The Scoreboard Tracker</div>
-            <div class="editor-container">
-                <textarea>
-scores = {"Alice": 10, "Bob": 5}
-# Bob just scored 20 points! Add 20 to his current score in the dictionary.
-# Then add a new player "Charlie" with 15 points.
+            <div class="editor-header">Challenge 2: Highest Scorer Finder</div>
+            <div class="editor-container"><textarea>
+# Find the student with the highest score in the dictionary!
+student_scores = {"Alice": 88, "Bob": 95, "Charlie": 92, "Diana": 99}
 
-print(scores)
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+best_student = max(student_scores, key=student_scores.get)
+print(f"Top Scorer: {best_student} with {student_scores[best_student]} points!")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: English to Pirate Translator</div>
-            <div class="editor-container">
-                <textarea>
-pirate_dictionary = {
-    "hello": "ahoy",
-    "friend": "matey",
-    "treasure": "booty"
-}
-word = input("Enter a word (hello, friend, or treasure): ").lower()
+            <div class="editor-header">Challenge 3: Remove Duplicates & Find Common Interests</div>
+            <div class="editor-container"><textarea>
+# Use sets to eliminate duplicate tags and find common tags!
+user1_tags = ["python", "ai", "web", "ai", "coding"]
+user2_tags = ["coding", "design", "ai", "gaming"]
 
-# Check if the word is in the dictionary, then print the pirate translation!
-# If it's not in the dictionary, print "Arrr, I don't know that word!"
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+set1, set2 = set(user1_tags), set(user2_tags)
+common = set1 & set2
+
+print("User 1 Unique Tags:", set1)
+print("Shared Interests:", common)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
-        
         <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
             <h3>Done with this chapter?</h3>
             <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
@@ -269,3 +244,4 @@ word = input("Enter a word (hello, friend, or treasure): ").lower()
     <script src="main.js"></script>
 </body>
 </html>
+

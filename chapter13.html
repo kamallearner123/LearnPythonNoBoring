@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 13: Catching Bugs</title>
+    <title>Chapter 13: Catching Bugs (Error Handling)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -48,24 +48,18 @@
         
         <img src="images/ch13_errors.png" alt="A tiny detective with a magnifying glass examining a bug" class="chapter-graphic">
         
-        <h2>1. What are Exceptions?</h2>
-        <p>Sometimes you write code that makes sense to you, but the computer gets confused (like dividing by zero). When this happens, Python throws an <strong>Exception</strong> (an error) and crashes! We call these errors "Bugs".</p>
-
-        <p><strong>Example A: A ZeroDivisionError</strong></p>
-        <pre><code>print(10 / 0) # CRASH!</code></pre>
-        
-        <p><strong>Example B: A TypeError</strong></p>
-        <pre><code>print("Apples" + 5) # CRASH!</code></pre>
+        <h2>1. Python Exceptions & Tracebacks</h2>
+        <p>When runtime operations encounter invalid inputs or state (e.g. dividing by zero or converting non-numeric text), Python raises an <strong>Exception</strong>. If unhandled, exceptions halt script execution and print a traceback trace.</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: Cause a Crash!</div>
+            <div class="editor-header">Assignment 1: Unhandled Exceptions & Traceback Inspection</div>
             <div class="editor-container">
                 <textarea>
-# Run this code to see what a crash looks like!
-# Then fix it so it doesn't crash anymore.
-number = int("hello") 
+# Run this code to see a ZeroDivisionError!
+num1, num2 = 10, 0
+result = num1 / num2 # Raises ZeroDivisionError
 
-print(number)
+print("This line will never be reached because the program crashed!")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -74,84 +68,21 @@ print(number)
             <div class="output-area"></div>
         </div>
 
-        <h2>2. The Try Block</h2>
-        <p>To prevent our program from crashing, we can put dangerous code inside a <code>try</code> block. This tells Python: "Try to do this, but if you fail, don't panic!"</p>
-
-        <p><strong>Example A: Try block syntax</strong></p>
-        <pre><code>try:
-    print(10 / 0)</code></pre>
-
-        <p><strong>Example B: Try needs except</strong></p>
-        <pre><code># Try must always have an except block after it!</code></pre>
+        <h2>2. Basic `try...except` Handling</h2>
+        <p>Wrap risky statements inside a <code>try</code> block. If an error occurs, control transfers immediately to the <code>except</code> block, preventing script crashes!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Try to Divide</div>
-            <div class="editor-container">
-                <textarea>
-# Add a try block around this dangerous code!
-# Don't forget to indent the dangerous code.
-print(100 / 0)
-
-# (This code won't run yet until you add the 'except' block in the next lesson!)
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
-
-        <h2>3. The Except Block</h2>
-        <p>If the code inside the <code>try</code> block crashes, Python instantly jumps to the <code>except</code> block instead of crashing the whole program. This is how we catch bugs!</p>
-
-        <p><strong>Example A: Catching an error</strong></p>
-        <pre><code>try:
-    print(10 / 0)
-except:
-    print("Oops! You can't divide by zero!")</code></pre>
-
-        <p><strong>Example B: The program continues!</strong></p>
-        <pre><code># The program keeps running after the except block!</code></pre>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Catch the Bug!</div>
-            <div class="editor-container">
-                <textarea>
-# Run this code. It won't crash, it will safely print the error message!
-try:
-    age = int(input("Enter your age: "))
-    print("You are", age, "years old.")
-except:
-    print("That is not a valid number!")
-
-print("The program finished safely!")
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
-
-        <h2>4. Catching Specific Errors</h2>
-        <p>Some bugs are different than others. You can tell Python exactly which bug you are looking for so you can give the right error message.</p>
-
-        <p><strong>Example A: Catching a ValueError</strong></p>
-        <pre><code>except ValueError: print("Not a number!")</code></pre>
-
-        <p><strong>Example B: Catching a ZeroDivisionError</strong></p>
-        <pre><code>except ZeroDivisionError: print("Can't divide by 0!")</code></pre>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: Specific Bug Catcher</div>
+            <div class="editor-header">Assignment 2: Basic try...except Block</div>
             <div class="editor-container">
                 <textarea>
 try:
-    print(10 / 0)
-except ZeroDivisionError:
-    print("You tried to divide by zero!")
-except TypeError:
-    print("You tried to mix text and numbers!")
+    val = int("not_a_number") # Risky conversion
+    print("Value:", val)
+except:
+    print("⚠️ Catch-all Handler: Conversion failed! Defaulting to 0.")
+    val = 0
+
+print("Program continued running safely! val =", val)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -160,27 +91,101 @@ except TypeError:
             <div class="output-area"></div>
         </div>
 
-        <h2>5. The Finally Block</h2>
-        <p>Sometimes you want a piece of code to run no matter what happens, whether there was a crash or not. We use the <code>finally</code> block for this.</p>
-
-        <p><strong>Example A: Finally block</strong></p>
-        <pre><code>finally:
-    print("I always run!")</code></pre>
-
-        <p><strong>Example B: Used for cleanup</strong></p>
-        <pre><code># Usually used to close files or clean up memory.</code></pre>
+        <h2>3. Catching Multiple Specific Exceptions & Inspecting Error Objects</h2>
+        <p>Different bugs require different remedies. Use specific exception types (e.g. <code>ValueError</code>, <code>ZeroDivisionError</code>) and inspect error strings using <code>as err</code>!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: Always Say Goodbye</div>
+            <div class="editor-header">Assignment 3: Specific Exception Handlers</div>
             <div class="editor-container">
                 <textarea>
+items = [10, 20, 30]
+
+def safe_divide_element(data_list, index, divisor):
+    try:
+        val = data_list[index]
+        return val / divisor
+    except IndexError as err:
+        print(f"❌ Index Error: {err}")
+    except ZeroDivisionError as err:
+        print(f"❌ Division Error: {err}")
+    except TypeError as err:
+        print(f"❌ Type Error: {err}")
+    return None
+
+print("Result 1:", safe_divide_element(items, 1, 2))
+print("Result 2:", safe_divide_element(items, 10, 2)) # Out of bounds
+print("Result 3:", safe_divide_element(items, 0, 0))  # Zero division
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>4. Complete Pipeline: `try`, `except`, `else`, and `finally`</h2>
+        <p>Python exception handling supports 4 complementary blocks:</p>
+        <ul>
+            <li><code>try</code>: Code that might fail.</li>
+            <li><code>except</code>: Code executed ONLY if an error occurred.</li>
+            <li><code>else</code>: Code executed ONLY if NO error occurred.</li>
+            <li><code>finally</code>: Cleanup code executed ALWAYS (regardless of errors).</li>
+        </ul>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 4: The 4-Part Exception Pipeline</div>
+            <div class="editor-container">
+                <textarea>
+def process_transaction(amount_str):
+    try:
+        amount = float(amount_str)
+        if amount <= 0:
+            raise ValueError("Transaction amount must be positive!")
+    except ValueError as err:
+        print(f"❌ Transaction Rejected: {err}")
+    else:
+        print(f"✅ Transaction Approved for ${amount:,.2f}")
+    finally:
+        print("🔒 Transaction log finalized.\n")
+
+process_transaction("150.75")
+process_transaction("-50.00")
+process_transaction("abc")
+                </textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
+        <h2>5. Raising Errors & Creating Custom Exception Classes</h2>
+        <p>You can trigger exceptions manually using <code>raise</code>, and define custom business-logic exceptions by inheriting from Python's base <code>Exception</code> class!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 5: Custom Exceptions</div>
+            <div class="editor-container">
+                <textarea>
+# Custom Exception Class
+class InsufficientFundsError(Exception):
+    pass
+
+class BankAccount:
+    def __init__(self, balance):
+        self.balance = balance
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            raise InsufficientFundsError(f"Attempted to withdraw ${amount} but balance is only ${self.balance}!")
+        self.balance -= amount
+        return self.balance
+
+account = BankAccount(100)
+
 try:
-    print("Trying dangerous spell...")
-    print(1 / 0)
-except:
-    print("The spell failed!")
-finally:
-    print("Closing the spellbook.")
+    account.withdraw(250)
+except InsufficientFundsError as err:
+    print(f"🚨 Custom Exception Caught: {err}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -190,62 +195,69 @@ finally:
         </div>
 
         <h2>🔥 The Boss Challenge 🔥</h2>
-        <p>Time to prove you are a master bug catcher!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: Safe Calculator</div>
-            <div class="editor-container">
-                <textarea>
-# Ask the user for two numbers. Divide the first by the second.
-# Use try/except to prevent the program from crashing if they type text instead of numbers!
-
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
-        </div>
-
-        <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: The Stubborn Question</div>
-            <div class="editor-container">
-                <textarea>
-# Use a while loop combined with try/except.
-# Keep asking the user for their age until they type a valid number!
-while True:
+            <div class="editor-header">Challenge 1: Robust Retry Loop for Integer Input</div>
+            <div class="editor-container"><textarea>
+# Write a function safe_int_input(prompt) that repeatedly asks until a valid int is entered!
+def parse_int_safe(val_str):
     try:
-        # Ask for age here
-        break # Break the loop if successful!
-    except:
-        print("Please enter a real number!")
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+        return int(val_str), True
+    except ValueError:
+        return None, False
+
+val, success = parse_int_safe("42")
+print(f"Parsed {val} | Success: {success}")
+
+val, success = parse_int_safe("invalid")
+print(f"Parsed {val} | Success: {success}")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: Multi-Bug Trap</div>
-            <div class="editor-container">
-                <textarea>
-my_list = [10, 20, 30]
-try:
-    # Try to print the 5th item in the list (this will cause an IndexError)
-    print(my_list[5])
-# Add an 'except IndexError:' block to catch it!
+            <div class="editor-header">Challenge 2: Dictionary Safe Key Access with Custom Exception</div>
+            <div class="editor-container"><textarea>
+class MissingConfigError(Exception): pass
 
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+config = {"host": "localhost", "port": 8080}
+
+def get_config_setting(cfg, key):
+    try:
+        return cfg[key]
+    except KeyError:
+        raise MissingConfigError(f"Required config key '{key}' is missing!")
+
+try:
+    print("Host:", get_config_setting(config, "host"))
+    print("DB Name:", get_config_setting(config, "database"))
+except MissingConfigError as err:
+    print("Caught:", err)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
-        
+        <div class="interactive-editor">
+            <div class="editor-header">Challenge 3: Full Try-Except-Else-Finally Guard</div>
+            <div class="editor-container"><textarea>
+def safe_math_pipeline(a, b):
+    try:
+        res = a / b
+    except ZeroDivisionError:
+        print("Error: Div by zero")
+        res = None
+    else:
+        print("Math calculation succeeded!")
+    finally:
+        print("Pipeline execution clean.")
+    return res
+
+print("Result:", safe_math_pipeline(10, 2))
+print("Result:", safe_math_pipeline(10, 0))
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
+        </div>
+
         <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
             <h3>Done with this chapter?</h3>
             <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
@@ -264,3 +276,4 @@ try:
     <script src="main.js"></script>
 </body>
 </html>
+

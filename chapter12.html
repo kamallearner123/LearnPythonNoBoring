@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 12: Building Blueprints</title>
+    <title>Chapter 12: Building Blueprints (Classes & OOP)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,30 +44,31 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 12: Building Blueprints (Classes)</h1>
+        <h1>Chapter 12: Building Blueprints (Classes & OOP)</h1>
         
         <img src="images/ch12_classes.png" alt="A glowing blueprint of a robot dog" class="chapter-graphic">
         
-        <h2>1. What is Object-Oriented Programming?</h2>
-        <p>Imagine you want to build 100 robot dogs. Instead of building each one from scratch, you'd draw a single <strong>Blueprint</strong> (a <code>class</code>). Then you use that blueprint to build the physical robots (the <strong>Objects</strong>).</p>
-
-        <p><strong>Example A: Creating an empty class</strong></p>
-        <pre><code>class RobotDog: pass</code></pre>
-        
-        <p><strong>Example B: Creating an object from the class</strong></p>
-        <pre><code>my_robot = RobotDog()</code></pre>
+        <h2>1. Object-Oriented Programming (Classes vs Instances)</h2>
+        <p><strong>Object-Oriented Programming (OOP)</strong> structures software around real-world objects. A <code>class</code> is the architectural <strong>Blueprint</strong>, while an <code>object</code> (or <em>instance</em>) is a concrete item constructed from that blueprint!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: Your First Blueprint</div>
+            <div class="editor-header">Assignment 1: Defining a Class & Instantiate Objects</div>
             <div class="editor-container">
                 <textarea>
-# 1. Define a class called Monster
-class Monster:
-    pass
+# Define the Blueprint (Class)
+class RobotDog:
+    # Constructor method (__init__) initializes object state
+    def __init__(self, name, model):
+        self.name = name       # Instance attribute
+        self.model = model     # Instance attribute
+        self.battery = 100     # Default state
 
-# 2. Build a monster object from the blueprint!
-goblin = Monster()
-print("I built a monster!", goblin)
+# Instantiate two distinct objects (Instances)
+dog1 = RobotDog("Sparky", "Aibo-v1")
+dog2 = RobotDog("Bolt", "CyberDog-X")
+
+print(f"Dog 1: {dog1.name} ({dog1.model}) | Battery: {dog1.battery}%")
+print(f"Dog 2: {dog2.name} ({dog2.model}) | Battery: {dog2.battery}%")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -76,29 +77,33 @@ print("I built a monster!", goblin)
             <div class="output-area"></div>
         </div>
 
-        <h2>2. The <code>__init__</code> Function</h2>
-        <p>When you build a robot from a blueprint, you want to set it up right away (give it a name, a color). Python has a special magical setup function called <code>__init__</code> that runs the moment the object is built.</p>
-
-        <p><strong>Example A: Setting up an object</strong></p>
-        <pre><code>def __init__(self, name): self.name = name</code></pre>
-
-        <p><strong>Example B: Passing the setup info</strong></p>
-        <pre><code>fido = RobotDog("Fido")</code></pre>
+        <h2>2. Instance Methods & Encapsulation</h2>
+        <p>Methods are functions defined inside a class that operate on the object's instance attributes using the <code>self</code> parameter. <strong>Encapsulation</strong> bundles state and behavior together!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Naming the Robot</div>
+            <div class="editor-header">Assignment 2: Object Methods & State Mutation</div>
             <div class="editor-container">
                 <textarea>
-class RobotDog:
-    # The setup function! 'self' means 'this specific robot'
-    def __init__(self, given_name):
-        self.name = given_name
-        self.battery = 100
+class BankAccount:
+    def __init__(self, owner, balance=0.0):
+        self.owner = owner
+        self.balance = balance
 
-# Let's build Sparky!
-sparky = RobotDog("Sparky")
-print("My robot's name is", sparky.name)
-print("Battery level:", sparky.battery)
+    def deposit(self, amount):
+        self.balance += amount
+        print(f"💰 {self.owner} deposited ${amount:,.2f}. New Balance: ${self.balance:,.2f}")
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print(f"❌ Insufficient funds for {self.owner}!")
+        else:
+            self.balance -= amount
+            print(f"💸 Withdrew ${amount:,.2f}. Remaining Balance: ${self.balance:,.2f}")
+
+account = BankAccount("Alice", 100.0)
+account.deposit(250.0)
+account.withdraw(50.0)
+account.withdraw(400.0) # Triggers error check
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -107,29 +112,28 @@ print("Battery level:", sparky.battery)
             <div class="output-area"></div>
         </div>
 
-        <h2>3. Object Attributes</h2>
-        <p>The variables that live inside an object (like <code>sparky.name</code> or <code>sparky.battery</code>) are called <strong>Attributes</strong>. You can change them just like normal variables!</p>
-
-        <p><strong>Example A: Reading an attribute</strong></p>
-        <pre><code>print(sparky.color)</code></pre>
-
-        <p><strong>Example B: Changing an attribute</strong></p>
-        <pre><code>sparky.battery = 50</code></pre>
+        <h2>3. Class Attributes vs Instance Attributes</h2>
+        <p>An <strong>Instance Attribute</strong> is unique to each individual object (e.g. <code>self.name</code>). A <strong>Class Attribute</strong> is shared across <em>all</em> instances of that class!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Draining the Battery</div>
+            <div class="editor-header">Assignment 3: Shared Class Attributes</div>
             <div class="editor-container">
                 <textarea>
-class RobotDog:
-    def __init__(self):
-        self.battery = 100
+class PlayerCharacter:
+    # Class Attribute (Shared by all instances!)
+    game_version = "2.5.0"
+    total_players = 0
 
-dog = RobotDog()
-print("Battery is full:", dog.battery)
+    def __init__(self, username):
+        self.username = username
+        PlayerCharacter.total_players += 1 # Increment total player count
 
-# Oh no, the dog ran around all day! Lower the battery to 10.
+p1 = PlayerCharacter("ShadowNinja")
+p2 = PlayerCharacter("CyberMage")
 
-print("Battery is low:", dog.battery)
+print(f"Player 1: {p1.username} | Version: {p1.game_version}")
+print(f"Player 2: {p2.username} | Version: {p2.game_version}")
+print(f"Total Global Players Active: {PlayerCharacter.total_players}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -138,30 +142,34 @@ print("Battery is low:", dog.battery)
             <div class="output-area"></div>
         </div>
 
-        <h2>4. Object Methods</h2>
-        <p>Functions that belong to an object are called <strong>Methods</strong>. They allow the object to *do* things, like bark, walk, or calculate!</p>
-
-        <p><strong>Example A: Defining a method</strong></p>
-        <pre><code>def bark(self): print("Woof!")</code></pre>
-
-        <p><strong>Example B: Calling a method</strong></p>
-        <pre><code>sparky.bark()</code></pre>
+        <h2>4. Inheritance & Method Overriding (`super()`)</h2>
+        <p><strong>Inheritance</strong> allows a child class to inherit attributes and methods from a parent class. The child can add new features or override parent methods using <code>super()</code>.</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: Teaching the Dog to Bark</div>
+            <div class="editor-header">Assignment 4: Class Inheritance & Method Overriding</div>
             <div class="editor-container">
                 <textarea>
-class RobotDog:
-    def __init__(self, name):
-        self.name = name
-    
-    # This is a method!
-    def bark(self):
-        print(self.name, "says: BEEP BOOP BARK!")
+# Base Parent Class
+class Vehicle:
+    def __init__(self, brand, speed):
+        self.brand = brand
+        self.speed = speed
 
-my_dog = RobotDog("Rex")
-# Make the dog bark!
-my_dog.bark()
+    def move(self):
+        print(f"🚗 {self.brand} is traveling at {self.speed} mph.")
+
+# Subclass (Child) inheriting from Vehicle
+class ElectricCar(Vehicle):
+    def __init__(self, brand, speed, battery_kwh):
+        super().__init__(brand, speed) # Call parent constructor!
+        self.battery_kwh = battery_kwh
+
+    # Override parent method
+    def move(self):
+        print(f"⚡ {self.brand} glides silently at {self.speed} mph with {self.battery_kwh} kWh battery!")
+
+tesla = ElectricCar("Tesla Model S", 75, 100)
+tesla.move()
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -170,32 +178,28 @@ my_dog.bark()
             <div class="output-area"></div>
         </div>
 
-        <h2>5. Multiple Objects</h2>
-        <p>The best part about blueprints is that you can build as many robots as you want, and they all act independently!</p>
-
-        <p><strong>Example A: Two different objects</strong></p>
-        <pre><code>dog1 = RobotDog("Rex")
-dog2 = RobotDog("Spot")</code></pre>
-
-        <p><strong>Example B: They have different data</strong></p>
-        <pre><code>dog1.bark()
-dog2.bark()</code></pre>
+        <h2>5. Dunder / Magic Methods (`__str__`, `__repr__`, `__len__`)</h2>
+        <p>Special methods surrounded by double underscores (<strong>Dunder Methods</strong>) customize built-in Python behaviors for your objects (e.g. <code>__str__</code> controls string representation when printed!).</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: The Robot Army</div>
+            <div class="editor-header">Assignment 5: Implementing __str__ and __len__</div>
             <div class="editor-container">
                 <textarea>
-class RobotDog:
-    def __init__(self, name, color):
-        self.name = name
-        self.color = color
+class InventoryBag:
+    def __init__(self, items):
+        self.items = items
 
-# Build 3 different robot dogs with different names and colors!
-dog1 = RobotDog("Alpha", "Red")
-# Build dog2 and dog3!
+    # Controls print() string format
+    def __str__(self):
+        return f"🎒 InventoryBag containing {len(self.items)} items: {', '.join(self.items)}"
 
+    # Controls len(bag) behavior
+    def __len__(self):
+        return len(self.items)
 
-print(dog1.name, "is", dog1.color)
+bag = InventoryBag(["Golden Apple", "Mana Potion", "Iron Sword"])
+print(bag)             # Calls __str__
+print("Bag Item Count:", len(bag)) # Calls __len__
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -205,67 +209,66 @@ print(dog1.name, "is", dog1.color)
         </div>
 
         <h2>🔥 The Boss Challenge 🔥</h2>
-        <p>Put on your hard hat, builder!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: The Wizard Class</div>
-            <div class="editor-container">
-                <textarea>
-# Create a class called 'Wizard'.
-# Give it an __init__ function that takes a 'name' and sets self.magic = 100.
-# Then create a Wizard object named "Gandalf" and print his magic level!
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+            <div class="editor-header">Challenge 1: RPG Character Blueprint</div>
+            <div class="editor-container"><textarea>
+# Create an RPG Character class with health management!
+class Character:
+    def __init__(self, name, hp=100):
+        self.name = name
+        self.hp = hp
+
+    def take_damage(self, damage):
+        self.hp = max(0, self.hp - damage)
+        print(f"💥 {self.name} took {damage} damage! HP: {self.hp}")
+
+hero = Character("Thorin", 120)
+hero.take_damage(40)
+hero.take_damage(90)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: Casting Spells</div>
-            <div class="editor-container">
-                <textarea>
-class Wizard:
+            <div class="editor-header">Challenge 2: Class Inheritance (Warrior & Mage Subclasses)</div>
+            <div class="editor-container"><textarea>
+class Hero:
     def __init__(self, name):
         self.name = name
-        self.magic = 100
-        
-    # Add a method called cast_spell() that prints "FIREBALL!" 
-    # and reduces self.magic by 10.
 
-harry = Wizard("Harry")
-# Call cast_spell() on harry, then print his new magic level!
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+class Mage(Hero):
+    def __init__(self, name, mana=200):
+        super().__init__(name)
+        self.mana = mana
+    def cast(self):
+        self.mana -= 20
+        print(f"✨ {self.name} cast Fireball! Mana remaining: {self.mana}")
+
+wizard = Mage("Gandalf", 250)
+wizard.cast()
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: The Race Car</div>
-            <div class="editor-container">
-                <textarea>
-class Car:
-    def __init__(self):
-        self.speed = 0
-    def accelerate(self):
-        self.speed = self.speed + 10
-        print("Vroom! Speed is now", self.speed)
+            <div class="editor-header">Challenge 3: Custom Book Class with Dunder __str__</div>
+            <div class="editor-container"><textarea>
+class Book:
+    def __init__(self, title, author, pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
 
-my_car = Car()
-# Call the accelerate() method 3 times using a for loop!
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+    def __str__(self):
+        return f"📖 '{self.title}' by {self.author} ({self.pages} pages)"
+
+novel = Book("The Hobbit", "J.R.R. Tolkien", 310)
+print(novel)
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
-        
         <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
             <h3>Done with this chapter?</h3>
             <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
@@ -284,3 +287,4 @@ my_car = Car()
     <script src="main.js"></script>
 </body>
 </html>
+

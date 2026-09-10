@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 14: The Ancient Scrolls</title>
+    <title>Chapter 14: The Ancient Scrolls (File I/O, CSV & JSON)</title>
     <link rel="stylesheet" href="styles.css">
     
     <!-- CodeMirror for the Code Editor -->
@@ -44,31 +44,30 @@
         <div class="content-card">
         <a href="index.html" style="margin-bottom: 2rem; display: inline-block;">&larr; Back to Table of Contents</a>
         
-        <h1>Chapter 14: The Ancient Scrolls (File I/O)</h1>
+        <h1>Chapter 14: The Ancient Scrolls (File I/O, CSV & JSON)</h1>
         
         <img src="images/ch14_files.png" alt="Ancient glowing scrolls floating in a magical library" class="chapter-graphic">
         
-        <p><em>Note: In our magical browser editor, files are saved in temporary browser memory. When you refresh, they disappear!</em></p>
-
-        <h2>1. Opening a File</h2>
-        <p>To read or write an ancient scroll (a text file), you must first <code>open()</code> it. You have to tell Python the name of the file and whether you want to read ('r') or write ('w').</p>
-
-        <p><strong>Example A: Opening to Write</strong></p>
-        <pre><code>file = open("secret.txt", "w")</code></pre>
-        
-        <p><strong>Example B: Opening to Read</strong></p>
-        <pre><code>file = open("secret.txt", "r")</code></pre>
+        <h2>1. Context Managers (`with open(...) as f:`)</h2>
+        <p>Opening files with <code>open()</code> requires manually calling <code>.close()</code>. If an error happens before closing, file descriptors leak! Using a <strong>Context Manager</strong> (<code>with open(...) as f:</code>) guarantees automatic file closure even if exceptions occur.</p>
+        <div style="background: #f8fafc; border-left: 4px solid #667eea; padding: 1rem; margin: 1rem 0; font-family: monospace;">
+            Modes: <code>'r'</code> (Read), <code>'w'</code> (Write/Overwrite), <code>'a'</code> (Append), <code>'r+'</code> (Read/Write)
+        </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 1: Unfurl the Scroll</div>
+            <div class="editor-header">Assignment 1: Context Manager File Writing & Reading</div>
             <div class="editor-container">
                 <textarea>
-# Let's open a file to write to it!
-my_file = open("spellbook.txt", "w")
-print("The spellbook is open!")
+# Safely write to a text file
+with open("scroll.txt", "w") as f:
+    f.write("📜 Ancient Wisdom Scroll\n")
+    f.write("Line 1: Python makes data persistent.\n")
+    f.write("Line 2: Context managers auto-close files!")
 
-# We always have to close it when we are done!
-my_file.close()
+# Safely read file line by line
+with open("scroll.txt", "r") as f:
+    for line_num, line in enumerate(f, 1):
+        print(f"Line {line_num}: {line.strip()}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -77,27 +76,29 @@ my_file.close()
             <div class="output-area"></div>
         </div>
 
-        <h2>2. Writing to a File</h2>
-        <p>Once a file is open in 'w' mode, you can use <code>.write()</code> to put text inside it. Warning: 'w' mode deletes anything that was previously in the file!</p>
-
-        <p><strong>Example A: Writing text</strong></p>
-        <pre><code>file.write("Hello World!")</code></pre>
-
-        <p><strong>Example B: Adding a new line</strong></p>
-        <pre><code>file.write("\nThis is line two.")</code></pre>
+        <h2>2. Reading Modes (`read`, `readline`, `readlines`)</h2>
+        <p>Python provides 3 methods to extract text from files depending on memory constraints:</p>
+        <ul>
+            <li><code>.read()</code>: Reads the ENTIRE file into a single string.</li>
+            <li><code>.readline()</code>: Reads a single line at a time.</li>
+            <li><code>.readlines()</code>: Reads all lines into a list of strings.</li>
+        </ul>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 2: Inscribing the Spell</div>
+            <div class="editor-header">Assignment 2: Exploring File Reading Methods</div>
             <div class="editor-container">
                 <textarea>
-my_file = open("spellbook.txt", "w")
+# Create sample log file
+with open("app.log", "w") as f:
+    f.write("INFO: Server Started\nWARN: High Memory\nERROR: Connection Timeout\n")
 
-# Write a magical incantation into the file!
-my_file.write("Abracadabra!\n")
-my_file.write("Alakazam!")
+# Use readlines() to get a list of log entries
+with open("app.log", "r") as f:
+    log_lines = f.readlines()
 
-my_file.close()
-print("Spell saved to file.")
+print(f"Total Log Lines: {len(log_lines)}")
+errors = [line.strip() for line in log_lines if "ERROR" in line]
+print("Critical Error Logs Found:", errors)
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -106,29 +107,34 @@ print("Spell saved to file.")
             <div class="output-area"></div>
         </div>
 
-        <h2>3. Reading a File</h2>
-        <p>If you open a file in 'r' mode, you can use <code>.read()</code> to pull all the text out of the file and save it into a string variable.</p>
-
-        <p><strong>Example A: Reading everything</strong></p>
-        <pre><code>content = file.read()</code></pre>
-
-        <p><strong>Example B: Reading one line</strong></p>
-        <pre><code>line1 = file.readline()</code></pre>
+        <h2>3. Working with Tabular CSV Data (`csv` module)</h2>
+        <p>CSV (Comma-Separated Values) files store tabular spreadsheet data. Python's built-in <code>csv</code> module allows reading and writing structured tables using <code>csv.reader</code> and <code>csv.writer</code>!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 3: Reading the Ancient Words</div>
+            <div class="editor-header">Assignment 3: Reading and Writing CSV Data</div>
             <div class="editor-container">
                 <textarea>
-# First we write it...
-open("spellbook.txt", "w").write("Secret Magic!")
+import csv
 
-# Now let's read it!
-my_file = open("spellbook.txt", "r")
-contents = my_file.read()
-my_file.close()
+# 1. Write structured student grades to a CSV file
+students_data = [
+    ["Name", "Subject", "Score"],
+    ["Alice", "Python", 95],
+    ["Bob", "Data Science", 88],
+    ["Charlie", "Machine Learning", 92]
+]
 
-print("I read the file! It says:")
-print(contents)
+with open("grades.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(students_data)
+
+# 2. Read and parse CSV file
+with open("grades.csv", "r") as f:
+    reader = csv.reader(f)
+    header = next(reader) # Extract header row
+    print(f"Headers: {header}")
+    for row in reader:
+        print(f"  - Student {row[0]} scored {row[2]} in {row[1]}")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -137,28 +143,33 @@ print(contents)
             <div class="output-area"></div>
         </div>
 
-        <h2>4. Appending to a File</h2>
-        <p>If you don't want to erase the file when you write to it, use append mode (<code>"a"</code>). This adds new text to the very end of the file.</p>
-
-        <p><strong>Example A: Append Mode</strong></p>
-        <pre><code>file = open("log.txt", "a")</code></pre>
-
-        <p><strong>Example B: Appending text</strong></p>
-        <pre><code>file.write("Another entry!")</code></pre>
+        <h2>4. JSON Serialization & Parsing (`json` module)</h2>
+        <p>JSON (JavaScript Object Notation) is the standard format for web API data. Python's <code>json</code> module converts Python dictionaries/lists to JSON strings with <code>json.dumps()</code> and parses JSON with <code>json.loads()</code>!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 4: The Diary</div>
+            <div class="editor-header">Assignment 4: JSON File Storage & Parsing</div>
             <div class="editor-container">
                 <textarea>
-# Create the diary
-open("diary.txt", "w").write("Day 1: Learned Python.\n")
+import json
 
-# Append to it!
-my_file = open("diary.txt", "a")
-my_file.write("Day 2: Wrote to a file!\n")
-my_file.close()
+# Complex nested Python dictionary
+game_state = {
+    "player": "Aria",
+    "level": 15,
+    "inventory": ["Magic Wand", "Shield", "Potion"],
+    "stats": {"hp": 100, "mp": 250}
+}
 
-print(open("diary.txt", "r").read())
+# 1. Save dictionary to JSON file (dumps/dump)
+with open("save_game.json", "w") as f:
+    json.dump(game_state, f, indent=2)
+
+# 2. Load dictionary back from JSON file (loads/load)
+with open("save_game.json", "r") as f:
+    loaded_game = json.load(f)
+
+print("Loaded Player:", loaded_game["player"])
+print("Player MP:", loaded_game["stats"]["mp"])
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -167,26 +178,22 @@ print(open("diary.txt", "r").read())
             <div class="output-area"></div>
         </div>
 
-        <h2>5. The <code>with</code> Keyword</h2>
-        <p>Programmers often forget to <code>.close()</code> their files. To fix this, you can use the <code>with</code> keyword. It automatically closes the file for you as soon as the block is done!</p>
-
-        <p><strong>Example A: The with block</strong></p>
-        <pre><code>with open("file.txt", "r") as f:</code></pre>
-
-        <p><strong>Example B: Automatic closing</strong></p>
-        <pre><code>    print(f.read()) # Closes automatically!</code></pre>
+        <h2>5. In-Memory Virtual File Processing (StringIO)</h2>
+        <p>For fast in-memory data streams without writing to real disk storage, Python's <code>io.StringIO</code> mimics a file interface inside memory buffer RAM!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Assignment 5: The Safe Way</div>
+            <div class="editor-header">Assignment 5: Memory Buffer Streams with io.StringIO</div>
             <div class="editor-container">
                 <textarea>
-# Use 'with' to safely open and write to a file
-with open("safe.txt", "w") as f:
-    f.write("This is totally safe and closes automatically!")
+import io, csv
 
-# Use 'with' to safely read it
-with open("safe.txt", "r") as f:
-    print(f.read())
+# Simulating an incoming CSV data stream in RAM memory
+csv_buffer = io.StringIO("ID,Item,Quantity\n101,Keyboard,5\n102,Mouse,12\n")
+
+reader = csv.DictReader(csv_buffer)
+print("=== In-Memory CSV Processing ===")
+for row in reader:
+    print(f"Item #{row['ID']}: {row['Item']} (Qty: {row['Quantity']})")
                 </textarea>
             </div>
             <div class="editor-controls">
@@ -196,55 +203,59 @@ with open("safe.txt", "r") as f:
         </div>
 
         <h2>🔥 The Boss Challenge 🔥</h2>
-        <p>Become a master librarian!</p>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 1: High Score Saver</div>
-            <div class="editor-container">
-                <textarea>
-# Ask the user for their score using input().
-# Save that score to a file called "highscore.txt".
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+            <div class="editor-header">Challenge 1: Log Error Counter</div>
+            <div class="editor-container"><textarea>
+# Create a log file and count how many times "ERROR" appears!
+log_content = "INFO: Booting\nERROR: DB Timeout\nINFO: Retrying\nERROR: Auth Failed"
+with open("system.log", "w") as f:
+    f.write(log_content)
+
+with open("system.log", "r") as f:
+    err_count = sum(1 for line in f if "ERROR" in line)
+
+print(f"Total Errors Found in Log: {err_count}")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 2: The Guest Book</div>
-            <div class="editor-container">
-                <textarea>
-# Create a list of 3 names.
-# Use a for loop to write each name into "guests.txt" on a new line!
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+            <div class="editor-header">Challenge 2: JSON Config Exporter & Validator</div>
+            <div class="editor-container"><textarea>
+import json
+
+app_config = {"theme": "dark", "max_connections": 100, "debug_mode": False}
+
+# Write app_config to "config.json", then re-read it and verify theme is "dark"!
+with open("config.json", "w") as f:
+    json.dump(app_config, f)
+
+with open("config.json", "r") as f:
+    data = json.load(f)
+
+print("Active Theme Verified:", data.get("theme") == "dark")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
         <div class="interactive-editor">
-            <div class="editor-header">Challenge 3: The Secret Message Reverser</div>
-            <div class="editor-container">
-                <textarea>
-with open("secret.txt", "w") as f:
-    f.write("NOHTYP")
+            <div class="editor-header">Challenge 3: CSV Average Salary Calculator</div>
+            <div class="editor-container"><textarea>
+import csv, io
 
-# 1. Open "secret.txt" and read the contents.
-# 2. Reverse the string (Hint: string[::-1])
-# 3. Print the reversed secret word!
-                </textarea>
-            </div>
-            <div class="editor-controls">
-                <button class="btn-run" disabled>Loading Python...</button>
-            </div>
-            <div class="output-area"></div>
+csv_data = "Name,Salary\nAlice,75000\nBob,85000\nCharlie,90000"
+f = io.StringIO(csv_data)
+
+reader = csv.DictReader(f)
+salaries = [float(row["Salary"]) for row in reader]
+avg_salary = sum(salaries) / len(salaries)
+
+print(f"Average Salary across employees: ${avg_salary:,.2f}")
+            </textarea></div>
+            <div class="editor-controls"><button class="btn-run" disabled>Loading Python...</button></div><div class="output-area"></div>
         </div>
 
-        
         <div class="completion-section" style="text-align: center; margin: 3rem 0; padding: 2rem; background: rgba(123, 44, 191, 0.05); border-radius: 12px; border: 2px dashed #7b2cbf;">
             <h3>Done with this chapter?</h3>
             <button class="btn-run mark-finished-btn" style="font-size: 1.2rem; padding: 1rem 2rem;" onclick="markChapterFinished(this)">✅ Mark as Finished (+100 XP)</button>
@@ -263,3 +274,4 @@ with open("secret.txt", "w") as f:
     <script src="main.js"></script>
 </body>
 </html>
+
