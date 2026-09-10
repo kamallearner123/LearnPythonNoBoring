@@ -193,32 +193,55 @@ window.renderStatus = function() {
     if (!statusContainer) return;
     
     let xp = 0;
-    let html = '<div class="status-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">';
     
-    // Loop through all 21 chapters
-    for (let i = 1; i <= 21; i++) {
-        const chapterFile = `chapter${i}.html`;
-        const isFinished = localStorage.getItem(chapterFile) === "true";
+    const modules = [
+        { name: "🛠️ Module 1: Core Fundamentals", chapters: [0, 1, 2, 3, 4, 5], isDsa: false },
+        { name: "🔀 Module 2: Logic & Control Flow", chapters: [6, 7], isDsa: false },
+        { name: "📊 Module 3: Data Visualization", chapters: [8], isDsa: false },
+        { name: "🧩 Module 4: Data Structures & Algorithms (DSA)", chapters: [9, 10, 11], isDsa: true },
+        { name: "🏗️ Module 5: OOP Architecture & Reliability", chapters: [12, 13], isDsa: false },
+        { name: "📁 Module 6: File Archives & Hardware", chapters: [14, 15, 16], isDsa: false },
+        { name: "🤖 Module 7: Data Science, ML & AI", chapters: [17, 18, 19, 20, 21], isDsa: false }
+    ];
+
+    let html = '';
+
+    modules.forEach(mod => {
+        const modHeaderClass = mod.isDsa ? "module-header dsa-main-module" : "module-header standard-module";
+        const dsaBadge = mod.isDsa ? '<span class="dsa-badge">MAIN MODULE</span>' : '';
         
-        if (isFinished) {
-            xp += 100;
-            html += `
-                <div class="status-card" style="background: #e8f5e9; border: 1px solid #4caf50; border-radius: 8px; padding: 1rem; text-align: center;">
-                    <h3 style="color: #2e7d32; margin: 0 0 0.5rem 0;">Chapter ${i}</h3>
-                    <div style="font-size: 2rem;">✅</div>
-                    <div style="font-weight: bold; color: #4caf50; margin-top: 0.5rem;">Completed</div>
-                </div>`;
-        } else {
-            html += `
-                <div class="status-card" style="background: #fafafa; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; text-align: center; opacity: 0.6;">
-                    <h3 style="color: #666; margin: 0 0 0.5rem 0;">Chapter ${i}</h3>
-                    <div style="font-size: 2rem;">🔒</div>
-                    <div style="color: #999; margin-top: 0.5rem;">Not Started</div>
-                </div>`;
-        }
-    }
-    html += '</div>';
-    
+        html += `<div class="module-container" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <div class="${modHeaderClass}">
+                <span>${mod.name}</span>
+                ${dsaBadge}
+            </div>
+            <div class="status-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem;">`;
+            
+        mod.chapters.forEach(chNum => {
+            const chapterFile = `chapter${chNum}.html`;
+            const isFinished = localStorage.getItem(chapterFile) === "true";
+            
+            if (isFinished) {
+                xp += 100;
+                html += `
+                    <div class="status-card" style="background: #e8f5e9; border: 1px solid #4caf50; border-radius: 12px; padding: 1rem; text-align: center;">
+                        <h4 style="color: #2e7d32; margin: 0 0 0.5rem 0;">Chapter ${chNum}</h4>
+                        <div style="font-size: 1.8rem;">✅</div>
+                        <div style="font-weight: bold; color: #4caf50; font-size: 0.85rem; margin-top: 0.5rem;">Completed</div>
+                    </div>`;
+            } else {
+                html += `
+                    <div class="status-card" style="background: #fafafa; border: 1px solid #ddd; border-radius: 12px; padding: 1rem; text-align: center; opacity: 0.6;">
+                        <h4 style="color: #666; margin: 0 0 0.5rem 0;">Chapter ${chNum}</h4>
+                        <div style="font-size: 1.8rem;">🔒</div>
+                        <div style="color: #999; font-size: 0.85rem; margin-top: 0.5rem;">Not Started</div>
+                    </div>`;
+            }
+        });
+        
+        html += `</div></div>`;
+    });
+
     // Calculate Rank
     let rank = "Novice (Lvl 1)";
     if (xp >= 300) rank = "Apprentice (Lvl 5)";
