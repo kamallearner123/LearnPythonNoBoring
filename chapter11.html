@@ -196,6 +196,65 @@ print("Python only students:", python_only)
             <div class="output-area"></div>
         </div>
 
+        
+        <h2>6. DSA Hash Map Lookup vs List Scan Line Execution Counter 🔑</h2>
+        <p>Why are Dictionaries (Hash Maps) so fast? Watch how searching a List executes 496 times ($O(N)$), while a Dictionary key lookup executes only 1 time ($O(1)$)!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 6: Line Execution Count - Dict O(1) vs List O(N)</div>
+            <div class="editor-container">
+                <textarea>
+import sys
+from collections import Counter
+
+def trace_lookup(func, *args):
+    line_counts = Counter()
+    def tracer(frame, event, arg):
+        if event == 'line' and frame.f_code.co_name == func.__name__:
+            line_counts[frame.f_lineno] += 1
+        return tracer
+
+    sys.settrace(tracer)
+    res = func(*args)
+    sys.settrace(None)
+    
+    print(f"
+📊 [{func.__name__.upper()}] LOOKUP EXECUTION HITS:")
+    for line_num in sorted(line_counts.keys()):
+        hits = line_counts[line_num]
+        bar = "█" * min(hits, 25)
+        print(f"  Line {line_num:2d} | Executed {hits:3d} time(s) {bar}")
+    return res
+
+# 1. Searching a List: O(N)
+def find_in_list(user_list, target):
+    for user in user_list:
+        if user["username"] == target:
+            return user
+    return None
+
+# 2. Searching a Hash Map (Dict): O(1)
+def find_in_dict(user_dict, target):
+    if target in user_dict:
+        return user_dict[target]
+    return None
+
+users_list = [{"username": f"user_{i}", "role": "Player"} for i in range(500)]
+users_dict = {f"user_{i}": "Player" for i in range(500)}
+
+target_user = "user_495"
+
+print("Searching for 'user_495' in 500 records...")
+trace_lookup(find_in_list, users_list, target_user)
+trace_lookup(find_in_dict, users_dict, target_user)
+</textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
         <h2>🔥 The Boss Challenge 🔥</h2>
 
         <div class="interactive-editor">

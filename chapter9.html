@@ -181,6 +181,70 @@ print("🔮 Magic says:", my_fortune)
         </div>
 
         
+        
+        <h2>6. DSA Algorithm Line Execution Counter (Big-O Hit Analysis) 📊</h2>
+        <p>In Data Structures & Algorithms, we measure efficiency by counting <strong>how many times each line of code executes</strong>. Notice how Linear Search loops 990 times for 1,000 items, while Binary Search only executes 10 times!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 6: Line Execution Count - Linear vs Binary Search</div>
+            <div class="editor-container">
+                <textarea>
+import sys
+from collections import Counter
+
+def trace_algorithm(func, *args):
+    line_counts = Counter()
+    def tracer(frame, event, arg):
+        if event == 'line' and frame.f_code.co_name == func.__name__:
+            line_counts[frame.f_lineno] += 1
+        return tracer
+
+    sys.settrace(tracer)
+    res = func(*args)
+    sys.settrace(None)
+    
+    print(f"
+📊 [{func.__name__.upper()}] LINE EXECUTION HITS:")
+    for line_num in sorted(line_counts.keys()):
+        hits = line_counts[line_num]
+        bar = "█" * min(hits, 25)
+        print(f"  Line {line_num:2d} | Executed {hits:3d} time(s) {bar}")
+    return res
+
+# 1. Linear Search: O(N)
+def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1
+
+# 2. Binary Search: O(log N)
+def binary_search(arr, target):
+    low, high = 0, len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+dataset = list(range(1, 1001)) # 1,000 sorted items
+target = 990
+
+print("Searching for 990 in 1,000 items...")
+trace_algorithm(linear_search, dataset, target)
+trace_algorithm(binary_search, dataset, target)
+</textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
         <h2>🔥 The Boss Challenge 🔥</h2>
         <p>Organize your magical backpack!</p>
         <div class="interactive-editor">

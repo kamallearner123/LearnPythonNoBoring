@@ -190,6 +190,52 @@ for name, price in sorted_products:
             <div class="output-area"></div>
         </div>
 
+        
+        <h2>6. DSA Recursion Line Execution Counter 🔄</h2>
+        <p>Recursion occurs when a function calls itself. By tracking the line execution hits, you can see the exact number of recursive call stack frames created!</p>
+
+        <div class="interactive-editor">
+            <div class="editor-header">Assignment 6: Line Execution Count - Recursive Factorial</div>
+            <div class="editor-container">
+                <textarea>
+import sys
+from collections import Counter
+
+def trace_recursion(func, *args):
+    line_counts = Counter()
+    def tracer(frame, event, arg):
+        if event == 'line' and frame.f_code.co_name == func.__name__:
+            line_counts[frame.f_lineno] += 1
+        return tracer
+
+    sys.settrace(tracer)
+    res = func(*args)
+    sys.settrace(None)
+    
+    print(f"
+📊 [{func.__name__.upper()}] RECURSIVE LINE EXECUTION HITS:")
+    for line_num in sorted(line_counts.keys()):
+        hits = line_counts[line_num]
+        bar = "█" * min(hits, 25)
+        print(f"  Line {line_num:2d} | Executed {hits:3d} time(s) {bar}")
+    return res
+
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+print("Calculating factorial(8) recursively...")
+ans = trace_recursion(factorial, 8)
+print("Result: 8! =", ans)
+</textarea>
+            </div>
+            <div class="editor-controls">
+                <button class="btn-run" disabled>Loading Python...</button>
+            </div>
+            <div class="output-area"></div>
+        </div>
+
         <h2>🔥 The Boss Challenge 🔥</h2>
 
         <div class="interactive-editor">
